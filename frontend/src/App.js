@@ -6,11 +6,12 @@ import HomePage from "./HomePage";
 import OrganizationList from "./OrganizationList";
 import PlayerList from "./PlayerList";
 import Organization from "./Organization";
+import Player from "./Player";
 
 export default function App() {
     return (
         <Router>
-            <Navbar></Navbar>
+            <Navbar />
             <Container>
                 <Switch>
                     <Route path="/organizations/:name">
@@ -19,9 +20,11 @@ export default function App() {
                     <Route path="/organizations">
                         <OrganizationList />
                     </Route>
-                    <Route path="/players">
+                    <Route exact path="/players">
                         <PlayerList />
                     </Route>
+                    <Route exact path="/players/:player" 
+                           render={props => <Player {...props} />} />
                     <Route path="/">
                         <HomePage />
                     </Route>
