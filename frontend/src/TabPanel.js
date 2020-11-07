@@ -82,7 +82,7 @@ export default function VerticalTabs({ gameRosters }) {
                     <List component="nav">
                         {gameRosters[game].map((player, i) => {         
                             return (
-                            <ListItem button>
+                            <ListItem button component="a" href={`/players/${player}`}>
                                 <ListItemText primary={player} key={i} />
                             </ListItem>
                             );
