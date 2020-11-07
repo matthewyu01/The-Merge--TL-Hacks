@@ -68,7 +68,7 @@ class Player extends React.Component {
 
         let timelineData = [];
         timelineData.push([
-            { type: "string", id: "Team No." },
+            { type: "string", id: "Game"},
             { type: "string", id: "Team Name" },
             { type: "date", id: "Start" },
             { type: "date", id: "End" },
@@ -77,12 +77,22 @@ class Player extends React.Component {
         let i = playerInfo.length;
         let currDate = Date.now();
         for (var entry of playerInfo) {
-            timelineData.push([
-                `Team #${i.toString()}`,
-                entry.toteam,
-                new Date(Date.parse(entry.date)),
-                currDate,
-            ]);
+            if(entry.toteam === '') {
+                timelineData.push([
+                    'N/A',
+                    '(No Team)',
+                    new Date(Date.parse(entry.date)),
+                    currDate,
+                ]);
+            } else {
+                timelineData.push([
+                    `${Constants.GAMES_PRETTY[entry.wiki]}`,
+                    entry.toteam,
+                    new Date(Date.parse(entry.date)),
+                    currDate,
+                ]);
+            }
+
             currDate = new Date(Date.parse(entry.date));
             i--;
         }
@@ -100,6 +110,11 @@ class Player extends React.Component {
                     chartType="Timeline"
                     loader={<div>Loading Chart</div>}
                     data={timelineData}
+                    options={{
+                        timeline: {
+                        groupByRowLabel: false,
+                        },
+                    }}
                 />
             </div>
         );
