@@ -5,6 +5,7 @@ import {
     Grid,
     Menu,
     MenuItem,
+    TextField,
     Typography,
     CardActionArea,
 } from "@material-ui/core";
@@ -30,6 +31,7 @@ class OrganizationList extends React.Component {
             selectedIndex: 0,
         };
 
+        this.handleSearch = this.handleSearch.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -91,6 +93,31 @@ class OrganizationList extends React.Component {
         });
     };
 
+    handleSearch(event) {
+
+        let newFiltered = {};
+        const { orgs } = this.state;
+        let query = event.target.value;
+
+        if (orgs && query !== "") {
+
+            query = query.toLowerCase().split(" ");
+
+            for (var key of Object.keys(orgs)) {
+                if(orgs[key].name.toLowerCase().includes(query)) {
+                    newFiltered[key] = orgs[key];
+                }
+            }
+
+        } else {
+            newFiltered = orgs;
+        }
+
+        this.setState({
+            filtered: newFiltered
+        });
+    }
+
     handleMenuItemClick = (event, index) => {
         if (index === 0) {
             this.setState({
@@ -99,22 +126,21 @@ class OrganizationList extends React.Component {
                 menuOpen: null,
             });
         } else {
+            const { orgs } = this.state;
             let newFiltered = {};
             let toFilter = Constants.GAMES[index - 1];
 
-            for (var key of Object.keys(this.state.orgs)) {
-                if (this.state.orgs[key].games.includes(toFilter)) {
-                    newFiltered[key] = this.state.orgs[key];
+            for (var key of Object.keys(orgs)) {
+                if(orgs[key].games.includes(toFilter)) {
+                    newFiltered[key] = orgs[key];
                 }
             }
 
             this.setState({
                 filtered: newFiltered,
                 selectedIndex: index,
-                menuOpen: null,
+                menuOpen: null
             });
-
-            console.log(newFiltered);
         }
     };
 
@@ -180,6 +206,7 @@ class OrganizationList extends React.Component {
                     >
                         All Games
                     </MenuItem>
+
                     {Constants.GAMES.map((game, i) => {
                         return (
                             <MenuItem
@@ -194,6 +221,8 @@ class OrganizationList extends React.Component {
                         );
                     })}
                 </Menu>
+                <TextField id="standard-basic" placeholder="Search Organizations" onChange={(event) => this.handleSearch(event)} />
+
                 <Grid container spacing={2} className={classes.root}>
                     {this.renderOrgs()}
                 </Grid>
