@@ -1,7 +1,8 @@
 import { AppBar, Button, Typography, Toolbar } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import Switch from "@material-ui/core/Switch";
 
-function Navbar() {
+function Navbar(props) {
     return (
         <AppBar position="static">
             <Toolbar>
@@ -24,6 +25,7 @@ function Navbar() {
                         Organizations
                     </Button>
                 </Typography>
+                <Switch checked={props.darkMode} onChange={props.handleThemeChange} />
             </Toolbar>
         </AppBar>
     );
