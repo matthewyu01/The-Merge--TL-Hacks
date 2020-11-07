@@ -14,7 +14,7 @@ export default function App() {
                     <Route path="/">
                         <HomePage />
                     </Route>
-                    <Route path="/organzations">
+                    <Route path="/organizations">
                         <OrganizationList />
                     </Route>
                 </Switch>
