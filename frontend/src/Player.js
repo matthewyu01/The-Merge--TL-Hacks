@@ -47,15 +47,6 @@ class Player extends React.Component {
 
     }
 
-    filter = () => {
-        return this.state.info.filter((player) => {
-            return (
-                player.extradata.displayname.toLowerCase() ===
-                this.props.match.params.player.toLowerCase()
-            );
-        });
-    };
-
     render = () => {
         if (!this.state.info) return null;
 
