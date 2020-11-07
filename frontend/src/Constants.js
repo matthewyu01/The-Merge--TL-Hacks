@@ -19,12 +19,16 @@ export const GAMES_PRETTY = {
     counterstrike: "CSGO",
     leagueoflegends: "League of Legends",
     valorant: "Valorant",
+    pubg: "PUBG",
+    rocketleague: "Rocket League"
 };
 
-export const STEAM_GAMES = ["dota2", "counterstrike"]
+export const STEAM_GAMES = ["dota2", "counterstrike", "pubg", "rocketleague"]
 export const STEAM_GAME_IDS = {
     dota2: "570",
     counterstrike: "730",
+    pubg: "578080",
+    rocketleague: "252950",
 };
 
 export const LIQUID_API_KEY =
