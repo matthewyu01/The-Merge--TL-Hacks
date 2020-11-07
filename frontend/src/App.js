@@ -12,10 +12,10 @@ import React, { useState } from "react";
 
 export default function App() {
     const [darkMode, setDarkMode] = useState(false);
-    const palletType = darkMode ? "dark" : "light";
+    const paletteType = darkMode ? "dark" : "light";
     const theme = createMuiTheme({
         palette: {
-        type: palletType,
+        type: paletteType,
         }
     });
 
