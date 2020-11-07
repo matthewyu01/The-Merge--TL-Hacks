@@ -1,19 +1,18 @@
+import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 function Navbar() {
     return (
         <nav>
-            <ul>
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
-            </ul>
+            <Button color="primary" component={Link} to="/">
+                Home
+            </Button>
+            <Button color="primary" component={Link} to="/about">
+                About
+            </Button>
+            <Button color="primary" component={Link} to="/users">
+                Users
+            </Button>
         </nav>
     );
 }
