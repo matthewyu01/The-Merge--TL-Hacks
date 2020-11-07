@@ -11,11 +11,11 @@ export default function App() {
             <Navbar></Navbar>
             <Container>
                 <Switch>
-                    <Route path="/">
-                        <HomePage />
-                    </Route>
                     <Route path="/organizations">
                         <OrganizationList />
+                    </Route>
+                    <Route path="/">
+                        <HomePage />
                     </Route>
                 </Switch>
             </Container>
