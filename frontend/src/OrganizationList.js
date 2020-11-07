@@ -31,7 +31,7 @@ class OrganizationList extends React.Component {
             menuOpen: null,
             selectedIndex: 0,
             orgIndexStart: 0,
-            searchQuery: ""
+            searchQuery: "",
         };
 
         this.handleSearch = this.handleSearch.bind(this);
@@ -98,27 +98,26 @@ class OrganizationList extends React.Component {
     };
 
     handleSearch(event) {
-
         let query = event.target.value;
 
         let newFiltered = this.filterSearch(this.state.orgs, query);
-        let finalFiltered = this.filterGame(newFiltered, this.state.selectedIndex);
+        let finalFiltered = this.filterGame(
+            newFiltered,
+            this.state.selectedIndex
+        );
 
         this.setState({
             filtered: finalFiltered,
             searchQuery: query,
             orgIndexStart: 0,
         });
-        
     }
 
     filterSearch = (orgList, query) => {
-
         let newFiltered = {};
         if (orgList && query !== "") {
-
             for (var key of Object.keys(orgList)) {
-                if(orgList[key].name.toLowerCase().includes(query)) {
+                if (orgList[key].name.toLowerCase().includes(query)) {
                     newFiltered[key] = orgList[key];
                 }
             }
@@ -127,17 +126,15 @@ class OrganizationList extends React.Component {
         }
 
         return newFiltered;
-
-    }
+    };
 
     filterGame = (orgList, index) => {
-
         let newFiltered = {};
         if (index !== 0) {
             let toFilter = Constants.GAMES[index - 1];
 
             for (var key of Object.keys(orgList)) {
-                if(orgList[key].games.includes(toFilter)) {
+                if (orgList[key].games.includes(toFilter)) {
                     newFiltered[key] = orgList[key];
                 }
             }
@@ -146,14 +143,14 @@ class OrganizationList extends React.Component {
         }
 
         return newFiltered;
-
-    }
+    };
 
     handleMenuItemClick = (event, index) => {
-
-
         let newFiltered = this.filterGame(this.state.orgs, index);
-        let finalFiltered = this.filterSearch(newFiltered, this.state.searchQuery);
+        let finalFiltered = this.filterSearch(
+            newFiltered,
+            this.state.searchQuery
+        );
 
         this.setState({
             filtered: finalFiltered,
@@ -161,7 +158,6 @@ class OrganizationList extends React.Component {
             orgIndexStart: 0,
             menuOpen: null,
         });
-
     };
 
     handleClose = () => {
@@ -201,7 +197,12 @@ class OrganizationList extends React.Component {
                                         {org.name}
                                     </Typography>
                                     <Typography variant="body2">
-                                        {org.games.join(", ")}
+                                        {org.games
+                                            .map(
+                                                (name) =>
+                                                    Constants.GAMES_PRETTY[name]
+                                            )
+                                            .join(", ")}
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
@@ -247,7 +248,7 @@ class OrganizationList extends React.Component {
                                 }
                                 selected={this.state.selectedIndex === i + 1}
                             >
-                                {game}
+                                {Constants.GAMES_PRETTY[game]}
                             </MenuItem>
                         );
                     })}

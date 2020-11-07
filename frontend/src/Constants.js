@@ -10,5 +10,11 @@ export const MAXIMUM_QUERY_LIMIT = 5000;
 
 export const ORGS_PER_PAGE = 20;
 export const GAMES = ["dota2", "counterstrike", "leagueoflegends", "valorant"];
+export const GAMES_PRETTY = {
+    dota2: "Dota 2",
+    counterstrike: "CSGO",
+    leagueoflegends: "League of Legends",
+    valorant: "Valorant",
+};
 export const LIQUID_API_KEY =
     "E9s8G9svmgX1uqPqnC7MxJzGeThepfres9q2VLWBmSreZ6XEAxRFWLimUfVlUEzCjZiizMyFQTBRR652OPBo4MOFk9N2M9MzujsANC63acuvCIPHvY4zIO4279Fneu3p";
