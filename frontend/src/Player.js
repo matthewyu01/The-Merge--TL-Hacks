@@ -76,7 +76,7 @@ class Player extends React.Component {
         let currDate = Date.now();
         for(var entry of playerInfo) {
 
-            timelineData.push([i.toString(), entry.toteam, new Date(Date.parse(entry.date)), currDate]);
+            timelineData.push([`Team #${i.toString()}`, entry.toteam, new Date(Date.parse(entry.date)), currDate]);
             currDate = new Date(Date.parse(entry.date));
             i--;
 
