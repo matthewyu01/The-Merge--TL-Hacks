@@ -9,6 +9,7 @@ import {
     Typography,
     CardActionArea,
 } from "@material-ui/core";
+import { Pagination } from "@material-ui/lab";
 import { withStyles } from "@material-ui/core/styles";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -29,6 +30,7 @@ class OrganizationList extends React.Component {
             filtered: {},
             menuOpen: null,
             selectedIndex: 0,
+            orgIndexStart: 0,
         };
 
         this.handleSearch = this.handleSearch.bind(this);
@@ -94,27 +96,24 @@ class OrganizationList extends React.Component {
     };
 
     handleSearch(event) {
-
         let newFiltered = {};
         const { orgs } = this.state;
         let query = event.target.value;
 
         if (orgs && query !== "") {
-
             query = query.toLowerCase().split(" ");
 
             for (var key of Object.keys(orgs)) {
-                if(orgs[key].name.toLowerCase().includes(query)) {
+                if (orgs[key].name.toLowerCase().includes(query)) {
                     newFiltered[key] = orgs[key];
                 }
             }
-
         } else {
             newFiltered = orgs;
         }
 
         this.setState({
-            filtered: newFiltered
+            filtered: newFiltered,
         });
     }
 
@@ -131,7 +130,7 @@ class OrganizationList extends React.Component {
             let toFilter = Constants.GAMES[index - 1];
 
             for (var key of Object.keys(orgs)) {
-                if(orgs[key].games.includes(toFilter)) {
+                if (orgs[key].games.includes(toFilter)) {
                     newFiltered[key] = orgs[key];
                 }
             }
@@ -139,7 +138,7 @@ class OrganizationList extends React.Component {
             this.setState({
                 filtered: newFiltered,
                 selectedIndex: index,
-                menuOpen: null
+                menuOpen: null,
             });
         }
     };
@@ -150,16 +149,27 @@ class OrganizationList extends React.Component {
         });
     };
 
+    handlePaginationUpdate = (ev, page) => {
+        this.setState({ orgIndexStart: page * Constants.ORGS_PER_PAGE });
+    };
+
     renderOrgs = () => {
         const orgs = Object.keys(this.state.filtered).map(
             (key) => this.state.filtered[key]
         );
         return orgs
             .sort((a, b) => b.earnings - a.earnings)
-            .slice(0, 20)
+            .slice(
+                this.state.orgIndexStart,
+                this.state.orgIndexStart + Constants.ORGS_PER_PAGE
+            )
             .map((org, i) => {
                 return (
-                    <Grid item xs={6} key={`orgs-${org.name}-${i}`}>
+                    <Grid
+                        item
+                        xs={6}
+                        key={`orgs-${org.name}-${i + this.state.orgIndexStart}`}
+                    >
                         <Card variant="outlined">
                             <CardActionArea
                                 to={`/organizations/${org.name}`}
@@ -221,8 +231,19 @@ class OrganizationList extends React.Component {
                         );
                     })}
                 </Menu>
-                <TextField id="standard-basic" placeholder="Search Organizations" onChange={(event) => this.handleSearch(event)} />
+                <TextField
+                    id="standard-basic"
+                    placeholder="Search Organizations"
+                    onChange={(event) => this.handleSearch(event)}
+                />
 
+                <Pagination
+                    count={Math.floor(
+                        Object.keys(this.state.filtered).length /
+                            Constants.ORGS_PER_PAGE
+                    )}
+                    onChange={this.handlePaginationUpdate}
+                ></Pagination>
                 <Grid container spacing={2} className={classes.root}>
                     {this.renderOrgs()}
                 </Grid>
