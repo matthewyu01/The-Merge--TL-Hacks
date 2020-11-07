@@ -1,6 +1,7 @@
 import React from "react";
 import Chart from "react-google-charts";
 import { Typography } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import * as Constants from "./Constants";
 
 class Player extends React.Component {
@@ -14,12 +15,14 @@ class Player extends React.Component {
 
     componentDidMount() {
         Constants.GAMES.forEach((game) => {
-
             let data = new FormData();
             data.append("wiki", game);
             data.append("apikey", Constants.LIQUID_API_KEY);
             data.append("limit", Constants.MAXIMUM_QUERY_LIMIT);
-            data.append("conditions", `[[player::${this.props.match.params.player}]]`);
+            data.append(
+                "conditions",
+                `[[player::${this.props.match.params.player}]]`
+            );
 
             fetch(
                 `${Constants.LIQUID_API_URL}${Constants.TRANSFER_LIST_ENDPOINT}`,
@@ -36,15 +39,13 @@ class Player extends React.Component {
                 .then((data) => {
                     let currInfo = this.state.info;
 
-                    if(!currInfo) currInfo = [];
+                    if (!currInfo) currInfo = [];
                     this.setState({
-                        info: [...currInfo, ...data.result]
+                        info: [...currInfo, ...data.result],
                     });
                 })
                 .catch((err) => console.log(err));
-
-        })
-
+        });
     }
 
     render = () => {
@@ -92,6 +93,23 @@ class Player extends React.Component {
             return <Typography variant="h6">No Data Available</Typography>;
         }
 
+        const props = this.props;
+
+        const chartEvents = [
+            {
+                eventName: "select",
+                callback({ chartWrapper }) {
+                    const name =
+                        playerInfo[
+                            chartWrapper.getChart().getSelection()[0].row
+                        ].toteam;
+                    if (name) {
+                        props.history.push(`/organizations/${name}`);
+                    }
+                },
+            },
+        ];
+
         return (
             <div>
                 <h1>{this.props.match.params.player}</h1>
@@ -99,6 +117,7 @@ class Player extends React.Component {
                     width={"500px"}
                     height={"300px"}
                     chartType="Timeline"
+                    chartEvents={chartEvents}
                     loader={<div>Loading Chart</div>}
                     data={timelineData}
                     options={{
@@ -112,4 +131,4 @@ class Player extends React.Component {
     };
 }
 
-export default Player;
+export default withRouter(Player);
