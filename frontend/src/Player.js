@@ -18,7 +18,7 @@ class Player extends React.Component {
     componentDidMount() {
 
         let data = new FormData();
-        data.append("wiki", Constants.GAMES);
+        data.append("wiki", Constants.GAMES.join("|"));
         data.append("apikey", Constants.LIQUID_API_KEY);
         data.append("limit", 5000);
 
