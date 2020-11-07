@@ -106,7 +106,8 @@ class OrganizationList extends React.Component {
 
         this.setState({
             filtered: finalFiltered,
-            searchQuery: query
+            searchQuery: query,
+            orgIndexStart: 0,
         });
         
     }
@@ -157,7 +158,8 @@ class OrganizationList extends React.Component {
         this.setState({
             filtered: finalFiltered,
             selectedIndex: index,
-            menuOpen: null
+            orgIndexStart: 0,
+            menuOpen: null,
         });
 
     };
