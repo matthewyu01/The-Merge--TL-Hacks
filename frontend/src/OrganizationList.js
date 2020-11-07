@@ -19,9 +19,19 @@ class OrganizationList extends React.Component {
     }
 
     componentDidMount() {
-        fetch(Constants.BACKEND_URL + Constants.ORG_LIST_ENDPOINT)
+        let data = new FormData();
+        data.append("wiki", Constants.GAMES);
+        data.append("apikey", Constants.LIQUID_API_KEY);
+        fetch(`${Constants.LIQUID_API_URL}${Constants.TEAM_LIST_ENDPOINT}`, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams(data),
+        })
             .then((response) => response.json())
-            .then((data) => this.setState({ orgs: data.orgs }))
+            .then((data) => this.setState({ orgs: data.result }))
             .catch((err) => console.log(err));
     }
 
@@ -32,11 +42,11 @@ class OrganizationList extends React.Component {
         return (
             <Grid container spacing={2} className={classes.root}>
                 {this.state.orgs.map((org, i) => (
-                    <Grid item xs={6} key={i}>
-                        <Card variant="outlined" key={i}>
+                    <Grid item xs={6} key={`orgs-${org.name}-${i}`}>
+                        <Card variant="outlined">
                             <CardContent>
-                                <Typography variant="h6" key={i}>{org.name}</Typography>
-                            </CardContent>{" "}
+                                <Typography variant="h6">{org.name}</Typography>
+                            </CardContent>
                         </Card>
                     </Grid>
                 ))}
