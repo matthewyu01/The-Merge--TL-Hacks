@@ -3,6 +3,7 @@ import Chart from 'react-google-charts';
 import * as Constants from "./Constants";
 import { Typography } from '@material-ui/core';
 import { withRouter } from "react-router-dom";
+import { withTheme } from "@material-ui/core/styles";
 import VerticalTabs from './TabPanel';
 
 class Organization extends React.Component {
@@ -121,6 +122,9 @@ class Organization extends React.Component {
             return <Typography variant="h6">No Data Available</Typography>;
         }
 
+        let primaryColor = this.props.theme.palette.text.primary;
+        let backgroundColor = this.props.theme.palette.background;
+
         return (
             <div>
                 <h1>{this.props.match.params.name}</h1>
@@ -133,8 +137,32 @@ class Organization extends React.Component {
                     options={{
                         timeline: {
                             groupByRowLabel: false,
+                            rowLabelStyle: {
+                                color: primaryColor,
+                            },
+                            barLabelStyle: {
+                                color: primaryColor,
+                            },
+                            showBarLabels: false,
                         },
+                        backgroundColor: backgroundColor
+                            .paper,
                     }}
+                    chartEvents={[
+                        {
+                            eventName: "ready",
+                            callback: () => {
+
+                                var labels = document.getElementsByTagName('text');
+                                Array.prototype.forEach.call(labels, function(label) {
+                                    if (label.getAttribute('text-anchor') === 'middle') {
+                                        label.setAttribute('fill', primaryColor);
+                                    }
+                                });
+
+                            }
+                        }
+                    ]}
                 />
                 <VerticalTabs gameRosters={this.state.gameRosters} />
             </div>
@@ -142,4 +170,4 @@ class Organization extends React.Component {
     };
 }
 
-export default withRouter(Organization);
+export default withRouter(withTheme(Organization));
