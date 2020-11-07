@@ -238,7 +238,7 @@ class OrganizationList extends React.Component {
                 />
 
                 <Pagination
-                    count={Math.floor(
+                    count={Math.ceil(
                         Object.keys(this.state.filtered).length /
                             Constants.ORGS_PER_PAGE
                     )}
