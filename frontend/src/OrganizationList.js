@@ -1,6 +1,13 @@
-import { Card, CardContent, Grid, Typography } from "@material-ui/core";
+import {
+    Card,
+    CardContent,
+    Grid,
+    Typography,
+    CardActionArea,
+} from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import React from "react";
+import { Link } from "react-router-dom";
 import * as Constants from "./Constants";
 
 const styles = (theme) => ({
@@ -23,7 +30,7 @@ class OrganizationList extends React.Component {
             let data = new FormData();
             data.append("wiki", game);
             data.append("apikey", Constants.LIQUID_API_KEY);
-            data.append("limit", "5000");
+            data.append("limit", "50");
             fetch(
                 `${Constants.LIQUID_API_URL}${Constants.TEAM_LIST_ENDPOINT}`,
                 {
@@ -53,6 +60,8 @@ class OrganizationList extends React.Component {
                                 oldState.orgs[org.name].games.push(org.wiki);
                             }
                         });
+                        console.log(oldState);
+                        console.log(data);
                         return oldState;
                     });
                 })
@@ -71,14 +80,19 @@ class OrganizationList extends React.Component {
                     return (
                         <Grid item xs={6} key={`orgs-${org.name}-${i}`}>
                             <Card variant="outlined">
-                                <CardContent>
-                                    <Typography variant="h6">
-                                        {org.name}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        {org.games.join(", ")}
-                                    </Typography>
-                                </CardContent>
+                                <Link
+                                    to={`/organizations/${org.name}`}
+                                    component={CardActionArea}
+                                >
+                                    <CardContent>
+                                        <Typography variant="h6">
+                                            {org.name}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                            {org.games.join(", ")}
+                                        </Typography>
+                                    </CardContent>
+                                </Link>
                             </Card>
                         </Grid>
                     );

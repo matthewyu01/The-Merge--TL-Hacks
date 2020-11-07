@@ -5,6 +5,7 @@ import Navbar from "./Navbar";
 import HomePage from "./HomePage";
 import OrganizationList from "./OrganizationList";
 import PlayerList from "./PlayerList";
+import Organization from "./Organization";
 
 export default function App() {
     return (
@@ -12,6 +13,9 @@ export default function App() {
             <Navbar></Navbar>
             <Container>
                 <Switch>
+                    <Route path="/organizations/:name">
+                        <Organization />
+                    </Route>
                     <Route path="/organizations">
                         <OrganizationList />
                     </Route>
