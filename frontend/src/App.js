@@ -3,6 +3,7 @@ import { Container } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import HomePage from "./HomePage";
+import OrganizationList from "./OrganizationList";
 
 export default function App() {
     return (
@@ -12,6 +13,9 @@ export default function App() {
                 <Switch>
                     <Route path="/">
                         <HomePage />
+                    </Route>
+                    <Route path="/organzations">
+                        <OrganizationList />
                     </Route>
                 </Switch>
             </Container>

@@ -17,7 +17,7 @@ function Navbar() {
                     </Button>
                 </Typography>
                 <Typography variant="h6">
-                    <Button color="inherit" component={Link} to="/">
+                    <Button color="inherit" component={Link} to="/orginzation">
                         Organizations
                     </Button>
                 </Typography>
