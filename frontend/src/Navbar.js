@@ -1,19 +1,28 @@
-import { Button } from "@material-ui/core";
+import { AppBar, Button, Typography, Toolbar } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
 
 function Navbar() {
     return (
-        <nav>
-            <Button color="primary" component={Link} to="/">
-                Home
-            </Button>
-            <Button color="primary" component={Link} to="/about">
-                About
-            </Button>
-            <Button color="primary" component={Link} to="/users">
-                Users
-            </Button>
-        </nav>
+        <AppBar position="static">
+            <Toolbar>
+                <Typography variant="h6">
+                    <Button color="inherit" component={Link} to="/">
+                        Home
+                    </Button>
+                </Typography>
+                <Typography variant="h6">
+                    <Button color="inherit" component={Link} to="/">
+                        Players
+                    </Button>
+                </Typography>
+                <Typography variant="h6">
+                    <Button color="inherit" component={Link} to="/">
+                        Organizations
+                    </Button>
+                </Typography>
+            </Toolbar>
+        </AppBar>
     );
 }
 
