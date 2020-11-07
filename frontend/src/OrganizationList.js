@@ -46,7 +46,7 @@ class OrganizationList extends React.Component {
             let data = new FormData();
             data.append("wiki", game);
             data.append("apikey", Constants.LIQUID_API_KEY);
-            data.append("limit", "50");
+            data.append("limit", Constants.MAXIMUM_QUERY_LIMIT);
             fetch(
                 `${Constants.LIQUID_API_URL}${Constants.TEAM_LIST_ENDPOINT}`,
                 {
