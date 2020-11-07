@@ -62,7 +62,7 @@ class Organization extends React.Component {
 
                     let players = [];
                     data.result.map((player) => {
-                        players.push(player.id);
+                        players.push(player);
                     })
 
                     if(players.length > 0) {
@@ -83,8 +83,7 @@ class Organization extends React.Component {
 
         let { info } = this.state;
 
-        let orgInfo = info;
-        orgInfo.sort((a, b) => {
+        let orgInfo = info.sort((a, b) => {
             return Date.parse(b.date) - Date.parse(a.date);
         });
 
