@@ -150,7 +150,7 @@ class OrganizationList extends React.Component {
     };
 
     handlePaginationUpdate = (ev, page) => {
-        this.setState({ orgIndexStart: page * Constants.ORGS_PER_PAGE });
+        this.setState({ orgIndexStart: (page - 1) * Constants.ORGS_PER_PAGE });
     };
 
     renderOrgs = () => {
