@@ -127,7 +127,7 @@ class PlayeranizationList extends React.Component {
         let newFiltered = {};
         if (playerList && query !== "") {
             for (var key of Object.keys(playerList)) {
-                if (playerList[key].dname.toLowerCase().includes(query)) {
+                if (playerList[key].id.toLowerCase().includes(query)) {
                     newFiltered[key] = playerList[key];
                 }
             }
@@ -278,6 +278,11 @@ class PlayeranizationList extends React.Component {
                         Object.keys(this.state.filtered).length /
                             Constants.PLAYERS_PER_PAGE
                     )}
+                    page={
+                        this.state.playerIndexStart /
+                            Constants.PLAYERS_PER_PAGE +
+                        1
+                    }
                     onChange={this.handlePaginationUpdate}
                 ></Pagination>
                 <Grid container spacing={2} className={classes.root}>

@@ -264,6 +264,9 @@ class OrganizationList extends React.Component {
                         Object.keys(this.state.filtered).length /
                             Constants.ORGS_PER_PAGE
                     )}
+                    page={
+                        this.state.orgIndexStart / Constants.ORGS_PER_PAGE + 1
+                    }
                     onChange={this.handlePaginationUpdate}
                 ></Pagination>
                 <Grid container spacing={2} className={classes.root}>
