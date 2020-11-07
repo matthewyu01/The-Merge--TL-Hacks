@@ -61,6 +61,7 @@ class OrganizationList extends React.Component {
                                     name: org.name,
                                     games: [org.wiki],
                                     logo: org.logourl,
+                                    earnings: org.earnings,
                                 };
                             } else if (
                                 !oldState.orgs[org.name].games.includes(
@@ -68,6 +69,8 @@ class OrganizationList extends React.Component {
                                 )
                             ) {
                                 oldState.orgs[org.name].games.push(org.wiki);
+                                oldState.orgs[org.name].earnings +=
+                                    org.earnings;
                             }
                         });
                         return oldState;
@@ -121,6 +124,36 @@ class OrganizationList extends React.Component {
         });
     };
 
+    renderOrgs = () => {
+        const orgs = Object.keys(this.state.filtered).map(
+            (key) => this.state.filtered[key]
+        );
+        return orgs
+            .sort((a, b) => b.earnings - a.earnings)
+            .slice(0, 20)
+            .map((org, i) => {
+                return (
+                    <Grid item xs={6} key={`orgs-${org.name}-${i}`}>
+                        <Card variant="outlined">
+                            <CardActionArea
+                                to={`/organizations/${org.name}`}
+                                component={Link}
+                            >
+                                <CardContent>
+                                    <Typography variant="h6">
+                                        {org.name}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {org.games.join(", ")}
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                    </Grid>
+                );
+            });
+    };
+
     render = () => {
         if (!this.state.orgs) return null;
 
@@ -162,30 +195,7 @@ class OrganizationList extends React.Component {
                     })}
                 </Menu>
                 <Grid container spacing={2} className={classes.root}>
-                    {Object.keys(this.state.filtered)
-                        .slice(0, 20)
-                        .map((key, i) => {
-                            const org = this.state.filtered[key];
-                            return (
-                                <Grid item xs={6} key={`orgs-${org.name}-${i}`}>
-                                    <Card variant="outlined">
-                                        <CardActionArea
-                                            to={`/organizations/${org.name}`}
-                                            component={Link}
-                                        >
-                                            <CardContent>
-                                                <Typography variant="h6">
-                                                    {org.name}
-                                                </Typography>
-                                                <Typography variant="body2">
-                                                    {org.games.join(", ")}
-                                                </Typography>
-                                            </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-                            );
-                        })}
+                    {this.renderOrgs()}
                 </Grid>
             </div>
         );
