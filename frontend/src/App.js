@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import HomePage from "./HomePage";
 import OrganizationList from "./OrganizationList";
+import PlayerList from "./PlayerList";
 
 export default function App() {
     return (
@@ -13,6 +14,9 @@ export default function App() {
                 <Switch>
                     <Route path="/organizations">
                         <OrganizationList />
+                    </Route>
+                    <Route path="/players">
+                        <PlayerList />
                     </Route>
                     <Route path="/">
                         <HomePage />
