@@ -14,8 +14,8 @@ def get_player_info(name):
         name: name
     })
 
-@app.route('/teams/<name>/', methods=['GET'])
-def get_team_info(name):
+@app.route('/orgs/<name>/', methods=['GET'])
+def get_org_info(name):
     return jsonify({
         name: name
     })
