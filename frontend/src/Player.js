@@ -1,5 +1,6 @@
 import React from 'react';
-import Chart from 'react-google-charts';
+import Chart from 'react-google-charts'; 
+import { Typography } from '@material-ui/core';
 import * as Constants from './Constants';
 
 class Player extends React.Component {
@@ -79,6 +80,10 @@ class Player extends React.Component {
             currDate = new Date(Date.parse(entry.date));
             i--;
 
+        }
+
+        if (timelineData.length == 1) {
+            return (<Typography variant="h6">No Data Available</Typography>)
         }
 
         return (
