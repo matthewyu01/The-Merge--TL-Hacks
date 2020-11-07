@@ -1,37 +1,48 @@
-import { Card, CardContent, Typography } from "@material-ui/core";
+import { Card, CardContent, Grid, Typography } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import React from "react";
-import * as Constants from './Constants';
+import * as Constants from "./Constants";
+
+const styles = (theme) => ({
+    root: {
+        marginTop: 12,
+    },
+});
 
 class OrganizationList extends React.Component {
-
     constructor(props) {
         super(props);
 
         this.state = {
-            orgs: null
+            orgs: null,
         };
     }
 
     componentDidMount() {
         fetch(Constants.BACKEND_URL + Constants.ORG_LIST_ENDPOINT)
-            .then(response => response.json())
-            .then(data => this.setState({ orgs: data.orgs }))
-            .catch(err => console.log(err));
+            .then((response) => response.json())
+            .then((data) => this.setState({ orgs: data.orgs }))
+            .catch((err) => console.log(err));
     }
 
     render = () => {
-        if(!this.state.orgs)
-            return null;
+        if (!this.state.orgs) return null;
 
-        console.log(this.state);
-        return this.state.orgs.map((org, i) => (
-            <Card>
-                <CardContent>
-                    <Typography variant="h4" key={i}>{org.name}</Typography>
-                </CardContent>
-            </Card>
-        ));
+        const { classes } = this.props;
+        return (
+            <Grid container spacing={2} className={classes.root}>
+                {this.state.orgs.map((org) => (
+                    <Grid item xs={6}>
+                        <Card variant="outlined">
+                            <CardContent>
+                                <Typography variant="h6">{org.name}</Typography>
+                            </CardContent>{" "}
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+        );
     };
 }
 
-export default OrganizationList;
+export default withStyles(styles)(OrganizationList);
