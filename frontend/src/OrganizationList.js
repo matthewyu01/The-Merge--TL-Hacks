@@ -101,8 +101,7 @@ class OrganizationList extends React.Component {
         let query = event.target.value;
 
         if (orgs && query !== "") {
-            query = query.toLowerCase().split(" ");
-
+            
             for (var key of Object.keys(orgs)) {
                 if (orgs[key].name.toLowerCase().includes(query)) {
                     newFiltered[key] = orgs[key];
