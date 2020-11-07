@@ -1,9 +1,13 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 class Organization extends React.Component {
     render = () => {
-        return <h1>HELP</h1>;
+        const { match } = this.props;
+        const { params } = match;
+        const { name } = params;
+        return <h1>{name}</h1>;
     };
 }
 
-export default Organization;
+export default withRouter(Organization);
