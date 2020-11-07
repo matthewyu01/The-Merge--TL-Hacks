@@ -31,11 +31,11 @@ class OrganizationList extends React.Component {
         const { classes } = this.props;
         return (
             <Grid container spacing={2} className={classes.root}>
-                {this.state.orgs.map((org) => (
-                    <Grid item xs={6}>
-                        <Card variant="outlined">
+                {this.state.orgs.map((org, i) => (
+                    <Grid item xs={6} key={i}>
+                        <Card variant="outlined" key={i}>
                             <CardContent>
-                                <Typography variant="h6">{org.name}</Typography>
+                                <Typography variant="h6" key={i}>{org.name}</Typography>
                             </CardContent>{" "}
                         </Card>
                     </Grid>
