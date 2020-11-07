@@ -11,19 +11,28 @@ export const MAXIMUM_QUERY_LIMIT = 5000;
 export const ORGS_PER_PAGE = 20;
 export const PLAYERS_PER_PAGE = 20;
 
-export const STEAM_PLAYERCOUNT_ENDPOINT = "ISteamUserStats/GetNumberOfCurrentPlayers/v1/"
+export const STEAM_PLAYERCOUNT_ENDPOINT =
+    "ISteamUserStats/GetNumberOfCurrentPlayers/v1/";
 
-export const GAMES = ["dota2", "counterstrike", "leagueoflegends", "valorant"];
+export const GAMES = [
+    "dota2",
+    "counterstrike",
+    "leagueoflegends",
+    "overwatch",
+    "valorant",
+];
 export const GAMES_PRETTY = {
     dota2: "Dota 2",
     counterstrike: "CSGO",
     leagueoflegends: "League of Legends",
     valorant: "Valorant",
+    overwatch: "Overwatch",
     pubg: "PUBG",
-    rocketleague: "Rocket League"
+    rocketleague: "Rocket League",
 };
 
-export const STEAM_GAMES = ["dota2", "counterstrike", "pubg", "rocketleague"]
+export const STEAM_GAMES = ["dota2", "counterstrike", "pubg", "rocketleague"];
+
 export const STEAM_GAME_IDS = {
     dota2: "570",
     counterstrike: "730",

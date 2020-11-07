@@ -2,6 +2,7 @@ import React from "react";
 import Chart from "react-google-charts";
 import { Typography } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
+import { withTheme } from "@material-ui/core/styles";
 import * as Constants from "./Constants";
 
 class Player extends React.Component {
@@ -53,26 +54,28 @@ class Player extends React.Component {
 
         let { info } = this.state;
 
-        let playerInfo = info;
-        playerInfo.sort((a, b) => {
-            return Date.parse(b.date) - Date.parse(a.date);
-        });
+        let playerInfo = info
+            .filter((x) => {
+                return x.toteam !== "";
+            })
+            .sort((a, b) => {
+                return Date.parse(b.date) - Date.parse(a.date);
+            });
 
         let timelineData = [];
         timelineData.push([
-            { type: "string", id: "Game"},
+            { type: "string", id: "Game" },
             { type: "string", id: "Team Name" },
             { type: "date", id: "Start" },
             { type: "date", id: "End" },
         ]);
 
-        let i = playerInfo.length;
         let currDate = Date.now();
         for (var entry of playerInfo) {
-            if(entry.toteam === '') {
+            if (entry.toteam === "") {
                 timelineData.push([
-                    'N/A',
-                    '(No Team)',
+                    "N/A",
+                    "(No Team)",
                     new Date(Date.parse(entry.date)),
                     currDate,
                 ]);
@@ -86,7 +89,6 @@ class Player extends React.Component {
             }
 
             currDate = new Date(Date.parse(entry.date));
-            i--;
         }
 
         if (timelineData.length === 1) {
@@ -122,7 +124,21 @@ class Player extends React.Component {
                     data={timelineData}
                     options={{
                         timeline: {
-                        groupByRowLabel: false,
+                            groupByRowLabel: false,
+                            rowLabelStyle: {
+                                color: this.props.theme.palette.text.primary,
+                            },
+                            barLabelStyle: {
+                                color: this.props.theme.palette.text.primary,
+                            },
+                            showBarLabels: false,
+                        },
+                        backgroundColor: this.props.theme.palette.background
+                            .paper,
+                        hAxis: {
+                            textStyle: {
+                                color: this.props.theme.palette.text.primary,
+                            },
                         },
                     }}
                 />
@@ -131,4 +147,4 @@ class Player extends React.Component {
     };
 }
 
-export default withRouter(Player);
+export default withRouter(withTheme(Player));

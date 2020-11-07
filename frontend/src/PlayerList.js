@@ -66,10 +66,9 @@ class PlayeranizationList extends React.Component {
                                 return;
                             }
 
-                            if (
-                                !oldState.players[`${player.id}-${player.name}`]
-                            ) {
-                                oldState.players[player.id] = {
+                            const key = `${player.id.toLowerCase()}-${player.name.toLowerCase()}`;
+                            if (!oldState.players[key]) {
+                                oldState.players[key] = {
                                     id: player.id,
                                     name: player.romanizedname || player.name,
                                     games: [player.wiki],
@@ -77,16 +76,13 @@ class PlayeranizationList extends React.Component {
                                     earnings: player.earnings,
                                 };
                             } else if (
-                                !oldState.players[
-                                    `${player.id}-${player.name}`
-                                ].games.includes(player.wiki)
+                                !oldState.players[key].games.includes(
+                                    player.wiki
+                                )
                             ) {
-                                oldState.players[
-                                    `${player.id}-${player.name}`
-                                ].games.push(player.wiki);
-                                oldState.players[
-                                    `${player.id}-${player.name}`
-                                ].earnings += player.earnings;
+                                oldState.players[key].games.push(player.wiki);
+                                oldState.players[key].earnings +=
+                                    player.earnings;
                             }
                         });
                         return oldState;
