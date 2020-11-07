@@ -30,17 +30,16 @@ export default function App() {
                     <Navbar darkMode={darkMode} handleThemeChange={handleThemeChange}/>
                     <Container>
                         <Switch>
-                            <Route path="/organizations/:name">
-                                <Organization />
-                            </Route>
-                            <Route path="/organizations">
+                            <Route exact path="/organizations/:name" render={props => 
+                                <Organization {...props} />} />
+                            <Route exact path="/organizations">
                                 <OrganizationList />
                             </Route>
                             <Route exact path="/players">
                                 <PlayerList />
                             </Route>
-                            <Route exact path="/players/:player" 
-                                render={props => <Player {...props} />} />
+                            <Route exact path="/players/:player" render={props => 
+                                <Player {...props} />} />
                             <Route path="/">
                                 <HomePage />
                             </Route>

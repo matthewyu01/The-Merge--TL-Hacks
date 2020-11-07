@@ -1,6 +1,7 @@
 import React from "react";
 import Chart from "react-google-charts";
 import { Typography } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import * as Constants from "./Constants";
 
 class Player extends React.Component {
@@ -14,12 +15,14 @@ class Player extends React.Component {
 
     componentDidMount() {
         Constants.GAMES.forEach((game) => {
-
             let data = new FormData();
             data.append("wiki", game);
             data.append("apikey", Constants.LIQUID_API_KEY);
             data.append("limit", Constants.MAXIMUM_QUERY_LIMIT);
-            data.append("conditions", `[[player::${this.props.match.params.player}]]`);
+            data.append(
+                "conditions",
+                `[[player::${this.props.match.params.player}]]`
+            );
 
             fetch(
                 `${Constants.LIQUID_API_URL}${Constants.TRANSFER_LIST_ENDPOINT}`,
@@ -36,25 +39,14 @@ class Player extends React.Component {
                 .then((data) => {
                     let currInfo = this.state.info;
 
-                    if(!currInfo) currInfo = [];
+                    if (!currInfo) currInfo = [];
                     this.setState({
-                        info: [...currInfo, ...data.result]
+                        info: [...currInfo, ...data.result],
                     });
                 })
                 .catch((err) => console.log(err));
-
-        })
-
-    }
-
-    filter = () => {
-        return this.state.info.filter((player) => {
-            return (
-                player.extradata.displayname.toLowerCase() ===
-                this.props.match.params.player.toLowerCase()
-            );
         });
-    };
+    }
 
     render = () => {
         if (!this.state.info) return null;
@@ -68,7 +60,7 @@ class Player extends React.Component {
 
         let timelineData = [];
         timelineData.push([
-            { type: "string", id: "Team No." },
+            { type: "string", id: "Game"},
             { type: "string", id: "Team Name" },
             { type: "date", id: "Start" },
             { type: "date", id: "End" },
@@ -77,12 +69,22 @@ class Player extends React.Component {
         let i = playerInfo.length;
         let currDate = Date.now();
         for (var entry of playerInfo) {
-            timelineData.push([
-                `Team #${i.toString()}`,
-                entry.toteam,
-                new Date(Date.parse(entry.date)),
-                currDate,
-            ]);
+            if(entry.toteam === '') {
+                timelineData.push([
+                    'N/A',
+                    '(No Team)',
+                    new Date(Date.parse(entry.date)),
+                    currDate,
+                ]);
+            } else {
+                timelineData.push([
+                    `${Constants.GAMES_PRETTY[entry.wiki]}`,
+                    entry.toteam,
+                    new Date(Date.parse(entry.date)),
+                    currDate,
+                ]);
+            }
+
             currDate = new Date(Date.parse(entry.date));
             i--;
         }
@@ -91,6 +93,23 @@ class Player extends React.Component {
             return <Typography variant="h6">No Data Available</Typography>;
         }
 
+        const props = this.props;
+
+        const chartEvents = [
+            {
+                eventName: "select",
+                callback({ chartWrapper }) {
+                    const name =
+                        playerInfo[
+                            chartWrapper.getChart().getSelection()[0].row
+                        ].toteam;
+                    if (name) {
+                        props.history.push(`/organizations/${name}`);
+                    }
+                },
+            },
+        ];
+
         return (
             <div>
                 <h1>{this.props.match.params.player}</h1>
@@ -98,12 +117,18 @@ class Player extends React.Component {
                     width={"500px"}
                     height={"300px"}
                     chartType="Timeline"
+                    chartEvents={chartEvents}
                     loader={<div>Loading Chart</div>}
                     data={timelineData}
+                    options={{
+                        timeline: {
+                        groupByRowLabel: false,
+                        },
+                    }}
                 />
             </div>
         );
     };
 }
 
-export default Player;
+export default withRouter(Player);

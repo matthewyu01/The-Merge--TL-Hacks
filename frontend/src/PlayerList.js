@@ -66,23 +66,27 @@ class PlayeranizationList extends React.Component {
                                 return;
                             }
 
-                            if (!oldState.players[player.id]) {
+                            if (
+                                !oldState.players[`${player.id}-${player.name}`]
+                            ) {
                                 oldState.players[player.id] = {
-                                    name: player.id,
+                                    id: player.id,
+                                    name: player.romanizedname || player.name,
                                     games: [player.wiki],
                                     logo: player.logourl,
                                     earnings: player.earnings,
                                 };
                             } else if (
-                                !oldState.players[player.id].games.includes(
-                                    player.wiki
-                                )
+                                !oldState.players[
+                                    `${player.id}-${player.name}`
+                                ].games.includes(player.wiki)
                             ) {
-                                oldState.players[player.id].games.push(
-                                    player.wiki
-                                );
-                                oldState.players[player.id].earnings +=
-                                    player.earnings;
+                                oldState.players[
+                                    `${player.id}-${player.name}`
+                                ].games.push(player.wiki);
+                                oldState.players[
+                                    `${player.id}-${player.name}`
+                                ].earnings += player.earnings;
                             }
                         });
                         return oldState;
@@ -123,7 +127,7 @@ class PlayeranizationList extends React.Component {
         let newFiltered = {};
         if (playerList && query !== "") {
             for (var key of Object.keys(playerList)) {
-                if (playerList[key].dname.toLowerCase().includes(query)) {
+                if (playerList[key].id.toLowerCase().includes(query)) {
                     newFiltered[key] = playerList[key];
                 }
             }
@@ -193,18 +197,18 @@ class PlayeranizationList extends React.Component {
                     <Grid
                         item
                         xs={6}
-                        key={`players-${player.name}-${
+                        key={`players-${player.id}-${
                             i + this.state.playerIndexStart
                         }`}
                     >
                         <Card variant="outlined">
                             <CardActionArea
-                                to={`/players/${player.name}`}
+                                to={`/players/${player.id}`}
                                 component={Link}
                             >
                                 <CardContent>
                                     <Typography variant="h6">
-                                        {player.name}
+                                        {player.id}
                                     </Typography>
                                     <Typography variant="body2">
                                         {player.games
@@ -274,6 +278,11 @@ class PlayeranizationList extends React.Component {
                         Object.keys(this.state.filtered).length /
                             Constants.PLAYERS_PER_PAGE
                     )}
+                    page={
+                        this.state.playerIndexStart /
+                            Constants.PLAYERS_PER_PAGE +
+                        1
+                    }
                     onChange={this.handlePaginationUpdate}
                 ></Pagination>
                 <Grid container spacing={2} className={classes.root}>
