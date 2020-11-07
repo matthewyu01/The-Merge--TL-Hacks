@@ -62,6 +62,10 @@ class PlayeranizationList extends React.Component {
                 .then((data) => {
                     this.setState((oldState) => {
                         data.result.forEach((player) => {
+                            if (!player.name) {
+                                return;
+                            }
+
                             if (!oldState.players[player.name]) {
                                 oldState.players[player.name] = {
                                     name: player.name,
@@ -102,7 +106,7 @@ class PlayeranizationList extends React.Component {
     };
 
     handleSearch(event) {
-        let query = event.target.value;
+        let query = event.target.value.toLowerCase();
 
         let newFiltered = this.filterSearch(this.state.players, query);
         let finalFiltered = this.filterGame(
@@ -121,7 +125,12 @@ class PlayeranizationList extends React.Component {
         let newFiltered = {};
         if (playerList && query !== "") {
             for (var key of Object.keys(playerList)) {
-                if (playerList[key].name.toLowerCase().includes(query)) {
+                if (
+                    playerList[key].romanizedname
+                        .toLowerCase()
+                        .includes(query) ||
+                    playerList[key].romanizedname.toLowerCase().includes(query)
+                ) {
                     newFiltered[key] = playerList[key];
                 }
             }

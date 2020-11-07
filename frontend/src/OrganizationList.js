@@ -98,7 +98,7 @@ class OrganizationList extends React.Component {
     };
 
     handleSearch(event) {
-        let query = event.target.value;
+        let query = event.target.value.toLowerCase();
 
         let newFiltered = this.filterSearch(this.state.orgs, query);
         let finalFiltered = this.filterGame(
