@@ -11,13 +11,19 @@ def hello():
 @app.route('/players/<name>/', methods=['GET'])
 def get_player_info(name):
     return jsonify({
-        name: name
+        'name': name
+    })
+
+@app.route('/orgs/', methods=['GET'])
+def get_org_list():
+    return jsonify({
+        'orgs': ['Org 1', 'Org 2', 'Org 3']
     })
 
 @app.route('/orgs/<name>/', methods=['GET'])
 def get_org_info(name):
     return jsonify({
-        name: name
+        'name': name
     })
 
 if __name__ == "__main__":
