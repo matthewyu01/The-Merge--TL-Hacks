@@ -31,9 +31,11 @@ class OrganizationList extends React.Component {
             menuOpen: null,
             selectedIndex: 0,
             orgIndexStart: 0,
+            searchQuery: ""
         };
 
         this.handleSearch = this.handleSearch.bind(this);
+        this.filterSearch = this.filterSearch.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -96,50 +98,68 @@ class OrganizationList extends React.Component {
     };
 
     handleSearch(event) {
-        let newFiltered = {};
-        const { orgs } = this.state;
+
         let query = event.target.value;
 
-        if (orgs && query !== "") {
-            
-            for (var key of Object.keys(orgs)) {
-                if (orgs[key].name.toLowerCase().includes(query)) {
-                    newFiltered[key] = orgs[key];
+        let newFiltered = this.filterSearch(this.state.orgs, query);
+        let finalFiltered = this.filterGame(newFiltered, this.state.selectedIndex);
+
+        this.setState({
+            filtered: finalFiltered,
+            searchQuery: query
+        });
+        
+    }
+
+    filterSearch = (orgList, query) => {
+
+        let newFiltered = {};
+        if (orgList && query !== "") {
+
+            for (var key of Object.keys(orgList)) {
+                if(orgList[key].name.toLowerCase().includes(query)) {
+                    newFiltered[key] = orgList[key];
                 }
             }
         } else {
-            newFiltered = orgs;
+            newFiltered = orgList;
         }
 
-        this.setState({
-            filtered: newFiltered,
-        });
+        return newFiltered;
+
+    }
+
+    filterGame = (orgList, index) => {
+
+        let newFiltered = {};
+        if (index !== 0) {
+            let toFilter = Constants.GAMES[index - 1];
+
+            for (var key of Object.keys(orgList)) {
+                if(orgList[key].games.includes(toFilter)) {
+                    newFiltered[key] = orgList[key];
+                }
+            }
+        } else {
+            newFiltered = orgList;
+        }
+
+        return newFiltered;
+
     }
 
     handleMenuItemClick = (event, index) => {
-        if (index === 0) {
-            this.setState({
-                filtered: this.state.orgs,
-                selectedIndex: 0,
-                menuOpen: null,
-            });
-        } else {
-            const { orgs } = this.state;
-            let newFiltered = {};
-            let toFilter = Constants.GAMES[index - 1];
 
-            for (var key of Object.keys(orgs)) {
-                if (orgs[key].games.includes(toFilter)) {
-                    newFiltered[key] = orgs[key];
-                }
-            }
 
-            this.setState({
-                filtered: newFiltered,
-                selectedIndex: index,
-                menuOpen: null,
-            });
-        }
+        let newFiltered = this.filterGame(this.state.orgs, index);
+        let finalFiltered = this.filterSearch(newFiltered, this.state.searchQuery);
+
+        this.setState({
+            filtered: finalFiltered,
+            selectedIndex: index,
+            menuOpen: null
+        });
+
     };
 
     handleClose = () => {
