@@ -112,6 +112,9 @@ class Player extends React.Component {
             },
         ];
 
+        let primaryColor = this.props.theme.palette.text.primary;
+        let backgroundColor = this.props.theme.palette.background;
+
         return (
             <div>
                 <h1>{this.props.match.params.player}</h1>
@@ -126,21 +129,31 @@ class Player extends React.Component {
                         timeline: {
                             groupByRowLabel: false,
                             rowLabelStyle: {
-                                color: this.props.theme.palette.text.primary,
+                                color: primaryColor,
                             },
                             barLabelStyle: {
-                                color: this.props.theme.palette.text.primary,
+                                color: primaryColor,
                             },
                             showBarLabels: false,
                         },
-                        backgroundColor: this.props.theme.palette.background
+                        backgroundColor: backgroundColor
                             .paper,
-                        hAxis: {
-                            textStyle: {
-                                color: this.props.theme.palette.text.primary,
-                            },
-                        },
                     }}
+                    chartEvents={[
+                        {
+                            eventName: "ready",
+                            callback: () => {
+
+                                var labels = document.getElementsByTagName('text');
+                                Array.prototype.forEach.call(labels, function(label) {
+                                    if (label.getAttribute('text-anchor') === 'middle') {
+                                        label.setAttribute('fill', primaryColor);
+                                    }
+                                });
+
+                            }
+                        }
+                    ]}
                 />
             </div>
         );
