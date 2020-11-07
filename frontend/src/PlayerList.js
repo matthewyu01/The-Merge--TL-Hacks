@@ -62,28 +62,26 @@ class PlayeranizationList extends React.Component {
                 .then((data) => {
                     this.setState((oldState) => {
                         data.result.forEach((player) => {
-                            if (!player.name) {
+                            if (!player.id) {
                                 return;
                             }
 
-                            if (!oldState.players[player.name]) {
-                                oldState.players[player.name] = {
-                                    name: player.name,
-                                    romanizedname:
-                                        player.romanizedname || player.name,
+                            if (!oldState.players[player.id]) {
+                                oldState.players[player.id] = {
+                                    name: player.id,
                                     games: [player.wiki],
                                     logo: player.logourl,
                                     earnings: player.earnings,
                                 };
                             } else if (
-                                !oldState.players[player.name].games.includes(
+                                !oldState.players[player.id].games.includes(
                                     player.wiki
                                 )
                             ) {
-                                oldState.players[player.name].games.push(
+                                oldState.players[player.id].games.push(
                                     player.wiki
                                 );
-                                oldState.players[player.name].earnings +=
+                                oldState.players[player.id].earnings +=
                                     player.earnings;
                             }
                         });
@@ -125,12 +123,7 @@ class PlayeranizationList extends React.Component {
         let newFiltered = {};
         if (playerList && query !== "") {
             for (var key of Object.keys(playerList)) {
-                if (
-                    playerList[key].romanizedname
-                        .toLowerCase()
-                        .includes(query) ||
-                    playerList[key].romanizedname.toLowerCase().includes(query)
-                ) {
+                if (playerList[key].dname.toLowerCase().includes(query)) {
                     newFiltered[key] = playerList[key];
                 }
             }
@@ -211,7 +204,7 @@ class PlayeranizationList extends React.Component {
                             >
                                 <CardContent>
                                     <Typography variant="h6">
-                                        {player.romanizedname}
+                                        {player.name}
                                     </Typography>
                                     <Typography variant="body2">
                                         {player.games
