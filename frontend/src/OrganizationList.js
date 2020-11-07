@@ -70,37 +70,37 @@ class OrganizationList extends React.Component {
                                 oldState.orgs[org.name].games.push(org.wiki);
                             }
                         });
-                        console.log(oldState);
-                        console.log(data);
                         return oldState;
                     });
                 })
-                .then(() => this.setState({
-                    filtered: this.state.orgs
-                }))
+                .then(() =>
+                    this.setState({
+                        filtered: this.state.orgs,
+                    })
+                )
                 .catch((err) => console.log(err));
         });
     }
 
     handleClick = (event) => {
         this.setState({
-            menuOpen: event.currentTarget
+            menuOpen: event.currentTarget,
         });
-    }
+    };
 
     handleMenuItemClick = (event, index) => {
-        if(index === 0) {
+        if (index === 0) {
             this.setState({
                 filtered: this.state.orgs,
                 selectedIndex: 0,
-                menuOpen: null
+                menuOpen: null,
             });
         } else {
             let newFiltered = {};
-            let toFilter = Constants.GAMES[index-1];
+            let toFilter = Constants.GAMES[index - 1];
 
             for (var key of Object.keys(this.state.orgs)) {
-                if(this.state.orgs[key].games.includes(toFilter)) {
+                if (this.state.orgs[key].games.includes(toFilter)) {
                     newFiltered[key] = this.state.orgs[key];
                 }
             }
@@ -108,19 +108,18 @@ class OrganizationList extends React.Component {
             this.setState({
                 filtered: newFiltered,
                 selectedIndex: index,
-                menuOpen: null
-            })
+                menuOpen: null,
+            });
 
             console.log(newFiltered);
         }
-        
     };
 
     handleClose = () => {
         this.setState({
-            menuOpen: null
-        })
-    }
+            menuOpen: null,
+        });
+    };
 
     render = () => {
         if (!this.state.orgs) return null;
@@ -128,7 +127,11 @@ class OrganizationList extends React.Component {
         const { classes } = this.props;
         return (
             <div>
-                <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
+                <Button
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                    onClick={this.handleClick}
+                >
                     Filter by Game
                 </Button>
                 <Menu
@@ -137,44 +140,52 @@ class OrganizationList extends React.Component {
                     open={Boolean(this.state.menuOpen)}
                     onClose={this.handleClose}
                 >
-                    <MenuItem 
-                        key={0} 
-                        onClick={(event) => this.handleMenuItemClick(event, 0)} 
-                        selected={this.state.selectedIndex === 0}>
+                    <MenuItem
+                        key={0}
+                        onClick={(event) => this.handleMenuItemClick(event, 0)}
+                        selected={this.state.selectedIndex === 0}
+                    >
                         All Games
                     </MenuItem>
                     {Constants.GAMES.map((game, i) => {
-                        return <MenuItem 
-                                    key={i+1}
-                                    onClick={(event) => this.handleMenuItemClick(event, i+1)} 
-                                    selected={this.state.selectedIndex === i+1}>
-                                    {game}
-                                </MenuItem>;
+                        return (
+                            <MenuItem
+                                key={i + 1}
+                                onClick={(event) =>
+                                    this.handleMenuItemClick(event, i + 1)
+                                }
+                                selected={this.state.selectedIndex === i + 1}
+                            >
+                                {game}
+                            </MenuItem>
+                        );
                     })}
                 </Menu>
                 <Grid container spacing={2} className={classes.root}>
-                    {Object.keys(this.state.filtered).map((key, i) => {
-                        const org = this.state.filtered[key];
-                        return (
-                            <Grid item xs={6} key={`orgs-${org.name}-${i}`}>
-                                <Card variant="outlined">
-                                    <Link
-                                        to={`/organizations/${org.name}`}
-                                        component={CardActionArea}
-                                    >
-                                        <CardContent>
-                                            <Typography variant="h6">
-                                                {org.name}
-                                            </Typography>
-                                            <Typography variant="body2">
-                                                {org.games.join(", ")}
-                                            </Typography>
-                                        </CardContent>
-                                    </Link>
-                                </Card>
-                            </Grid>
-                        );
-                    })}
+                    {Object.keys(this.state.filtered)
+                        .slice(0, 20)
+                        .map((key, i) => {
+                            const org = this.state.filtered[key];
+                            return (
+                                <Grid item xs={6} key={`orgs-${org.name}-${i}`}>
+                                    <Card variant="outlined">
+                                        <CardActionArea
+                                            to={`/organizations/${org.name}`}
+                                            component={Link}
+                                        >
+                                            <CardContent>
+                                                <Typography variant="h6">
+                                                    {org.name}
+                                                </Typography>
+                                                <Typography variant="body2">
+                                                    {org.games.join(", ")}
+                                                </Typography>
+                                            </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
+                            );
+                        })}
                 </Grid>
             </div>
         );
