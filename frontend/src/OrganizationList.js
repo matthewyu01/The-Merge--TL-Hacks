@@ -1,7 +1,11 @@
 import {
+    Button,
     Card,
     CardContent,
     Grid,
+    Menu,
+    MenuItem,
+    TextField,
     Typography,
     CardActionArea,
 } from "@material-ui/core";
@@ -22,7 +26,15 @@ class OrganizationList extends React.Component {
 
         this.state = {
             orgs: {},
+            filtered: {},
+            menuOpen: null,
+            selectedIndex: 0,
         };
+
+        this.handleSearch = this.handleSearch.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     componentDidMount() {
@@ -51,6 +63,7 @@ class OrganizationList extends React.Component {
                                     name: org.name,
                                     games: [org.wiki],
                                     logo: org.logourl,
+                                    earnings: org.earnings,
                                 };
                             } else if (
                                 !oldState.orgs[org.name].games.includes(
@@ -58,46 +71,162 @@ class OrganizationList extends React.Component {
                                 )
                             ) {
                                 oldState.orgs[org.name].games.push(org.wiki);
+                                oldState.orgs[org.name].earnings +=
+                                    org.earnings;
                             }
                         });
-                        console.log(oldState);
-                        console.log(data);
                         return oldState;
                     });
                 })
+                .then(() =>
+                    this.setState({
+                        filtered: this.state.orgs,
+                    })
+                )
                 .catch((err) => console.log(err));
         });
     }
+
+    handleClick = (event) => {
+        this.setState({
+            menuOpen: event.currentTarget,
+        });
+    };
+
+    handleSearch(event) {
+
+        let newFiltered = {};
+        const { orgs } = this.state;
+        let query = event.target.value;
+
+        if (orgs && query !== "") {
+
+            query = query.toLowerCase().split(" ");
+
+            for (var key of Object.keys(orgs)) {
+                if(orgs[key].name.toLowerCase().includes(query)) {
+                    newFiltered[key] = orgs[key];
+                }
+            }
+
+        } else {
+            newFiltered = orgs;
+        }
+
+        this.setState({
+            filtered: newFiltered
+        });
+    }
+
+    handleMenuItemClick = (event, index) => {
+        if (index === 0) {
+            this.setState({
+                filtered: this.state.orgs,
+                selectedIndex: 0,
+                menuOpen: null,
+            });
+        } else {
+            const { orgs } = this.state;
+            let newFiltered = {};
+            let toFilter = Constants.GAMES[index - 1];
+
+            for (var key of Object.keys(orgs)) {
+                if(orgs[key].games.includes(toFilter)) {
+                    newFiltered[key] = orgs[key];
+                }
+            }
+
+            this.setState({
+                filtered: newFiltered,
+                selectedIndex: index,
+                menuOpen: null
+            });
+        }
+    };
+
+    handleClose = () => {
+        this.setState({
+            menuOpen: null,
+        });
+    };
+
+    renderOrgs = () => {
+        const orgs = Object.keys(this.state.filtered).map(
+            (key) => this.state.filtered[key]
+        );
+        return orgs
+            .sort((a, b) => b.earnings - a.earnings)
+            .slice(0, 20)
+            .map((org, i) => {
+                return (
+                    <Grid item xs={6} key={`orgs-${org.name}-${i}`}>
+                        <Card variant="outlined">
+                            <CardActionArea
+                                to={`/organizations/${org.name}`}
+                                component={Link}
+                            >
+                                <CardContent>
+                                    <Typography variant="h6">
+                                        {org.name}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {org.games.join(", ")}
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                    </Grid>
+                );
+            });
+    };
 
     render = () => {
         if (!this.state.orgs) return null;
 
         const { classes } = this.props;
         return (
-            <Grid container spacing={2} className={classes.root}>
-                {Object.keys(this.state.orgs).map((key, i) => {
-                    const org = this.state.orgs[key];
-                    return (
-                        <Grid item xs={6} key={`orgs-${org.name}-${i}`}>
-                            <Card variant="outlined">
-                                <Link
-                                    to={`/organizations/${org.name}`}
-                                    component={CardActionArea}
-                                >
-                                    <CardContent>
-                                        <Typography variant="h6">
-                                            {org.name}
-                                        </Typography>
-                                        <Typography variant="body2">
-                                            {org.games.join(", ")}
-                                        </Typography>
-                                    </CardContent>
-                                </Link>
-                            </Card>
-                        </Grid>
-                    );
-                })}
-            </Grid>
+            <div>
+                <Button
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                    onClick={this.handleClick}
+                >
+                    Filter by Game
+                </Button>
+                <Menu
+                    anchorEl={this.state.menuOpen}
+                    keepMounted
+                    open={Boolean(this.state.menuOpen)}
+                    onClose={this.handleClose}
+                >
+                    <MenuItem
+                        key={0}
+                        onClick={(event) => this.handleMenuItemClick(event, 0)}
+                        selected={this.state.selectedIndex === 0}
+                    >
+                        All Games
+                    </MenuItem>
+
+                    {Constants.GAMES.map((game, i) => {
+                        return (
+                            <MenuItem
+                                key={i + 1}
+                                onClick={(event) =>
+                                    this.handleMenuItemClick(event, i + 1)
+                                }
+                                selected={this.state.selectedIndex === i + 1}
+                            >
+                                {game}
+                            </MenuItem>
+                        );
+                    })}
+                </Menu>
+                <TextField id="standard-basic" placeholder="Search Organizations" onChange={(event) => this.handleSearch(event)} />
+
+                <Grid container spacing={2} className={classes.root}>
+                    {this.renderOrgs()}
+                </Grid>
+            </div>
         );
     };
 }
