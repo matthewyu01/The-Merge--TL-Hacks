@@ -14,25 +14,50 @@ class OrganizationList extends React.Component {
         super(props);
 
         this.state = {
-            orgs: null,
+            orgs: {},
         };
     }
 
     componentDidMount() {
-        let data = new FormData();
-        data.append("wiki", Constants.GAMES);
-        data.append("apikey", Constants.LIQUID_API_KEY);
-        fetch(`${Constants.LIQUID_API_URL}${Constants.TEAM_LIST_ENDPOINT}`, {
-            method: "POST",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: new URLSearchParams(data),
-        })
-            .then((response) => response.json())
-            .then((data) => this.setState({ orgs: data.result }))
-            .catch((err) => console.log(err));
+        Constants.GAMES.forEach((game) => {
+            let data = new FormData();
+            data.append("wiki", game);
+            data.append("apikey", Constants.LIQUID_API_KEY);
+            data.append("limit", "5000");
+            fetch(
+                `${Constants.LIQUID_API_URL}${Constants.TEAM_LIST_ENDPOINT}`,
+                {
+                    method: "POST",
+                    mode: "cors",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: new URLSearchParams(data),
+                }
+            )
+                .then((response) => response.json())
+                .then((data) => {
+                    this.setState((oldState) => {
+                        data.result.forEach((org) => {
+                            if (!oldState.orgs[org.name]) {
+                                oldState.orgs[org.name] = {
+                                    name: org.name,
+                                    games: [org.wiki],
+                                    logo: org.logourl,
+                                };
+                            } else if (
+                                !oldState.orgs[org.name].games.includes(
+                                    org.wiki
+                                )
+                            ) {
+                                oldState.orgs[org.name].games.push(org.wiki);
+                            }
+                        });
+                        return oldState;
+                    });
+                })
+                .catch((err) => console.log(err));
+        });
     }
 
     render = () => {
@@ -41,15 +66,23 @@ class OrganizationList extends React.Component {
         const { classes } = this.props;
         return (
             <Grid container spacing={2} className={classes.root}>
-                {this.state.orgs.map((org, i) => (
-                    <Grid item xs={6} key={`orgs-${org.name}-${i}`}>
-                        <Card variant="outlined">
-                            <CardContent>
-                                <Typography variant="h6">{org.name}</Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                ))}
+                {Object.keys(this.state.orgs).map((key, i) => {
+                    const org = this.state.orgs[key];
+                    return (
+                        <Grid item xs={6} key={`orgs-${org.name}-${i}`}>
+                            <Card variant="outlined">
+                                <CardContent>
+                                    <Typography variant="h6">
+                                        {org.name}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {org.games.join(", ")}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    );
+                })}
             </Grid>
         );
     };
