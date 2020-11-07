@@ -1,6 +1,8 @@
 import { AppBar, Button, Typography, Toolbar } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Switch from "@material-ui/core/Switch";
+import NightsStayIcon from '@material-ui/icons/NightsStay';
+import Tooltip from '@material-ui/core/Tooltip';
 
 function Navbar(props) {
     return (
@@ -16,7 +18,7 @@ function Navbar(props) {
                         Players
                     </Button>
                 </Typography>
-                <Typography variant="h6">
+                <Typography variant="h6" style={{ flex: 1 }}>
                     <Button
                         color="inherit"
                         component={Link}
@@ -25,7 +27,10 @@ function Navbar(props) {
                         Organizations
                     </Button>
                 </Typography>
-                <Switch checked={props.darkMode} onChange={props.handleThemeChange} />
+                <Tooltip title="Night Mode Toggle">
+                    <NightsStayIcon />
+                </Tooltip> 
+                <Switch checked={props.darkMode} onChange={props.handleThemeChange} />     
             </Toolbar>
         </AppBar>
     );
