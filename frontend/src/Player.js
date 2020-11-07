@@ -10,24 +10,16 @@ class Player extends React.Component {
         this.state = {
             info: null,
         };
-
-        this.getData = this.getData.bind(this);
-        this.filter = this.filter.bind(this);
     }
 
     componentDidMount() {
-        let data = new FormData();
-        data.append("wiki", "dota2");
-        data.append("apikey", Constants.LIQUID_API_KEY);
-        data.append("limit", Constants.MAXIMUM_QUERY_LIMIT);
+        Constants.GAMES.forEach((game) => {
 
-        this.getData(true, data, 0);
-    }
-
-    getData = (shouldContinue, data, offset) => {
-        if (shouldContinue) {
-            data.set("offset", offset);
-            data.set("conditions", `[[player::ELeVeN]]`);
+            let data = new FormData();
+            data.append("wiki", game);
+            data.append("apikey", Constants.LIQUID_API_KEY);
+            data.append("limit", Constants.MAXIMUM_QUERY_LIMIT);
+            data.append("conditions", `[[player::${this.props.match.params.player}]]`);
 
             fetch(
                 `${Constants.LIQUID_API_URL}${Constants.TRANSFER_LIST_ENDPOINT}`,
@@ -42,19 +34,18 @@ class Player extends React.Component {
             )
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data);
-                    this.setState({ info: data.result });
+                    let currInfo = this.state.info;
+
+                    if(!currInfo) currInfo = [];
+                    this.setState({
+                        info: [...currInfo, ...data.result]
+                    });
                 })
-                .then(() =>
-                    this.getData(
-                        this.state.info.length >= Constants.MAXIMUM_QUERY_LIMIT,
-                        data,
-                        offset + Constants.MAXIMUM_QUERY_LIMIT
-                    )
-                )
                 .catch((err) => console.log(err));
-        }
-    };
+
+        })
+
+    }
 
     filter = () => {
         return this.state.info.filter((player) => {
@@ -68,7 +59,9 @@ class Player extends React.Component {
     render = () => {
         if (!this.state.info) return null;
 
-        let playerInfo = this.filter();
+        let { info } = this.state;
+
+        let playerInfo = info;
         playerInfo.sort((a, b) => {
             return Date.parse(b.date) - Date.parse(a.date);
         });
@@ -99,13 +92,16 @@ class Player extends React.Component {
         }
 
         return (
-            <Chart
-                width={"500px"}
-                height={"300px"}
-                chartType="Timeline"
-                loader={<div>Loading Chart</div>}
-                data={timelineData}
-            />
+            <div>
+                <h1>{this.props.match.params.player}</h1>
+                <Chart
+                    width={"500px"}
+                    height={"300px"}
+                    chartType="Timeline"
+                    loader={<div>Loading Chart</div>}
+                    data={timelineData}
+                />
+            </div>
         );
     };
 }
