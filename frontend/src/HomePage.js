@@ -15,13 +15,9 @@ class PlayerCountGraph extends React.Component {
     componentDidMount() {
         Constants.STEAM_GAMES.forEach((game) => {
         var game_steam_id = Constants.STEAM_GAME_IDS[game];
-        /*
-        let data = new FormData();
-        data.append("appid", game_steam_id);
-        */
 
         fetch(
-            // '${Constants.STEAMPOWERED_API_URL}${Constants.STEAM_PLAYERCOUNT_ENDPOINT}'?
+            // '${Constants.STEAMPOWERED_API_URL}${Constants.STEAM_PLAYERCOUNT_ENDPOINT}'
             'https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?format=json&appid=' + game_steam_id,
             {
                 method: "GET",
@@ -33,7 +29,7 @@ class PlayerCountGraph extends React.Component {
                 this.setState((oldState) => {
                     oldState.games[game] = {
                         name: Constants.GAMES_PRETTY[game],
-                        playerCount: data.response.player_count, //dk
+                        playerCount: data.response.player_count,
                     }
                     oldState.playerCountRetrieved = true;
                     return oldState;
@@ -66,7 +62,7 @@ class PlayerCountGraph extends React.Component {
                 [this.state.games["counterstrike"]?.name, this.state.games["counterstrike"]?.playerCount, '#f8a14d', null],
                 [this.state.games["dota2"]?.name, this.state.games["dota2"]?.playerCount, 'darkred', null],
                 [this.state.games["rocketleague"]?.name, this.state.games["rocketleague"]?.playerCount, 'brown', null],
-                [this.state.games["pubg"]?.name, this.state.games["pubg"]?.playerCount, 'brown', null],
+                [this.state.games["pubg"]?.name, this.state.games["pubg"]?.playerCount, 'gold', null],
             ]}
             options={{
                 title: 'Live Player Count for Steam Games',
