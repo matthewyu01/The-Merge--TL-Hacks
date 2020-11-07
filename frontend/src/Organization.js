@@ -3,13 +3,15 @@ import Chart from 'react-google-charts';
 import * as Constants from "./Constants";
 import { Typography } from '@material-ui/core';
 import { withRouter } from "react-router-dom";
+import VerticalTabs from './TabPanel';
 
 class Organization extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            info: null,
+            info: [],
+            gameRosters: {}
         };
     }
 
@@ -36,20 +38,47 @@ class Organization extends React.Component {
                 .then((response) => response.json())
                 .then((data) => {
                     let currInfo = this.state.info;
-
-                    if(!currInfo) currInfo = [];
                     this.setState({
                         info: [...currInfo, ...data.result]
                     });
                 })
                 .catch((err) => console.log(err));
 
-        })
+            data.set("conditions", `[[team::${this.props.match.params.name}]]`);
+            fetch(
+                `${Constants.LIQUID_API_URL}${Constants.PLAYER_LIST_ENDPOINT}`,
+                {
+                    method: "POST",
+                    mode: "cors",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: new URLSearchParams(data),
+                }
+            )
+                .then((response) => response.json())
+                .then((data) => {
 
+                    let players = [];
+                    data.result.map((player) => {
+                        players.push(player.id);
+                    })
+
+                    if(players.length > 0) {
+                        let currRoster = this.state.gameRosters;
+                        currRoster[Constants.GAMES_PRETTY[game]] = players;
+                        this.setState({
+                            gameRosters: currRoster
+                        });
+                    }
+                })
+                .catch((err) => console.log(err));
+
+        });
     }
 
     render = () => {
-        if (!this.state.info) return null;
+        if (this.state.info.length == 0) return null;
 
         let { info } = this.state;
 
@@ -57,6 +86,8 @@ class Organization extends React.Component {
         orgInfo.sort((a, b) => {
             return Date.parse(b.date) - Date.parse(a.date);
         });
+
+        console.log(this.state.gameRosters)
 
         let timelineData = [];
         timelineData.push([
@@ -105,6 +136,7 @@ class Organization extends React.Component {
                         },
                     }}
                 />
+                <VerticalTabs gameRosters={this.state.gameRosters} />
             </div>
         );
     };
