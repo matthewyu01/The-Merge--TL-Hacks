@@ -82,7 +82,7 @@ class Player extends React.Component {
 
         }
 
-        if (timelineData.length == 1) {
+        if (timelineData.length === 1) {
             return (<Typography variant="h6">No Data Available</Typography>)
         }
 
