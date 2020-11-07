@@ -1,13 +1,7 @@
 import { Card, CardContent, Grid, Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import React from "react";
-
-const FAKE_DATA = [
-    { name: "Impact" },
-    { name: "DoubleLift" },
-    { name: "Jensen" },
-    { name: "CoreJJ" },
-];
+import * as Constants from './Constants';
 
 const styles = (theme) => ({
     root: {
@@ -16,15 +10,35 @@ const styles = (theme) => ({
 });
 
 class PlayerList extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            players: null
+        };
+    }
+
+    componentDidMount() {
+        fetch(Constants.BACKEND_URL + Constants.PLAYER_LIST_ENDPOINT)
+            .then(response => response.json())
+            .then(data => this.setState({ players: data.players }))
+            .catch(err => console.log(err));
+    }
+
     render = () => {
+        if(!this.state.players)
+            return null;
+
         const { classes } = this.props;
+
         return (
             <Grid container spacing={2} className={classes.root}>
-                {FAKE_DATA.map((org) => (
-                    <Grid item xs={6}>
-                        <Card variant="outlined">
+                {this.state.players.map((player, i) => (
+                    <Grid item xs={6} key={i}>
+                        <Card variant="outlined" key={i}>
                             <CardContent>
-                                <Typography variant="h6">{org.name}</Typography>
+                                <Typography variant="h6" key={i}>{player.name}</Typography>
                             </CardContent>{" "}
                         </Card>
                     </Grid>

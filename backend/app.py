@@ -8,6 +8,24 @@ CORS(app)
 def hello():
     return "Hello World!"
 
+@app.route('/players/', methods=['GET'])
+def get_player_list():
+    return jsonify({
+        'players': [{
+            'name': 'Impact',
+            'games': ['Valorant', 'DOTA']
+        }, {
+            'name': 'DoubleLift',
+            'games': ['League', 'CS:GO', 'DOTA']
+        }, {
+            'name': 'Jensen',
+            'games': ['COD']
+        }, {
+            'name': 'CoreJJ',
+            'games': ['Valorant', 'DOTA']
+        }]
+    })
+
 @app.route('/players/<name>/', methods=['GET'])
 def get_player_info(name):
     return jsonify({
@@ -19,10 +37,10 @@ def get_org_list():
     return jsonify({
         'orgs': [{
             'name': 'Organization 1',
-            'games': ['Valorant, DOTA']
+            'games': ['Valorant', 'DOTA']
         }, {
             'name': 'Organization 2',
-            'games': ['League, CS:GO', 'DOTA']
+            'games': ['League', 'CS:GO', 'DOTA']
         }]
     })
 
