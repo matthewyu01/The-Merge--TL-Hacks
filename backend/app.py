@@ -17,7 +17,13 @@ def get_player_info(name):
 @app.route('/orgs/', methods=['GET'])
 def get_org_list():
     return jsonify({
-        'orgs': ['Org 1', 'Org 2', 'Org 3']
+        'orgs': [{
+            'name': 'Organization 1',
+            'games': ['Valorant, DOTA']
+        }, {
+            'name': 'Organization 2',
+            'games': ['League, CS:GO', 'DOTA']
+        }]
     })
 
 @app.route('/orgs/<name>/', methods=['GET'])
