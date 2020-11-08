@@ -266,6 +266,10 @@ class PlayeranizationList extends React.Component {
         const { classes } = this.props;
         return (
             <React.Fragment>
+                <Typography variant="h1" align="center">
+                    ESports Players
+                </Typography>
+
                 <Grid container className={classes.root}>
                     <Button
                         aria-controls="simple-menu"

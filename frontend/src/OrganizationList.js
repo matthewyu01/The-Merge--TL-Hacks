@@ -33,8 +33,8 @@ const styles = (theme) => ({
         marginRight: 0,
     },
     card: {
-        display: "flex", 
-        marginLeft: "auto", 
+        display: "flex",
+        marginLeft: "auto",
         marginRight: "auto",
     },
     logo: {
@@ -43,7 +43,7 @@ const styles = (theme) => ({
         marginTop: "auto",
         marginBottom: "auto",
         marginLeft: "10px",
-    }
+    },
 });
 
 class OrganizationList extends React.Component {
@@ -221,7 +221,7 @@ class OrganizationList extends React.Component {
                                 component={Link}
                             >
                                 <div className={classes.card}>
-                                    <CardMedia 
+                                    <CardMedia
                                         image={`${Constants.BACKEND_URL}${Constants.LOGOS_ENDPOINT}${org.name}`}
                                         className={classes.logo}
                                     />
@@ -233,7 +233,9 @@ class OrganizationList extends React.Component {
                                             {org.games
                                                 .map(
                                                     (name) =>
-                                                        Constants.GAMES_PRETTY[name]
+                                                        Constants.GAMES_PRETTY[
+                                                            name
+                                                        ]
                                                 )
                                                 .join(", ")}
                                         </Typography>
@@ -252,6 +254,10 @@ class OrganizationList extends React.Component {
         const { classes } = this.props;
         return (
             <React.Fragment>
+                <Typography variant="h1" align="center">
+                    ESports Organizations
+                </Typography>
+
                 <Grid container className={classes.root}>
                     <Button
                         aria-controls="simple-menu"
