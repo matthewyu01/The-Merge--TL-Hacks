@@ -223,6 +223,49 @@ const useRowStyles = makeStyles({
   ];
   
 class CollapsibleTable extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        rankingsArray: {},
+        rankingsRetrieved: {
+            "valorant": false,
+            "counterstrike": false, 
+            "leagueoflegends": false,
+            "dota2": false,
+            "overwatch": false,
+        }
+    };
+  } 
+  componentDidMount() {
+    Constants.RANKINGS_GAMES.forEach((game) => {
+
+        fetch(
+            'http://127.0.0.1:5000/json/' + game + ".json",
+            {
+                method: "GET",
+                mode: "cors",
+            }
+        )
+            .then(response => response.json())
+            .then((data) => {
+                this.setState((oldState) => {
+                    for (var index = 0; index < data.length; index++) { 
+                        console.log(data[index]); 
+                    } 
+                    oldState.rankingsArray[game] = {
+                        name: Constants.GAMES_PRETTY[game],
+                        rankingsArray: data,
+                    }
+                    oldState.rankingsRetrieved[game] = true;
+                    return oldState;
+                });
+            });
+    });
+}   
+
+
     render = () => {
         return (
       <TableContainer component={Paper}>

@@ -40,5 +40,7 @@ export const STEAM_GAME_IDS = {
     rocketleague: "252950",
 };
 
+export const RANKINGS_GAMES = ["counterstrike", "valorant"];
+
 export const LIQUID_API_KEY =
     "E9s8G9svmgX1uqPqnC7MxJzGeThepfres9q2VLWBmSreZ6XEAxRFWLimUfVlUEzCjZiizMyFQTBRR652OPBo4MOFk9N2M9MzujsANC63acuvCIPHvY4zIO4279Fneu3p";
