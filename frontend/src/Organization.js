@@ -62,7 +62,7 @@ class Organization extends React.Component {
                 .then((response) => response.json())
                 .then((data) => {
                     let players = [];
-                    data.result.foreach((player) => {
+                    data.result.forEach((player) => {
                         players.push(player);
                     });
 
