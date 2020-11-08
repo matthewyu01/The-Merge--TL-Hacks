@@ -267,7 +267,7 @@ class PlayeranizationList extends React.Component {
         return (
             <React.Fragment>
                 <Typography variant="h1" align="center">
-                    ESports Players
+                    Esports Players
                 </Typography>
 
                 <Grid container className={classes.root}>
