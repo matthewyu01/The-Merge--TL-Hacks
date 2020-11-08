@@ -24,6 +24,13 @@ const StyledTableCell = withStyles((theme) => ({
     },
 }))(TableCell);
 
+const OtherStyledTableCell = withStyles((theme) => ({
+    root: {
+        backgroundColor: theme.palette.background.default,
+        color: theme.palette.text.primary,
+    },
+}))(TableCell);
+
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -66,9 +73,6 @@ const useStyles = makeStyles((theme) => ({
     tabs: {
         borderRight: `1px solid ${theme.palette.divider}`,
     },
-    table: {
-        backgroundColor: theme.palette.background.default,
-    },
 }));
 
 export default function VerticalTabs({ gameRosters }) {
@@ -80,7 +84,7 @@ export default function VerticalTabs({ gameRosters }) {
     };
 
     return (
-        <div className={classes.root}>
+        <Paper className={classes.root}>
             <Tabs
                 orientation="vertical"
                 variant="scrollable"
@@ -137,7 +141,7 @@ export default function VerticalTabs({ gameRosters }) {
                                     <TableRow
                                         key={`row-${player.id}-${game}-${i}-${j}`}
                                     >
-                                        <TableCell
+                                        <OtherStyledTableCell
                                             key={`cell-id-${player.id}-${game}-${i}-${j}`}
                                         >
                                             <Typography>
@@ -152,38 +156,38 @@ export default function VerticalTabs({ gameRosters }) {
                                                     {player.id}
                                                 </Link>
                                             </Typography>
-                                        </TableCell>
-                                        <TableCell
+                                        </OtherStyledTableCell>
+                                        <OtherStyledTableCell
                                             key={`cell-role-${player.id}-${game}-${i}-${j}`}
                                         >
                                             {player.extradata?.role ||
                                                 "Unknown"}
-                                        </TableCell>
-                                        <TableCell
+                                        </OtherStyledTableCell>
+                                        <OtherStyledTableCell
                                             key={`cell-status-${player.id}-${game}-${i}-${j}`}
                                         >
                                             {player.status || "Unknown"}
-                                        </TableCell>
-                                        <TableCell
+                                        </OtherStyledTableCell>
+                                        <OtherStyledTableCell
                                             key={`cell-nationality-${player.id}-${game}-${i}-${j}`}
                                         >
                                             {player.nationality || "Unknown"}
-                                        </TableCell>
-                                        <TableCell
+                                        </OtherStyledTableCell>
+                                        <OtherStyledTableCell
                                             key={`cell-name-${player.id}-${game}-${i}-${j}`}
                                         >
                                             {player.romanizedname ||
                                                 player.name ||
                                                 "Unknown"}
-                                        </TableCell>
-                                        <TableCell
+                                        </OtherStyledTableCell>
+                                        <OtherStyledTableCell
                                             key={`cell-age-${player.id}-${game}-${i}-${j}`}
                                         >
                                             {new Date(
                                                 +new Date() -
                                                     +new Date(player.birthdate)
                                             ).getFullYear() - 1970}
-                                        </TableCell>
+                                        </OtherStyledTableCell>
                                     </TableRow>
                                 ))}
                             </Table>
@@ -191,6 +195,6 @@ export default function VerticalTabs({ gameRosters }) {
                     </TabPanel>
                 );
             })}
-        </div>
+        </Paper>
     );
 }
