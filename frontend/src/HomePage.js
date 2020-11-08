@@ -315,7 +315,6 @@ class CollapsibleTable extends React.Component {
 function HomePage(props) {
     return (
         <div> 
-            <h1>Home Page</h1>
             <PlayerCountGraph {...props}/>
             <h3>Esports Pro Team Rankings</h3>
             <CollapsibleTable/>

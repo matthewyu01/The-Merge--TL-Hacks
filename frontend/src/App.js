@@ -12,7 +12,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import React, { useState } from "react";
 
 export default function App() {
-    const [darkMode, setDarkMode] = useState(true);
+    const [darkMode, setDarkMode] = useState(false);
     const paletteType = darkMode ? "dark" : "light";
     const theme = createMuiTheme({
         palette: {
@@ -48,6 +48,9 @@ export default function App() {
                                         />
                                     )}
                                 />
+                                <Route exact path="/statistics">
+                                    <HomePage></HomePage>
+                                </Route>
                                 <Route exact path="/organizations">
                                     <OrganizationList />
                                 </Route>
@@ -66,7 +69,9 @@ export default function App() {
                                 />
                                 <Route
                                     path="/"
-                                    render={(props) => <HomePage {...props} />}
+                                    render={(props) => (
+                                        <OrganizationList {...props} />
+                                    )}
                                 />
                             </Switch>
                         </Container>

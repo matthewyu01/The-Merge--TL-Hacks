@@ -19,22 +19,22 @@ function Navbar(props) {
         <AppBar position="static" color={"primary"}>
             <Toolbar>
                 <Typography variant="h6">
-                    <Button color="inherit" component={Link} to="/">
-                        Home
-                    </Button>
-                </Typography>
-                <Typography variant="h6">
                     <Button color="inherit" component={Link} to="/players">
                         Players
                     </Button>
                 </Typography>
-                <Typography variant="h6" style={{ flex: 1 }}>
+                <Typography variant="h6">
                     <Button
                         color="inherit"
                         component={Link}
                         to="/organizations"
                     >
                         Organizations
+                    </Button>
+                </Typography>
+                <Typography variant="h6" style={{ flex: 1 }}>
+                    <Button color="inherit" component={Link} to="/statistics">
+                        Statistics
                     </Button>
                 </Typography>
                 <Tooltip title="Night Mode Toggle">
