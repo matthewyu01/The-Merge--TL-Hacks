@@ -3,6 +3,8 @@ export const LIQUID_API_URL = "https://api.liquipedia.net/api/";
 export const STEAMPOWERED_API_URL = "https://api.steampowered.com/";
 
 export const LOGOS_ENDPOINT = "logos/";
+export const RANKINGS_ENDPOINT = "rankings/";
+
 export const PLAYER_LIST_ENDPOINT = "v1/player";
 export const TEAM_LIST_ENDPOINT = "v1/team";
 export const TRANSFER_LIST_ENDPOINT = "v1/transfer";

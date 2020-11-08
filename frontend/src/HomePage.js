@@ -242,7 +242,7 @@ class CollapsibleTable extends React.Component {
     Constants.RANKINGS_GAMES.forEach((game) => {
 
         fetch(
-            'http://127.0.0.1:5000/json/' + game + ".json",
+            `${Constants.BACKEND_URL}${Constants.RANKINGS_ENDPOINT}${game}`,
             {
                 method: "GET",
                 mode: "cors",
@@ -251,9 +251,7 @@ class CollapsibleTable extends React.Component {
             .then(response => response.json())
             .then((data) => {
                 this.setState((oldState) => {
-                    for (var index = 0; index < data.length; index++) { 
-                        console.log(data[index]); 
-                    } 
+                    console.log(data);
                     oldState.rankingsArray[game] = {
                         name: Constants.GAMES_PRETTY[game],
                         rankingsArray: data,
