@@ -255,7 +255,7 @@ class OrganizationList extends React.Component {
         return (
             <React.Fragment>
                 <Typography variant="h1" align="center">
-                    ESports Organizations
+                    Esports Organizations
                 </Typography>
 
                 <Grid container className={classes.root}>
