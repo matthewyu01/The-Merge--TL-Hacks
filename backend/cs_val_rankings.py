@@ -2,6 +2,7 @@ import pandas as pd
 import json
 import webscrape as WS
 
+
 def valorant_rankings():
     url = 'https://www.thespike.gg/rankings'
     val_soup = WS.get_soup(url)
@@ -9,7 +10,8 @@ def valorant_rankings():
     na_id = "regional_ranking_listing_1"
     eu_id = 'regional_ranking_listing_2'
     asia_id = 'regional_ranking_listing_3'
-    return [val_pandas(val_soup,na_id), val_pandas(val_soup,eu_id), val_pandas(val_soup,asia_id)]
+    #return [val_pandas(val_soup,na_id), val_pandas(val_soup,eu_id), val_pandas(val_soup,asia_id)]
+    return val_pandas(val_soup,na_id)
 
 
 def val_pandas(soup,region_id):
@@ -40,7 +42,8 @@ def csgo_rankings():
 
 
 def rankings_to_json():
-    csgo_rankings().to_json('cs_rankings.json', orient="records")
-    csgo_rankings().to_json('val_rankings.json', orient="records")
+    csgo_rankings().to_json('counterstrike.json', orient="records")
+    valorant_rankings().to_json('valorant.json', orient="records")
+
 
 rankings_to_json()
