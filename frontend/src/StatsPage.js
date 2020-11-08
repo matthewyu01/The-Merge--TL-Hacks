@@ -126,13 +126,16 @@ const useRowStyles = makeStyles({
         fontWeight: "bold",
         fontSize: 16,
     },
+    rankingTable: {
+        width: "60%",
+    },
     cell: {
         padding: "12px",
     }
 });
 
 function createData(name, player_count, dateCreated, totalPrizeEarnings, tournamentWins, price, rankings = [
-    { teamRanking: 0, teamName: 'No info available', points: 0 },]) {
+    { teamRanking: 0, teamName: 'No info available', points: 0, earnings: 0, location: "N/A" },]) {
 
     return {
         name,
@@ -173,13 +176,14 @@ function Row(props) {
                             <Typography align="center" variant="h6" gutterBottom component="div" style={{ color: "#7FFFD4" }}>
                                 Rankings
                 </Typography>
-                            <Table size="small" aria-label="purchases" align="center" style={{ width: "50%" }}>
+                            <Table size="small" className={classes.rankingTable} aria-label="purchases" align="center">
                                 <TableHead>
                                     <TableRow>
                                         <TableCell className={classes.header}>Overall</TableCell>
                                         <TableCell className={classes.header}>Team</TableCell>
                                         <TableCell className={classes.header} align="right">Points</TableCell>
-                                        <TableCell className={classes.header} align="right"># of Trophies</TableCell>
+                                        <TableCell className={classes.header} align="right">Earnings</TableCell>
+                                        <TableCell className={classes.header} align="right">Location</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -190,9 +194,8 @@ function Row(props) {
                                             </TableCell>
                                             <TableCell>{rankingsRow.teamName}</TableCell>
                                             <TableCell align="right">{rankingsRow.points}</TableCell>
-                                            <TableCell align="right">
-                                                {Math.round(rankingsRow.points * row.price * 100) / 100}
-                                            </TableCell>
+                                            <TableCell align="right">{rankingsRow.earnings}</TableCell>
+                                            <TableCell align="right">{rankingsRow.location}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -204,6 +207,26 @@ function Row(props) {
         </React.Fragment>
     );
 }
+
+Row.propTypes = {
+    row: PropTypes.shape({
+        player_count: PropTypes.number.isRequired,
+        totalPrizeEarnings: PropTypes.string.isRequired,
+        dateCreated: PropTypes.string.isRequired,
+        rankings: PropTypes.arrayOf(
+            PropTypes.shape({
+                points: PropTypes.number.isRequired,
+                teamName: PropTypes.string.isRequired,
+                teamRanking: PropTypes.number.isRequired,
+                earnings: PropTypes.string.isRequired,
+                location: PropTypes.string.isRequired,
+            }),
+        ).isRequired,
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        tournamentWins: PropTypes.number.isRequired,
+    }).isRequired,
+};
 
 class CollapsibleTable extends React.Component {
 
@@ -219,9 +242,12 @@ class CollapsibleTable extends React.Component {
                 "dota2": false,
                 "overwatch": false,
             },
+            detailedInfo: {},
             games: {},
             playerCountRetrieved: false,
         };
+
+        this.getDetailedTeamInfo = this.getDetailedTeamInfo.bind(this);
     }
 
     componentDidMount() {
@@ -241,9 +267,7 @@ class CollapsibleTable extends React.Component {
                             name: Constants.GAMES_PRETTY[game],
                             rankingsArray: data,
                         }
-                        oldState.rankingsRetrieved[game] = true;
-                        return oldState;
-                    });
+                    }, this.getDetailedTeamInfo(game, data));
                 })
                 .catch((err) => console.log(err));
         });
@@ -269,36 +293,99 @@ class CollapsibleTable extends React.Component {
                         return oldState;
                     });
                 });
+        });
+    }
+
+    getDetailedTeamInfo = (game, rankingData) => {
+
+        let params = new FormData();
+        params.append("wiki", game);
+        params.append("apikey", Constants.LIQUID_API_KEY);
+        params.append("limit", Constants.MAXIMUM_QUERY_LIMIT);
+
+        let detailedInfo = [];
+        rankingData.forEach((entry) => {
+
+            params.set("conditions", `[[name::${entry.Team}]]`);
+            fetch(
+                `${Constants.LIQUID_API_URL}${Constants.TEAM_LIST_ENDPOINT}`,
+                {
+                    method: "POST",
+                    mode: "cors",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: new URLSearchParams(params),
+                }
+            )
+                .then(response => response.json())
+                .then((data) => {
+                    var teamData = entry;
+                    if(data.result.length > 0) {
+                        teamData.Location = data.result[0].location;
+                        teamData.Earnings = data.result[0].earnings;
+                    }
+                    else {
+                        teamData.Location = "N/A";
+                        teamData.Earnings = "N/A";
+                    }
+
+                    detailedInfo.push(teamData);
+                    detailedInfo.sort((a, b) => {
+                        return a.Ranking - b.Ranking;
+                    });
+
+                    this.setState((oldState) => {
+                        oldState.detailedInfo[game] = detailedInfo;
+                        return oldState;
+                    });
+                })
+                .catch((err) => console.log(err));
 
         });
+
+        this.setState((oldState) => {
+            oldState.rankingsRetrieved[game] = true;
+        });
+
     }
 
     render = () => {
 
-        if (!this.state.rankingsRetrieved["counterstrike"]) return null;
-        else if (!this.state.rankingsRetrieved["valorant"]) return null;
+        if (!this.state.rankingsRetrieved["counterstrike"] || 
+            !this.state.rankingsRetrieved["valorant"]) 
+            return null;
+
         if (!this.state.playerCountRetrieved) return null;
 
-        var cs_rankings = this.state.gamesArray["counterstrike"].rankingsArray;
-        var val_rankings = this.state.gamesArray["valorant"].rankingsArray;
+        var cs_rankings = this.state.detailedInfo["counterstrike"];
+        var val_rankings = this.state.detailedInfo["valorant"];
+
+        if(!cs_rankings || !val_rankings)
+            return null;
 
         var cs_array = [];
         var val_array = [];
 
-        for (var index = 0; index < cs_rankings.length; index++) {
+        cs_rankings.forEach((entry) => {
             cs_array.push({
-                teamRanking: cs_rankings[index].Ranking,
-                teamName: cs_rankings[index].Team,
-                points: cs_rankings[index].Points
-            });
-        }
-        for (var index = 0; index < val_rankings.length; index++) {
+                teamRanking: entry.Ranking,
+                teamName: entry.Team,
+                points: entry.Points,
+                earnings: entry.Earnings,
+                location: entry.Location,
+            })
+        });
+
+        val_rankings.forEach((entry) => {
             val_array.push({
-                teamRanking: val_rankings[index].Ranking,
-                teamName: val_rankings[index].Team,
-                points: val_rankings[index].Points
-            });
-        }
+                teamRanking: entry.Ranking,
+                teamName: entry.Team,
+                points: entry.Points,
+                earnings: entry.Earnings,
+                location: entry.Location,
+            })
+        });
 
         var rows = [
             createData('Counter-Strike: Global Offensive', this.state.games["counterstrike"]?.playerCount, "August 21, 2012", "$103,148,629.27", 6288, 3.99, cs_array),
