@@ -228,7 +228,7 @@ class Player extends React.Component {
                         data={timelineData}
                         options={{
                             timeline: {
-                                groupByRowLabel: true,
+                                groupByRowLabel: false,
                                 rowLabelStyle: {
                                     color: primaryColor,
                                 },

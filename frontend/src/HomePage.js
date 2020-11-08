@@ -108,7 +108,7 @@ class PlayerCountGraph extends React.Component {
                         color: this.props.theme.palette.text.primary
                     },
                 },
-                backgroundColor: this.props.theme.palette.background.paper,            
+                backgroundColor: this.props.theme.palette.background.default,            
             }}
             />)
     }
@@ -315,6 +315,7 @@ class CollapsibleTable extends React.Component {
 function HomePage(props) {
     return (
         <div> 
+            <Typography variant="h1" align="center">Statistics</Typography>
             <PlayerCountGraph {...props}/>
             <h3>Esports Pro Team Rankings</h3>
             <CollapsibleTable/>
