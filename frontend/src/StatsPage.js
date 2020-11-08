@@ -20,6 +20,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import RedditIcon from "@material-ui/icons/Reddit";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
+import { Divider, Grid } from "@material-ui/core";
 
 class PlayerCountGraph extends React.Component {
     constructor(props) {
@@ -549,7 +550,16 @@ class CollapsibleTable extends React.Component {
     };
 }
 
+const useStyles = makeStyles((theme) => ({
+    item: {
+        marginLeft: "auto",
+        marginRight: "auto",
+    },
+}));
+
 function StatsPage(props) {
+    const classes = useStyles();
+
     return (
         <React.Fragment>
             <Typography
@@ -567,107 +577,165 @@ function StatsPage(props) {
                     are for NA
                 </h5>
             </i>
-            <div
-                style={{ fontSize: "16px", fontWeight: "bold" }}
-                align="center"
-            >
-                CS:GO
+            <Grid alignItems="center" container wrap="wrap">
+                <Typography variant="secondary">CS:GO</Typography>
                 <Tooltip title="Download CS:GO">
-                    <IconButton href="https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/">
+                    <IconButton
+                        className={classes.item}
+                        href="https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/"
+                        size="small"
+                    >
                         <GetAppIcon />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="HLTV">
-                    <IconButton href="https://www.hltv.org/">
+                    <IconButton
+                        className={classes.item}
+                        href="https://www.hltv.org/"
+                        size="small"
+                    >
                         <EqualizerIcon />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="CS:GO Reddit">
                     <IconButton
+                        className={classes.item}
                         href="https://www.reddit.com/r/GlobalOffensive/"
                         style={{ color: "#FF4500" }}
+                        size="small"
                     >
                         <RedditIcon />
                     </IconButton>
                 </Tooltip>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Valorant
+                <Divider orientation="vertical" flexItem></Divider>
+                <Typography className={classes.item} variant="secondary">
+                    Valorant
+                </Typography>
                 <Tooltip title="Download Valorant">
-                    <IconButton href="https://playvalorant.com/en-us/">
+                    <IconButton
+                        className={classes.item}
+                        href="https://playvalorant.com/en-us/"
+                        size="small"
+                    >
                         <GetAppIcon />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="theSpike.gg">
-                    <IconButton href="https://www.thespike.gg/">
+                    <IconButton
+                        className={classes.item}
+                        href="https://www.thespike.gg/"
+                        size="small"
+                    >
                         <EqualizerIcon />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Valorant Reddit">
                     <IconButton
+                        className={classes.item}
                         href="https://www.reddit.com/r/Valorant/"
                         style={{ color: "#FF4500" }}
+                        size="small"
                     >
                         <RedditIcon />
                     </IconButton>
                 </Tooltip>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; League
+                <Divider orientation="vertical" flexItem></Divider>
+                <Typography className={classes.item} variant="secondary">
+                    League of Legends
+                </Typography>
                 <Tooltip title="Download LoL">
-                    <IconButton href="https://leagueoflegends.com/">
+                    <IconButton
+                        className={classes.item}
+                        href="https://leagueoflegends.com/"
+                        size="small"
+                    >
                         <GetAppIcon />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="GoL Esports">
-                    <IconButton href="https://gol.gg/tournament/tournament-stats/LPL%20Regional%20Finals%202020/">
+                    <IconButton
+                        className={classes.item}
+                        href="https://gol.gg/tournament/tournament-stats/LPL%20Regional%20Finals%202020/"
+                        size="small"
+                    >
                         <EqualizerIcon />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="LoL Reddit">
                     <IconButton
+                        className={classes.item}
                         href="https://www.reddit.com/r/leagueoflegends/"
                         style={{ color: "#FF4500" }}
+                        size="small"
                     >
                         <RedditIcon />
                     </IconButton>
                 </Tooltip>
-                <br></br>
-                Dota 2
+                <Divider orientation="vertical" flexItem></Divider>
+                <Typography className={classes.item} variant="secondary">
+                    Dota 2
+                </Typography>
                 <Tooltip title="Download Dota 2">
-                    <IconButton href="https://store.steampowered.com/app/570/Dota_2/">
+                    <IconButton
+                        className={classes.item}
+                        href="https://store.steampowered.com/app/570/Dota_2/"
+                        size="small"
+                    >
                         <GetAppIcon />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="DOTABUFF">
-                    <IconButton href="https://www.dotabuff.com/">
+                    <IconButton
+                        className={classes.item}
+                        href="https://www.dotabuff.com/"
+                        size="small"
+                    >
                         <EqualizerIcon />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Dota 2 Reddit">
                     <IconButton
+                        className={classes.item}
                         href="https://www.reddit.com/r/DotA2/"
                         style={{ color: "#FF4500" }}
+                        size="small"
                     >
                         <RedditIcon />
                     </IconButton>
                 </Tooltip>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Overwatch
+                <Divider orientation="vertical" flexItem></Divider>
+                <Typography className={classes.item} variant="secondary">
+                    Overwatch
+                </Typography>
                 <Tooltip title="Download Overwatch">
-                    <IconButton href="https://playoverwatch.com/">
+                    <IconButton
+                        className={classes.item}
+                        href="https://playoverwatch.com/"
+                        size="small"
+                    >
                         <GetAppIcon />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="OWL Stats">
-                    <IconButton href="https://overwatchleague.com/stats">
+                    <IconButton
+                        className={classes.item}
+                        href="https://overwatchleague.com/stats"
+                        size="small"
+                    >
                         <EqualizerIcon />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Overwatch Reddit">
                     <IconButton
+                        className={classes.item}
                         href="https://www.reddit.com/r/Overwatch/"
                         style={{ color: "#FF4500" }}
+                        size="small"
                     >
                         <RedditIcon />
                     </IconButton>
                 </Tooltip>
-            </div>
+            </Grid>
         </React.Fragment>
     );
 }
