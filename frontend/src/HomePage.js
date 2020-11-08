@@ -129,8 +129,10 @@ const useRowStyles = makeStyles({
     }
 });
   
-function createData(name, player_count, twitchViewership, totalPrizeEarnings, tournamentWins, price, rankings = [
-{ teamRanking: 0, teamName: 'No info available', points: 0 },]) {
+function createData(name, player_count, dateCreated, totalPrizeEarnings, tournamentWins, price, rankings = [
+    { teamRanking: 0, teamName: 'No info available', points: 0 },]) 
+{
+
     return {
       name,
       player_count,
@@ -237,8 +239,6 @@ class CollapsibleTable extends React.Component {
         games: {},
         playerCountRetrieved: false,
     };
-
-    this.getDetailedTeamInfo = this.getDetailedTeamInfo.bind(this);
   } 
 
   componentDidMount() {
@@ -288,53 +288,13 @@ class CollapsibleTable extends React.Component {
           });
           
     });
-    }   
-
-    getDetailedTeamInfo() {
-
-        let { gamesArray } = this.state;
-        Object.keys(gamesArray, (game) => {
-            let rankings = gamesArray[game].rankingsArray;
-
-            for(let i=0; i<rankings.length; i++) {
-                let entry = rankings[i];
-                let params = FormData();
-                params.append("wiki", game);
-                params.append("apikey", Constants.LIQUID_API_KEY);
-                params.append("limit", Constants.MAXIMUM_QUERY_LIMIT);
-                params.append("conditions", `[[name::${entry.Team}]]`)
-
-                fetch(
-                    `${Constants.LIQUID_API_URL}${Constants.TEAM_LIST_ENDPOINT}`,
-                    {
-                        method: "POST",
-                        mode: "cors",
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                        },
-                        body: new URLSearchParams(params),
-                    }
-                )
-                    .then(response => response.json())
-                    .then((data) => {
-                        rankings[i].Earnings = data.result.earnings
-                    });
-            }
-        });
-
-        this.setState({
-            detailedInfoRetrieved: true
-        })
-      
-  }
+}   
 
     render = () => {
-        if (!this.state.rankingsRetrieved["counterstrike"] || 
-            !this.state.rankingsRetrieved["valorant"]) 
-            return null;
 
-        console.log(this.props);
-        const { classes } = this.props;
+        if (!this.state.rankingsRetrieved["counterstrike"]) return null;
+        else if (!this.state.rankingsRetrieved["valorant"]) return null;
+        if (!this.state.playerCountRetrieved) return null;
 
         var cs_rankings = this.state.gamesArray["counterstrike"].rankingsArray;
         //var val_rankings = this.state.gamesArray["valorant"].rankingsArray;
@@ -354,11 +314,11 @@ class CollapsibleTable extends React.Component {
         var val_array = [{ teamRanking: 0, teamName: 'No info available', points: 0 }];
 
         var rows = [
-            createData('Counter-Strike: Global Offensive', 1004, 0, "$103,148,629.27", 6288, 3.99, cs_array),
-            createData('Valorant', 0, 0, "$1,369,951.05", 265, 4.99),
-            createData('League of Legends', 0, 0, "$81,343,448.94", 2478, 3.79),
-            createData('Dota 2', 1004, 0, "$227,914,706.51", 1444, 2.5),
-            createData('Overwatch', 0, 0, "$26,049,333.28", 743, 1.5),
+            createData('Counter-Strike: Global Offensive', this.state.games["counterstrike"]?.playerCount, "August 21, 2012", "$103,148,629.27", 6288, 3.99, cs_array),
+            createData('Valorant', 0, "June 2, 2020", "$1,369,951.05", 265, 4.99),
+            createData('League of Legends', 0, "October 27, 2009", "$81,343,448.94", 2478, 3.79),
+            createData('Dota 2', this.state.games["dota2"]?.playerCount, "July 9, 2013", "$227,914,706.51", 1444, 2.5),
+            createData('Overwatch', 0, "May 24, 2016", "$26,049,333.28", 743, 1.5),
         ];
         return (
         <TableContainer component={Paper}>
@@ -368,7 +328,7 @@ class CollapsibleTable extends React.Component {
                 <TableCell style={{width: 1}}/>
                 <TableCell style = {{fontWeight : "bold", fontSize : 20}}>Game</TableCell>
                 <TableCell align="right" style = {{fontWeight : "bold", fontSize : 20}}>Player Count</TableCell>
-                <TableCell align="right" style = {{fontWeight : "bold", fontSize : 20}}>Twitch Viewership</TableCell>
+                <TableCell align="right" style = {{fontWeight : "bold", fontSize : 20}}>Date Released</TableCell>
                 <TableCell align="right" style = {{fontWeight : "bold", fontSize : 20}}>Total Prize Earnings</TableCell>
                 <TableCell align="right" style = {{fontWeight : "bold", fontSize : 20}}># of Tournaments</TableCell>
                 </TableRow>
