@@ -1,6 +1,7 @@
 import {
     Button,
     Card,
+    CardMedia,
     CardContent,
     Grid,
     Menu,
@@ -28,6 +29,26 @@ const styles = (theme) => ({
         marginRight: "auto",
     },
     right: {
+        marginLeft: "auto",
+        marginRight: 0,
+    },
+    card: {
+        display: "flex",
+        marginLeft: "auto",
+        marginRight: "auto",
+    },
+    logo: {
+        height: 75,
+        width: 75,
+        marginTop: "auto",
+        marginBottom: "auto",
+        marginLeft: "10px",
+    },
+    logoRight: {
+        height: 75,
+        width: 75,
+        marginTop: "auto",
+        marginBottom: "auto",
         marginLeft: "auto",
         marginRight: 0,
     },
@@ -86,6 +107,7 @@ class PlayeranizationList extends React.Component {
                                     games: [player.wiki],
                                     logo: player.logourl,
                                     earnings: player.earnings,
+                                    team: player.team || "NOTEAM",
                                 };
                             } else if (
                                 !oldState.players[key].games.includes(
@@ -194,6 +216,9 @@ class PlayeranizationList extends React.Component {
         const players = Object.keys(this.state.filtered).map(
             (key) => this.state.filtered[key]
         );
+
+        const { classes } = this.props;
+
         return players
             .sort((a, b) => b.earnings - a.earnings)
             .slice(
@@ -215,19 +240,31 @@ class PlayeranizationList extends React.Component {
                                 to={`/players/${player.id}`}
                                 component={Link}
                             >
-                                <CardContent>
-                                    <Typography variant="h6">
-                                        {player.id}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        {player.games
-                                            .map(
-                                                (name) =>
-                                                    Constants.GAMES_PRETTY[name]
-                                            )
-                                            .join(", ")}
-                                    </Typography>
-                                </CardContent>
+                                <div className={classes.card}>
+                                    <CardMedia
+                                        image={`${Constants.BACKEND_URL}${Constants.LOGOS_ENDPOINT}${player.team}`}
+                                        className={classes.logo}
+                                    />
+                                    <CardContent>
+                                        <Typography variant="h6">
+                                            {player.id}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                            {player.games
+                                                .map(
+                                                    (name) =>
+                                                        Constants.GAMES_PRETTY[
+                                                            name
+                                                        ]
+                                                )
+                                                .join(", ")}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardMedia
+                                        image={`${Constants.BACKEND_URL}${Constants.LOGOS_ENDPOINT}${player.games[0]}`}
+                                        className={classes.logoRight}
+                                    ></CardMedia>
+                                </div>
                             </CardActionArea>
                         </Card>
                     </Grid>
