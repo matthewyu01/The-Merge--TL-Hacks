@@ -54,6 +54,7 @@ function MatchList(props) {
                     return (
                         <Tab
                             label={Constants.GAMES_PRETTY[game]}
+                            key={`tab-matches-${game}-${i}`}
                             {...a11yProps(i)}
                         />
                     );
@@ -61,8 +62,13 @@ function MatchList(props) {
             </Tabs>
             {Object.keys(matches).map((game, i) => {
                 return (
-                    <TabPanel value={value} index={i} style={{ width: "100%" }}>
-                        <List>
+                    <TabPanel
+                        value={value}
+                        index={i}
+                        key={`matches-${game}-${i}`}
+                        style={{ width: "100%" }}
+                    >
+                        <List key={`matches-list-${game}-${i}`}>
                             {matches[game]
                                 .sort(
                                     (a, b) =>
@@ -70,8 +76,12 @@ function MatchList(props) {
                                 )
                                 .slice(0, 5)
                                 .map((match, j) => (
-                                    <ListItem alignItems="flex-start">
+                                    <ListItem
+                                        key={`match-${game}-${match.opponent1}-${match.opponent2}-${game}-${i}-${j}`}
+                                        alignItems="flex-start"
+                                    >
                                         <Typography
+                                            key={`match-date-${game}-${match.opponent1}-${match.opponent2}-${game}-${i}-${j}`}
                                             style={{ marginRight: "auto" }}
                                             variant="h6"
                                         >{`${new Date(
@@ -81,6 +91,7 @@ function MatchList(props) {
                                         ).getDate()}`}</Typography>
                                         <Typography
                                             style={{ margin: "auto" }}
+                                            key={`match-teams-${game}-${match.opponent1}-${match.opponent2}-${game}-${i}-${j}`}
                                             variant="h5"
                                         >
                                             {match.opponent1} v.{" "}
@@ -91,6 +102,7 @@ function MatchList(props) {
                                                 marginLeft: "auto",
                                                 fontWeight: "700",
                                             }}
+                                            key={`match-score-${game}-${match.opponent1}-${match.opponent2}-${game}-${i}-${j}`}
                                             variant="h6"
                                         >
                                             {match.opponent1score}-

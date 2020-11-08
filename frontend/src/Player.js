@@ -1,6 +1,6 @@
 import React from "react";
 import Chart from "react-google-charts";
-import { Typography, Grid } from "@material-ui/core";
+import { Typography, Grid, TableBody } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 import {
@@ -293,56 +293,64 @@ class Player extends React.Component {
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
-                            <StyledTableCell key={`table-header-player`}>
-                                Player
-                            </StyledTableCell>
-                            <StyledTableCell key={`table-header-role`}>
-                                Role
-                            </StyledTableCell>
-                            <StyledTableCell key={`table-header-nationality`}>
-                                Nationality
-                            </StyledTableCell>
-                            <StyledTableCell key={`table-header-name`}>
-                                Name
-                            </StyledTableCell>
-                            <StyledTableCell key={`table-header-age`}>
-                                Age
-                            </StyledTableCell>
-                        </TableHead>
-                        {teammates.map((player, i) => (
-                            <TableRow key={`row-${player.id}-${i}`}>
-                                <TableCell key={`cell-id-${player.id}-${i}`}>
-                                    <Typography style={{ fontSize: 14 }}>
-                                        <Link
-                                            color="inherit"
-                                            to={`/players/${player.id}`}
-                                            component={RouterLink}
-                                        >
-                                            {player.id}
-                                        </Link>
-                                    </Typography>
-                                </TableCell>
-                                <TableCell key={`cell-role-${player.id}`}>
-                                    {player.extradata?.role || "Unknown"}
-                                </TableCell>
-                                <TableCell
-                                    key={`cell-nationality-${player.id}`}
+                            <TableRow>
+                                <StyledTableCell key={`table-header-player`}>
+                                    Player
+                                </StyledTableCell>
+                                <StyledTableCell key={`table-header-role`}>
+                                    Role
+                                </StyledTableCell>
+                                <StyledTableCell
+                                    key={`table-header-nationality`}
                                 >
-                                    {player.nationality || "Unknown"}
-                                </TableCell>
-                                <TableCell key={`cell-name-${player.id}`}>
-                                    {player.romanizedname ||
-                                        player.name ||
-                                        "Unknown"}
-                                </TableCell>
-                                <TableCell key={`cell-age-${player.id}`}>
-                                    {new Date(
-                                        +new Date() -
-                                            +new Date(player.birthdate)
-                                    ).getFullYear() - 1970}
-                                </TableCell>
+                                    Nationality
+                                </StyledTableCell>
+                                <StyledTableCell key={`table-header-name`}>
+                                    Name
+                                </StyledTableCell>
+                                <StyledTableCell key={`table-header-age`}>
+                                    Age
+                                </StyledTableCell>
                             </TableRow>
-                        ))}
+                        </TableHead>
+                        <TableBody>
+                            {teammates.map((player, i) => (
+                                <TableRow key={`row-${player.id}-${i}`}>
+                                    <TableCell
+                                        key={`cell-id-${player.id}-${i}`}
+                                    >
+                                        <Typography style={{ fontSize: 14 }}>
+                                            <Link
+                                                color="inherit"
+                                                to={`/players/${player.id}`}
+                                                component={RouterLink}
+                                            >
+                                                {player.id}
+                                            </Link>
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell key={`cell-role-${player.id}`}>
+                                        {player.extradata?.role || "Unknown"}
+                                    </TableCell>
+                                    <TableCell
+                                        key={`cell-nationality-${player.id}`}
+                                    >
+                                        {player.nationality || "Unknown"}
+                                    </TableCell>
+                                    <TableCell key={`cell-name-${player.id}`}>
+                                        {player.romanizedname ||
+                                            player.name ||
+                                            "Unknown"}
+                                    </TableCell>
+                                    <TableCell key={`cell-age-${player.id}`}>
+                                        {new Date(
+                                            +new Date() -
+                                                +new Date(player.birthdate)
+                                        ).getFullYear() - 1970}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
                     </Table>
                 </TableContainer>
             </React.Fragment>
