@@ -343,8 +343,8 @@ function HomePage(props) {
         <div> 
             <Typography variant="h1" align="center">Statistics</Typography>
             <PlayerCountGraph {...props}/>
-            <h3>Esports Pro Team Rankings</h3>
             <CollapsibleTable/>
+            <i><h5>Click dropdowns for team rankings</h5></i>
             {/* <Tooltip title="CSGO Reddit">
                 <IconButton href="https://www.reddit.com/r/GlobalOffensive/">
                     <RedditIcon/>
