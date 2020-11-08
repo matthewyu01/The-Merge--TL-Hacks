@@ -40,6 +40,7 @@ class Player extends React.Component {
             info: [],
             currTeam: null,
             teammates: [],
+            queried: false
         };
     }
 
@@ -124,10 +125,14 @@ class Player extends React.Component {
                 })
                 .catch((err) => console.log(err));
         });
+
+        this.setState({
+            queried: true
+        });
     }
 
     render = () => {
-        if (this.state.info.length === 0) return null;
+        if (!this.state.queried) return null;
 
         let { info, teammates } = this.state;
 
@@ -168,10 +173,6 @@ class Player extends React.Component {
             currDate = new Date(Date.parse(entry.date));
         }
 
-        if (timelineData.length === 1) {
-            return <Typography variant="h6">No Data Available</Typography>;
-        }
-
         const props = this.props;
 
         let primaryColor = this.props.theme.palette.text.primary;
@@ -193,65 +194,73 @@ class Player extends React.Component {
                 >
                     Transfer Activity
                 </Typography>
-                <Chart
-                    width={"500px"}
-                    height={"300px"}
-                    chartType="Timeline"
-                    loader={<div>Loading Chart</div>}
-                    data={timelineData}
-                    options={{
-                        timeline: {
-                            groupByRowLabel: false,
-                            rowLabelStyle: {
-                                color: primaryColor,
+                {timelineData.length === 1 ? 
+                    <Typography 
+                        align="center"
+                        className={classes.subheading}
+                    >
+                        No Data Available
+                    </Typography> :
+                    <Chart
+                        width={"500px"}
+                        height={"300px"}
+                        chartType="Timeline"
+                        loader={<div>Loading Chart</div>}
+                        data={timelineData}
+                        options={{
+                            timeline: {
+                                groupByRowLabel: false,
+                                rowLabelStyle: {
+                                    color: primaryColor,
+                                },
+                                barLabelStyle: {
+                                    color: primaryColor,
+                                },
+                                showBarLabels: false,
                             },
-                            barLabelStyle: {
-                                color: primaryColor,
-                            },
-                            showBarLabels: false,
-                        },
-                        backgroundColor: backgroundColor.paper,
-                    }}
-                    chartEvents={[
-                        {
-                            eventName: "ready",
-                            callback: () => {
-                                var labels = document.getElementsByTagName(
-                                    "text"
-                                );
-                                Array.prototype.forEach.call(labels, function (
-                                    label
-                                ) {
-                                    if (
-                                        label.getAttribute("text-anchor") ===
-                                        "middle"
+                            backgroundColor: backgroundColor.paper,
+                        }}
+                        chartEvents={[
+                            {
+                                eventName: "ready",
+                                callback: () => {
+                                    var labels = document.getElementsByTagName(
+                                        "text"
+                                    );
+                                    Array.prototype.forEach.call(labels, function (
+                                        label
                                     ) {
-                                        label.setAttribute(
-                                            "fill",
-                                            primaryColor
+                                        if (
+                                            label.getAttribute("text-anchor") ===
+                                            "middle"
+                                        ) {
+                                            label.setAttribute(
+                                                "fill",
+                                                primaryColor
+                                            );
+                                        }
+                                    });
+                                },
+                            },
+                            {
+                                eventName: "select",
+                                callback({ chartWrapper }) {
+                                    const name =
+                                        playerInfo[
+                                            chartWrapper
+                                                .getChart()
+                                                .getSelection()[0].row
+                                        ].toteam;
+                                    if (name) {
+                                        props.history.push(
+                                            `/organizations/${name}`
                                         );
                                     }
-                                });
+                                },
                             },
-                        },
-                        {
-                            eventName: "select",
-                            callback({ chartWrapper }) {
-                                const name =
-                                    playerInfo[
-                                        chartWrapper
-                                            .getChart()
-                                            .getSelection()[0].row
-                                    ].toteam;
-                                if (name) {
-                                    props.history.push(
-                                        `/organizations/${name}`
-                                    );
-                                }
-                            },
-                        },
-                    ]}
-                />
+                        ]}
+                    />
+                }
 
                 <Typography
                     variant="h5"
