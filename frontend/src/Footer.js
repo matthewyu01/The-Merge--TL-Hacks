@@ -13,8 +13,7 @@ const useStyles = makeStyles((theme) => ({
         bottom: 0,
     },
     text: {
-        paddingTop: 24,
-        paddingBottom: 24,
+        padding: 24,
     },
 }));
 
