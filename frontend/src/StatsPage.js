@@ -168,8 +168,8 @@ function createData(
             teamRanking: 0,
             teamName: "No info available",
             points: 0,
-            earnings: 0,
-            location: "N/A",
+            earnings: "Unknown",
+            location: "Unknown",
         },
     ]
 ) {
@@ -395,8 +395,8 @@ class CollapsibleTable extends React.Component {
                         teamData.Location = data.result[0].location;
                         teamData.Earnings = data.result[0].earnings;
                     } else {
-                        teamData.Location = "N/A";
-                        teamData.Earnings = "N/A";
+                        teamData.Location = "Unknown";
+                        teamData.Earnings = "Unknown";
                     }
 
                     detailedInfo.push(teamData);
