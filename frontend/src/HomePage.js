@@ -17,6 +17,8 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import * as Constants from "./Constants";
 import { withTheme } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
+import RedditIcon from '@material-ui/icons/Reddit';
 
 class PlayerCountGraph extends React.Component {
     constructor(props) {
@@ -121,7 +123,7 @@ const useRowStyles = makeStyles({
   });
   
   function createData(name, player_count, twitchViewership, totalPrizeEarnings, tournamentWins, price, rankings = [
-    { teamRanking: 0, teamName: 'No info available', trophies: 0 },
+    { teamRanking: 0, teamName: 'No info available', points: 0 },
   ]) 
   {
 
@@ -180,9 +182,9 @@ const useRowStyles = makeStyles({
                           {rankingsRow.teamRanking}
                         </TableCell>
                         <TableCell>{rankingsRow.teamName}</TableCell>
-                        <TableCell align="right">{rankingsRow.trophies}</TableCell>
+                        <TableCell align="right">{rankingsRow.points}</TableCell>
                         <TableCell align="right">
-                          {Math.round(rankingsRow.trophies * row.price * 100) / 100}
+                          {Math.round(rankingsRow.points * row.price * 100) / 100}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -203,7 +205,7 @@ const useRowStyles = makeStyles({
       twitchViewership: PropTypes.number.isRequired,
       rankings: PropTypes.arrayOf(
         PropTypes.shape({
-          trophies: PropTypes.number.isRequired,
+          points: PropTypes.number.isRequired,
           teamName: PropTypes.string.isRequired,
           teamRanking: PropTypes.number.isRequired,
         }),
@@ -263,19 +265,21 @@ class CollapsibleTable extends React.Component {
         if (!this.state.rankingsRetrieved["counterstrike"]) return null;
         else if (!this.state.rankingsRetrieved["valorant"]) return null;
 
-        
+        var cs_rankings = this.state.gamesArray["counterstrike"].rankingsArray;
         //var val_rankings = this.state.gamesArray["valorant"].rankingsArray;
 
-        var cs_array = [{ teamRanking: 0, teamName: 'CSGO', trophies: 4 }];
+        var cs_array = [];
 
-        for (var index = 0; index < this.state.gamesArray["counterstrike"].rankingsArray.length; index++){
-            console.log(this.state.gamesArray["counterstrike"].rankingsArray[index]);
+        for (var index = 0; index < cs_rankings.length; index++){
+            cs_array.push({teamRanking: cs_rankings[index].Ranking, 
+                            teamName: cs_rankings[index].Team, 
+                            points: cs_rankings[index].Points});
             // output is chars from str
 
         }
 
         
-        var val_array = [{ teamRanking: 0, teamName: 'No info available', trophies: 0 }];
+        var val_array = [{ teamRanking: 0, teamName: 'No info available', points: 0 }];
 
         var rows = [
         createData('Counter-Strike: Global Offensive', 1004, 0, "$103,148,629.27", 6288, 3.99, cs_array),
@@ -315,6 +319,11 @@ function HomePage(props) {
             <PlayerCountGraph {...props}/>
             <h3>Esports Pro Team Rankings</h3>
             <CollapsibleTable/>
+            {/* <Tooltip title="CSGO Reddit">
+                <IconButton href="https://www.reddit.com/r/GlobalOffensive/">
+                    <RedditIcon/>
+                </IconButton>
+            </Tooltip> */}
         </div>
     );
 }
