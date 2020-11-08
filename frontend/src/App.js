@@ -1,7 +1,7 @@
 import { Container } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./Navbar";
-import HomePage from "./HomePage";
+import StatsPage from "./StatsPage";
 import OrganizationList from "./OrganizationList";
 import PlayerList from "./PlayerList";
 import Organization from "./Organization";
@@ -46,7 +46,7 @@ export default function App() {
                                     )}
                                 />
                                 <Route exact path="/statistics">
-                                    <HomePage></HomePage>
+                                    <StatsPage />
                                 </Route>
                                 <Route exact path="/organizations">
                                     <OrganizationList />

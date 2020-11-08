@@ -345,7 +345,7 @@ class CollapsibleTable extends React.Component {
   }
 }
 
-function HomePage(props) {
+function StatsPage(props) {
     return (
         <div> 
             <Typography variant="h1" align="center">Statistics</Typography>
@@ -361,4 +361,4 @@ function HomePage(props) {
     );
 }
 
-export default withTheme(HomePage);
+export default withTheme(StatsPage);
