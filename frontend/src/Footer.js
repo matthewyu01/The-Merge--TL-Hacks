@@ -31,7 +31,7 @@ function Footer() {
                 ReactJS, Flask, and the LiquipediaDB API. Feel free to check out
                 the{" "}
                 <Link
-                    href="https://github.com/matthewyu01/liquid-hacks-temp"
+                    href="https://github.com/matthewyu01/merge-esports-TL-Hacks"
                     target="_blank"
                     color="inherit"
                 >
