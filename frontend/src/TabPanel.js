@@ -143,6 +143,7 @@ export default function VerticalTabs({ gameRosters }) {
                                                 <Link
                                                     color="inherit"
                                                     to={`/players/${player.id}`}
+                                                    style={{ fontSize: 14 }}
                                                     component={RouterLink}
                                                 >
                                                     {player.id}
