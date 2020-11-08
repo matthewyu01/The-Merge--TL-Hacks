@@ -44,6 +44,9 @@ const styles = (theme) => ({
         marginBottom: "auto",
         marginLeft: "10px",
     },
+    header: {
+        marginTop: 24,
+    }
 });
 
 class OrganizationList extends React.Component {
@@ -254,7 +257,7 @@ class OrganizationList extends React.Component {
         const { classes } = this.props;
         return (
             <React.Fragment>
-                <Typography variant="h1" align="center">
+                <Typography variant="h1" className={classes.header} align="center">
                     Esports Organizations
                 </Typography>
 

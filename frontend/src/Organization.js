@@ -13,7 +13,7 @@ const styles = {
         marginBottom: 24,
     },
     heading: {
-        marginTop: 12,
+        marginTop: 24,
     },
 };
 

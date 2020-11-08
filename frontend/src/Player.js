@@ -28,7 +28,7 @@ const styles = {
         marginBottom: 24,
     },
     heading: {
-        marginTop: 12,
+        marginTop: 24,
     },
 };
 
@@ -288,7 +288,14 @@ class Player extends React.Component {
                     align="center"
                     className={classes.subheading}
                 >
-                    Current Teammates
+                    Current Teammates on{" "}
+                    <Link
+                        color="inherit"
+                        component={RouterLink}
+                        to={`/organizations/${this.state.currTeam}`}
+                    >
+                        {this.state.currTeam}
+                    </Link>
                 </Typography>
                 <TableContainer component={Paper}>
                     <Table>

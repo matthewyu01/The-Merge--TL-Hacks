@@ -44,6 +44,9 @@ const styles = (theme) => ({
         marginBottom: "auto",
         marginLeft: "10px",
     },
+    header: {
+        marginTop: 24,
+    }
 });
 
 class PlayeranizationList extends React.Component {
@@ -266,7 +269,7 @@ class PlayeranizationList extends React.Component {
         const { classes } = this.props;
         return (
             <React.Fragment>
-                <Typography variant="h1" align="center">
+                <Typography variant="h1" className={classes.header} align="center">
                     Esports Players
                 </Typography>
 
