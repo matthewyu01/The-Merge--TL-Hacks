@@ -8,6 +8,7 @@ export const RANKINGS_ENDPOINT = "rankings/";
 export const PLAYER_LIST_ENDPOINT = "v1/player";
 export const TEAM_LIST_ENDPOINT = "v1/team";
 export const TRANSFER_LIST_ENDPOINT = "v1/transfer";
+export const MATCH_LIST_ENDPOINT = "v1/match";
 
 export const MAXIMUM_QUERY_LIMIT = 5000;
 export const ORGS_PER_PAGE = 20;
