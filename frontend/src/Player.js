@@ -98,29 +98,33 @@ class Player extends React.Component {
                             currTeam: data.result[0]["team"],
                         });
 
-                        params.set(
-                            "conditions",
-                            `[[team::${data.result[0]["team"]}]] AND [[id::!${this.props.match.params.player}]]`
-                        );
-                        fetch(
-                            `${Constants.LIQUID_API_URL}${Constants.PLAYER_LIST_ENDPOINT}`,
-                            {
-                                method: "POST",
-                                mode: "cors",
-                                headers: {
-                                    "Content-Type":
-                                        "application/x-www-form-urlencoded",
-                                },
-                                body: new URLSearchParams(params),
-                            }
-                        )
-                            .then((response) => response.json())
-                            .then((data) => {
-                                this.setState({
-                                    teammates: data.result,
-                                });
-                            })
-                            .catch((err) => console.log(err));
+                        if(data.result[0]["team"] !== "") {
+
+                            params.set(
+                                "conditions",
+                                `[[team::${data.result[0]["team"]}]] AND [[id::!${this.props.match.params.player}]]`
+                            );
+                            fetch(
+                                `${Constants.LIQUID_API_URL}${Constants.PLAYER_LIST_ENDPOINT}`,
+                                {
+                                    method: "POST",
+                                    mode: "cors",
+                                    headers: {
+                                        "Content-Type":
+                                            "application/x-www-form-urlencoded",
+                                    },
+                                    body: new URLSearchParams(params),
+                                }
+                            )
+                                .then((response) => response.json())
+                                .then((data) => {
+                                    this.setState({
+                                        teammates: data.result,
+                                    });
+                                })
+                                .catch((err) => console.log(err));
+                                
+                        }
                     }
                 })
                 .catch((err) => console.log(err));
