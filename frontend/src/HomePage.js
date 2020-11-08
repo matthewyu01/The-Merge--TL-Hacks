@@ -16,6 +16,7 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import * as Constants from "./Constants";
+import { withTheme } from "@material-ui/core/styles";
 
 class PlayerCountGraph extends React.Component {
     constructor(props) {
@@ -29,28 +30,28 @@ class PlayerCountGraph extends React.Component {
 
     componentDidMount() {
         Constants.STEAM_GAMES.forEach((game) => {
-        var game_steam_id = Constants.STEAM_GAME_IDS[game];
+            var game_steam_id = Constants.STEAM_GAME_IDS[game];
 
-        fetch(
-            // '${Constants.STEAMPOWERED_API_URL}${Constants.STEAM_PLAYERCOUNT_ENDPOINT}'
-            'https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?format=json&appid=' + game_steam_id,
-            {
-                method: "GET",
-                mode: "cors",
-            }
-        )
-            .then(response => response.json())
-            .then((data) => {
-                this.setState((oldState) => {
-                    oldState.games[game] = {
-                        name: Constants.GAMES_PRETTY[game],
-                        playerCount: data.response.player_count,
-                    }
-                    oldState.playerCountRetrieved = true;
-                    return oldState;
+            fetch(
+                // '${Constants.STEAMPOWERED_API_URL}${Constants.STEAM_PLAYERCOUNT_ENDPOINT}'
+                'https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?format=json&appid=' + game_steam_id,
+                {
+                    method: "GET",
+                    mode: "cors",
+                }
+            )
+                .then(response => response.json())
+                .then((data) => {
+                    this.setState((oldState) => {
+                        oldState.games[game] = {
+                            name: Constants.GAMES_PRETTY[game],
+                            playerCount: data.response.player_count,
+                        }
+                        oldState.playerCountRetrieved = true;
+                        return oldState;
+                    });
                 });
-            })
-            
+                
         });
     }   
 
@@ -84,6 +85,7 @@ class PlayerCountGraph extends React.Component {
                 titleTextStyle: {
                     fontSize: 20,
                     bold: true,
+                    color: this.props.theme.palette.text.primary
                 },
                 width: 600,
                 height: 250,
@@ -91,8 +93,20 @@ class PlayerCountGraph extends React.Component {
                 legend: { position: 'none' },
                 hAxis: {
                     title: 'Active Players',
+                    titleTextStyle: {
+                        color: this.props.theme.palette.text.primary
+                    },
                     minValue: 0,
-                  },
+                    textStyle: {
+                        color: this.props.theme.palette.text.primary
+                    },
+                },
+                vAxis: {
+                    textStyle: {
+                        color: this.props.theme.palette.text.primary
+                    },
+                },
+                backgroundColor: this.props.theme.palette.background.paper,            
             }}
             />)
     }
@@ -234,19 +248,15 @@ class CollapsibleTable extends React.Component {
   }
 }
 
-function HomePage() {
+function HomePage(props) {
     return (
         <div> 
             <h1>Home Page</h1>
-            <PlayerCountGraph/>
+            <PlayerCountGraph {...props}/>
             <h3>Esports Pro Team Rankings</h3>
             <CollapsibleTable/>
         </div>
     );
 }
 
-
-  
-  
-
-export default HomePage;
+export default withTheme(HomePage);

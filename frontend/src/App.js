@@ -40,9 +40,8 @@ export default function App() {
                             </Route>
                             <Route exact path="/players/:player" render={props => 
                                 <Player {...props} />} />
-                            <Route path="/">
-                                <HomePage />
-                            </Route>
+                            <Route path="/" render={props =>
+                                <HomePage {...props} />} />
                         </Switch>
                     </Container>
                 </Router>
