@@ -62,7 +62,7 @@ class Organization extends React.Component {
                 .then((response) => response.json())
                 .then((data) => {
                     let players = [];
-                    data.result.map((player) => {
+                    data.result.foreach((player) => {
                         players.push(player);
                     });
 
@@ -79,7 +79,7 @@ class Organization extends React.Component {
     }
 
     render = () => {
-        if (this.state.info.length == 0) return null;
+        if (this.state.info.length === 0) return null;
 
         let { info } = this.state;
 
@@ -95,7 +95,6 @@ class Organization extends React.Component {
             { type: "date", id: "End" },
         ]);
 
-        let i = orgInfo.length;
         for (var entry of orgInfo) {
             let startDate = Date.parse(entry.createdate);
             if (startDate < new Date(2000, 1, 1))
@@ -110,8 +109,6 @@ class Organization extends React.Component {
                 startDate,
                 endDate,
             ]);
-
-            i--;
         }
 
         if (timelineData.length === 1) {
@@ -124,7 +121,10 @@ class Organization extends React.Component {
         return (
             <div>
                 <h1>{this.props.match.params.name}</h1>
-                    <img src={`http://127.0.0.1:5000/logos/${this.props.match.params.name}`} />
+                <img 
+                    src={`${Constants.BACKEND_URL}${Constants.LOGOS_ENDPOINT}${this.props.match.params.name}`} 
+                    alt={`${this.props.match.params.name} Logo`}
+                />
                 
                 <Chart
                     width={"500px"}
