@@ -39,7 +39,10 @@ export default function App() {
                                     exact
                                     path="/organizations/:name"
                                     render={(props) => (
-                                        <Organization {...props} />
+                                        <Organization
+                                            key={`org-${props.match.params.name}`}
+                                            {...props}
+                                        />
                                     )}
                                 />
                                 <Route exact path="/organizations">
@@ -53,7 +56,7 @@ export default function App() {
                                     path="/players/:player"
                                     render={(props) => (
                                         <Player
-                                            key={props.match.params.player}
+                                            key={`player-${props.match.params.player}`}
                                             {...props}
                                         />
                                     )}
