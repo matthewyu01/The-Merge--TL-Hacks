@@ -297,49 +297,51 @@ class CollapsibleTable extends React.Component {
         if (!this.state.playerCountRetrieved) return null;
 
         var cs_rankings = this.state.gamesArray["counterstrike"].rankingsArray;
-        //var val_rankings = this.state.gamesArray["valorant"].rankingsArray;
-
-        console.log(cs_rankings);
+        var val_rankings = this.state.gamesArray["valorant"].rankingsArray;
 
         var cs_array = [];
+        var val_array = [];
 
         for (var index = 0; index < cs_rankings.length; index++){
             cs_array.push({teamRanking: cs_rankings[index].Ranking, 
                             teamName: cs_rankings[index].Team, 
                             points: cs_rankings[index].Points});
-            // output is chars from str
-
         }
-        
-        var val_array = [{ teamRanking: 0, teamName: 'No info available', points: 0 }];
+        for (var index = 0; index < val_rankings.length; index++){
+          val_array.push({teamRanking: val_rankings[index].Ranking, 
+                          teamName: val_rankings[index].Team, 
+                          points: val_rankings[index].Points});
+        }
 
         var rows = [
             createData('Counter-Strike: Global Offensive', this.state.games["counterstrike"]?.playerCount, "August 21, 2012", "$103,148,629.27", 6288, 3.99, cs_array),
-            createData('Valorant', 0, "June 2, 2020", "$1,369,951.05", 265, 4.99),
+            createData('Valorant', 0, "June 2, 2020", "$1,369,951.05", 265, 4.99, val_array),
             createData('League of Legends', 0, "October 27, 2009", "$81,343,448.94", 2478, 3.79),
             createData('Dota 2', this.state.games["dota2"]?.playerCount, "July 9, 2013", "$227,914,706.51", 1444, 2.5),
             createData('Overwatch', 0, "May 24, 2016", "$26,049,333.28", 743, 1.5),
         ];
+
         return (
-        <TableContainer component={Paper}>
-            <Table aria-label="collapsible table">
-            <TableHead>
-                <TableRow>
-                <TableCell style={{width: 1}}/>
-                <TableCell style = {{fontWeight : "bold", fontSize : 20}}>Game</TableCell>
-                <TableCell align="right" style = {{fontWeight : "bold", fontSize : 20}}>Player Count</TableCell>
-                <TableCell align="right" style = {{fontWeight : "bold", fontSize : 20}}>Date Released</TableCell>
-                <TableCell align="right" style = {{fontWeight : "bold", fontSize : 20}}>Total Prize Earnings</TableCell>
-                <TableCell align="right" style = {{fontWeight : "bold", fontSize : 20}}># of Tournaments</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {rows.map((row) => (
-                <Row key={row.name} row={row} />
-                ))}
-            </TableBody>
-            </Table>
-        </TableContainer>);
+            <TableContainer component={Paper}>
+                <Table aria-label="collapsible table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell style={{fontWeight: "bold", fontSize: 20}} />
+                            <TableCell style={{fontWeight: "bold", fontSize: 20}}>Game</TableCell>
+                            <TableCell style={{fontWeight: "bold", fontSize: 20}} align="right">Player Count</TableCell>
+                            <TableCell style={{fontWeight: "bold", fontSize: 20}} align="right">Date Released</TableCell>
+                            <TableCell style={{fontWeight: "bold", fontSize: 20}} align="right">Total Prize Earnings</TableCell>
+                            <TableCell style={{fontWeight: "bold", fontSize: 20}} align="right"># of Tournaments</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map((row) => (
+                            <Row key={row.name} row={row} />
+                        ))}
+                    </TableBody>
+                </Table>
+      </TableContainer>
+    );
   }
 }
 
@@ -349,7 +351,7 @@ function HomePage(props) {
             <Typography variant="h1" align="center">Statistics</Typography>
             <PlayerCountGraph {...props}/>
             <CollapsibleTable/>
-            <i><h5>Click dropdowns for team rankings</h5></i>
+            <i><h5>Click dropdowns for team rankings. Note: Valorant rankings are for NA</h5></i>
             {/* <Tooltip title="CSGO Reddit">
                 <IconButton href="https://www.reddit.com/r/GlobalOffensive/">
                     <RedditIcon/>
