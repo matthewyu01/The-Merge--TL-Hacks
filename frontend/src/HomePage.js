@@ -122,7 +122,7 @@ const useRowStyles = makeStyles({
     },
   });
   
-  function createData(name, player_count, twitchViewership, totalPrizeEarnings, tournamentWins, price, rankings = [
+  function createData(name, player_count, dateCreated, totalPrizeEarnings, tournamentWins, price, rankings = [
     { teamRanking: 0, teamName: 'No info available', points: 0 },
   ]) 
   {
@@ -130,7 +130,7 @@ const useRowStyles = makeStyles({
     return {
       name,
       player_count,
-      twitchViewership,
+      dateCreated,
       totalPrizeEarnings,
       tournamentWins,
       price,
@@ -155,7 +155,7 @@ const useRowStyles = makeStyles({
             {row.name}
           </TableCell>
           <TableCell align="right">{row.player_count}</TableCell>
-          <TableCell align="right">{row.twitchViewership}</TableCell>
+          <TableCell align="right">{row.dateCreated}</TableCell>
           <TableCell align="right">{row.totalPrizeEarnings}</TableCell>
           <TableCell align="right">{row.tournamentWins}</TableCell>
         </TableRow>
@@ -202,7 +202,7 @@ const useRowStyles = makeStyles({
     row: PropTypes.shape({
       player_count: PropTypes.number.isRequired,
       totalPrizeEarnings: PropTypes.string.isRequired,
-      twitchViewership: PropTypes.number.isRequired,
+      dateCreated: PropTypes.string.isRequired,
       rankings: PropTypes.arrayOf(
         PropTypes.shape({
           points: PropTypes.number.isRequired,
@@ -308,11 +308,11 @@ class CollapsibleTable extends React.Component {
         var val_array = [{ teamRanking: 0, teamName: 'No info available', points: 0 }];
 
         var rows = [
-        createData('Counter-Strike: Global Offensive', this.state.games["counterstrike"]?.playerCount, 0, "$103,148,629.27", 6288, 3.99, cs_array),
-        createData('Valorant', 0, 0, "$1,369,951.05", 265, 4.99),
-        createData('League of Legends', 0, 0, "$81,343,448.94", 2478, 3.79),
-        createData('Dota 2', this.state.games["dota2"]?.playerCount, 0, "$227,914,706.51", 1444, 2.5),
-        createData('Overwatch', 0, 0, "$26,049,333.28", 743, 1.5),
+        createData('Counter-Strike: Global Offensive', this.state.games["counterstrike"]?.playerCount, "August 21, 2012", "$103,148,629.27", 6288, 3.99, cs_array),
+        createData('Valorant', 0, "June 2, 2020", "$1,369,951.05", 265, 4.99),
+        createData('League of Legends', 0, "October 27, 2009", "$81,343,448.94", 2478, 3.79),
+        createData('Dota 2', this.state.games["dota2"]?.playerCount, "July 9, 2013", "$227,914,706.51", 1444, 2.5),
+        createData('Overwatch', 0, "May 24, 2016", "$26,049,333.28", 743, 1.5),
       ];
         return (
       <TableContainer component={Paper}>
@@ -322,7 +322,7 @@ class CollapsibleTable extends React.Component {
               <TableCell />
               <TableCell>Game</TableCell>
               <TableCell align="right">Player Count</TableCell>
-              <TableCell align="right">Twitch Viewership</TableCell>
+              <TableCell align="right">Date Released</TableCell>
               <TableCell align="right">Total Prize Earnings</TableCell>
               <TableCell align="right"># of Tournaments</TableCell>
             </TableRow>
