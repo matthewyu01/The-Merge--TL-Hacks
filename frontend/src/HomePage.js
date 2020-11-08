@@ -161,13 +161,13 @@ const useRowStyles = makeStyles({
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box margin={1}>
-                <Typography variant="h6" gutterBottom component="div">
+                <Typography variant="h6" gutterBottom component="div" style = {{color : "#7FFFD4"}}>
                   Rankings
                 </Typography>
                 <Table size="small" aria-label="purchases">
                   <TableHead>
                     <TableRow>
-                      <TableCell style = {{color : "#7FFFD4"}}>Ranking</TableCell>
+                      <TableCell></TableCell>
                       <TableCell>Team</TableCell>
                       <TableCell align="right">Points</TableCell>
                       <TableCell align="right"># of Trophies</TableCell>
