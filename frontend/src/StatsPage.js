@@ -467,7 +467,7 @@ class CollapsibleTable extends React.Component {
             ),
             createData(
                 "Valorant",
-                0,
+                "Not Public",
                 "June 2, 2020",
                 "$1,369,951.05",
                 265,
@@ -476,7 +476,7 @@ class CollapsibleTable extends React.Component {
             ),
             createData(
                 "League of Legends",
-                0,
+                "Not Public",
                 "October 27, 2009",
                 "$81,343,448.94",
                 2478,
@@ -492,7 +492,7 @@ class CollapsibleTable extends React.Component {
             ),
             createData(
                 "Overwatch",
-                0,
+                "Not Public",
                 "May 24, 2016",
                 "$26,049,333.28",
                 743,
