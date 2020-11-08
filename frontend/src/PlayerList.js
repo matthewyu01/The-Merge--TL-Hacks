@@ -44,14 +44,6 @@ const styles = (theme) => ({
         marginBottom: "auto",
         marginLeft: "10px",
     },
-    logoRight: {
-        height: 75,
-        width: 75,
-        marginTop: "auto",
-        marginBottom: "auto",
-        marginLeft: "auto",
-        marginRight: 0,
-    },
 });
 
 class PlayeranizationList extends React.Component {
@@ -260,10 +252,6 @@ class PlayeranizationList extends React.Component {
                                                 .join(", ")}
                                         </Typography>
                                     </CardContent>
-                                    <CardMedia
-                                        image={`${Constants.BACKEND_URL}${Constants.LOGOS_ENDPOINT}${player.games[0]}`}
-                                        className={classes.logoRight}
-                                    ></CardMedia>
                                 </div>
                             </CardActionArea>
                         </Card>
