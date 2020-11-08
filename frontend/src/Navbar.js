@@ -8,9 +8,9 @@ import {
 import { Link } from "react-router-dom";
 import Switch from "@material-ui/core/Switch";
 import IconButton from "@material-ui/core/IconButton";
-import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import EqualizerIcon from '@material-ui/icons/Equalizer';
+import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
+import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
+import EqualizerIcon from "@material-ui/icons/Equalizer";
 import NightsStayIcon from "@material-ui/icons/NightsStay";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -22,32 +22,33 @@ function Navbar(props) {
         <AppBar position="static" color={"inherit"}>
             <Toolbar>
                 <Typography variant="h6">
-                <IconButton color="inherit" component={Link} to="/players" style={{paddingRight:0,}}>
-                    <EmojiPeopleIcon/>
-                </IconButton>
-                    <Button color="inherit" component={Link} to="/players">
+                    <Button
+                        color="inherit"
+                        startIcon={<EmojiPeopleIcon></EmojiPeopleIcon>}
+                        component={Link}
+                        to="/players"
+                    >
                         Players
                     </Button>
                 </Typography>
                 <Typography variant="h6">
-                    <IconButton color="inherit" component={Link} to="/organizations" style={{paddingRight:0,}}>
-                        <PeopleAltIcon/>
-                    </IconButton>
                     <Button
                         color="inherit"
                         component={Link}
                         to="/organizations"
+                        startIcon={<PeopleAltIcon></PeopleAltIcon>}
                     >
                         Organizations
                     </Button>
                 </Typography>
                 <Typography variant="h6" style={{ flex: 1 }}>
-                    <IconButton color="inherit" component={Link} to="/statistics" style={{paddingRight:0,}}>
-                        <EqualizerIcon/>
-                    </IconButton>   
-                    <Button color="inherit" component={Link} to="/statistics">
+                    <Button
+                        color="inherit"
+                        component={Link}
+                        to="/statistics"
+                        startIcon={<EqualizerIcon></EqualizerIcon>}
+                    >
                         Statistics
-                        
                     </Button>
                 </Typography>
                 <Tooltip title="Night Mode Toggle">
