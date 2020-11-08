@@ -1,6 +1,6 @@
 import React from "react";
 import Chart from "react-google-charts";
-import { Typography } from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 import {
@@ -98,8 +98,7 @@ class Player extends React.Component {
                             currTeam: data.result[0]["team"],
                         });
 
-                        if(data.result[0]["team"] !== "") {
-
+                        if (data.result[0]["team"] !== "") {
                             params.set(
                                 "conditions",
                                 `[[team::${data.result[0]["team"]}]] AND [[id::!${this.props.match.params.player}]]`
@@ -123,7 +122,6 @@ class Player extends React.Component {
                                     });
                                 })
                                 .catch((err) => console.log(err));
-                                
                         }
                     }
                 })
@@ -186,9 +184,28 @@ class Player extends React.Component {
 
         return (
             <React.Fragment>
-                <Typography variant="h1">
-                    {this.props.match.params.player}
-                </Typography>
+                <Grid className={classes.heading} container>
+                    <Grid xs={12} sm={10} item>
+                        <Typography variant="h1" align="left">
+                            {this.props.match.params.player}
+                        </Typography>
+                    </Grid>
+                    {this.state.currTeam ? (
+                        <Grid xs={12} sm={2} item>
+                            <RouterLink
+                                to={`/organizations/${this.state.currTeam}`}
+                            >
+                                <img
+                                    src={`${Constants.BACKEND_URL}${Constants.LOGOS_ENDPOINT}${this.state.currTeam}`}
+                                    alt={`${this.state.currTeam} Logo`}
+                                    width={90}
+                                    height={110}
+                                />
+                            </RouterLink>
+                        </Grid>
+                    ) : null}
+                </Grid>
+
                 <hr />
 
                 <Typography
