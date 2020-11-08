@@ -62,8 +62,6 @@ class PlayerCountGraph extends React.Component {
     render = () => {
         if (!this.state.playerCountRetrieved) return null;
 
-        console.log(this.props);
-
         return (
             <Chart
                 width={"500px"}
@@ -289,7 +287,13 @@ function Row(props) {
                                                 {rankingsRow.points}
                                             </TableCell>
                                             <TableCell align="right">
-                                                {"$" + rankingsRow.earnings.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}
+                                                {"$" +
+                                                    rankingsRow.earnings
+                                                        .toString()
+                                                        .replace(
+                                                            /(\d)(?=(\d\d\d)+(?!\d))/g,
+                                                            "$1,"
+                                                        )}
                                             </TableCell>
                                             <TableCell align="right">
                                                 {rankingsRow.location}
