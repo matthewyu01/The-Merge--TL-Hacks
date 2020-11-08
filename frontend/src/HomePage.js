@@ -121,7 +121,7 @@ const useRowStyles = makeStyles({
   });
   
   function createData(name, player_count, twitchViewership, totalPrizeEarnings, tournamentWins, price, rankings = [
-    { team_ranking: 0, teamName: 'No info available', amount: 0 },
+    { teamRanking: 0, teamName: 'No info available', trophies: 0 },
   ]) 
   {
 
@@ -175,14 +175,14 @@ const useRowStyles = makeStyles({
                   </TableHead>
                   <TableBody>
                     {row.rankings.map((rankingsRow) => (
-                      <TableRow key={rankingsRow.team_ranking}>
+                      <TableRow key={rankingsRow.teamRanking}>
                         <TableCell component="th" scope="row">
-                          {rankingsRow.team_ranking}
+                          {rankingsRow.teamRanking}
                         </TableCell>
                         <TableCell>{rankingsRow.teamName}</TableCell>
-                        <TableCell align="right">{rankingsRow.amount}</TableCell>
+                        <TableCell align="right">{rankingsRow.trophies}</TableCell>
                         <TableCell align="right">
-                          {Math.round(rankingsRow.amount * row.price * 100) / 100}
+                          {Math.round(rankingsRow.trophies * row.price * 100) / 100}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -203,9 +203,9 @@ const useRowStyles = makeStyles({
       twitchViewership: PropTypes.number.isRequired,
       rankings: PropTypes.arrayOf(
         PropTypes.shape({
-          amount: PropTypes.number.isRequired,
+          trophies: PropTypes.number.isRequired,
           teamName: PropTypes.string.isRequired,
-          team_ranking: PropTypes.number.isRequired,
+          teamRanking: PropTypes.number.isRequired,
         }),
       ).isRequired,
       name: PropTypes.string.isRequired,
@@ -214,13 +214,7 @@ const useRowStyles = makeStyles({
     }).isRequired,
   };
   
-  const rows = [
-    createData('Counter-Strike: Global Offensive', 1004, 0, "$103,148,629.27", 6288, 3.99),
-    createData('Valorant', 0, 0, "$1,369,951.05", 265, 4.99),
-    createData('League of Legends', 0, 0, "$81,343,448.94", 2478, 3.79),
-    createData('Dota 2', 1004, 0, "$227,914,706.51", 1444, 2.5),
-    createData('Overwatch', 0, 0, "$26,049,333.28", 743, 1.5),
-  ];
+
   
 class CollapsibleTable extends React.Component {
 
@@ -228,7 +222,7 @@ class CollapsibleTable extends React.Component {
     super(props);
 
     this.state = {
-        rankingsArray: {},
+        gamesArray: {},
         rankingsRetrieved: {
             "valorant": false,
             "counterstrike": false, 
@@ -238,6 +232,8 @@ class CollapsibleTable extends React.Component {
         }
     };
   } 
+
+
   componentDidMount() {
     Constants.RANKINGS_GAMES.forEach((game) => {
 
@@ -251,8 +247,7 @@ class CollapsibleTable extends React.Component {
             .then(response => response.json())
             .then((data) => {
                 this.setState((oldState) => {
-                    console.log(data);
-                    oldState.rankingsArray[game] = {
+                    oldState.gamesArray[game] = {
                         name: Constants.GAMES_PRETTY[game],
                         rankingsArray: data,
                     }
@@ -265,6 +260,30 @@ class CollapsibleTable extends React.Component {
 
 
     render = () => {
+        if (!this.state.rankingsRetrieved["counterstrike"]) return null;
+        else if (!this.state.rankingsRetrieved["valorant"]) return null;
+
+        
+        //var val_rankings = this.state.gamesArray["valorant"].rankingsArray;
+
+        var cs_array = [{ teamRanking: 0, teamName: 'CSGO', trophies: 4 }];
+
+        for (var index = 0; index < this.state.gamesArray["counterstrike"].rankingsArray.length; index++){
+            console.log(this.state.gamesArray["counterstrike"].rankingsArray[index]);
+            // output is chars from str
+
+        }
+
+        
+        var val_array = [{ teamRanking: 0, teamName: 'No info available', trophies: 0 }];
+
+        var rows = [
+        createData('Counter-Strike: Global Offensive', 1004, 0, "$103,148,629.27", 6288, 3.99, cs_array),
+        createData('Valorant', 0, 0, "$1,369,951.05", 265, 4.99),
+        createData('League of Legends', 0, 0, "$81,343,448.94", 2478, 3.79),
+        createData('Dota 2', 1004, 0, "$227,914,706.51", 1444, 2.5),
+        createData('Overwatch', 0, 0, "$26,049,333.28", 743, 1.5),
+      ];
         return (
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
