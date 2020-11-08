@@ -24,8 +24,8 @@ const StyledTableCell = withStyles((theme) => ({
 
 const styles = {
     subheading: {
-        marginTop: 12,
-        marginBottom: 24,
+        marginTop: 24,
+        marginBottom: 12,
     },
     heading: {
         marginTop: 24,
@@ -208,7 +208,7 @@ class Player extends React.Component {
                 </Grid>
 
                 <Typography
-                    variant="h5"
+                    variant="h4"
                     align="center"
                     className={classes.subheading}
                 >
@@ -284,7 +284,7 @@ class Player extends React.Component {
                 )}
 
                 <Typography
-                    variant="h5"
+                    variant="h4"
                     align="center"
                     className={classes.subheading}
                 >
