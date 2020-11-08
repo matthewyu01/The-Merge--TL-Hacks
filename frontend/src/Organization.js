@@ -101,7 +101,7 @@ class Organization extends React.Component {
                 startDate = new Date(2000, 1, 1);
 
             let endDate = Date.parse(entry.disbanddate);
-            if (endDate === 0) endDate = Date.now();
+            if (endDate <= 0) endDate = Date.now();
 
             timelineData.push([
                 Constants.GAMES_PRETTY[entry.wiki],
