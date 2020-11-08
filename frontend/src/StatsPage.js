@@ -554,6 +554,7 @@ const useStyles = makeStyles((theme) => ({
     item: {
         marginLeft: "auto",
         marginRight: "auto",
+        padding: 4,
     },
 }));
 
@@ -578,7 +579,7 @@ function StatsPage(props) {
                 </h5>
             </i>
             <Grid alignItems="center" container wrap="wrap">
-                <Typography variant="secondary">CS:GO</Typography>
+                <Typography variant="body2">CS:GO</Typography>
                 <Tooltip title="Download CS:GO">
                     <IconButton
                         className={classes.item}
@@ -608,7 +609,7 @@ function StatsPage(props) {
                     </IconButton>
                 </Tooltip>
                 <Divider orientation="vertical" flexItem></Divider>
-                <Typography className={classes.item} variant="secondary">
+                <Typography className={classes.item} variant="body2">
                     Valorant
                 </Typography>
                 <Tooltip title="Download Valorant">
@@ -640,7 +641,7 @@ function StatsPage(props) {
                     </IconButton>
                 </Tooltip>
                 <Divider orientation="vertical" flexItem></Divider>
-                <Typography className={classes.item} variant="secondary">
+                <Typography className={classes.item} variant="body2">
                     League of Legends
                 </Typography>
                 <Tooltip title="Download LoL">
@@ -672,7 +673,7 @@ function StatsPage(props) {
                     </IconButton>
                 </Tooltip>
                 <Divider orientation="vertical" flexItem></Divider>
-                <Typography className={classes.item} variant="secondary">
+                <Typography className={classes.item} variant="body2">
                     Dota 2
                 </Typography>
                 <Tooltip title="Download Dota 2">
@@ -704,7 +705,7 @@ function StatsPage(props) {
                     </IconButton>
                 </Tooltip>
                 <Divider orientation="vertical" flexItem></Divider>
-                <Typography className={classes.item} variant="secondary">
+                <Typography className={classes.item} variant="body2">
                     Overwatch
                 </Typography>
                 <Tooltip title="Download Overwatch">
