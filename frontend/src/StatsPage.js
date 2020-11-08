@@ -18,7 +18,9 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import * as Constants from "./Constants";
 import { withTheme } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
+import GetAppIcon from '@material-ui/icons/GetApp';
 import RedditIcon from '@material-ui/icons/Reddit';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
 
 class PlayerCountGraph extends React.Component {
     constructor(props) {
