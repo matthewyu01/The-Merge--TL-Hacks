@@ -192,7 +192,8 @@ class PlayeranizationList extends React.Component {
                 return (
                     <Grid
                         item
-                        xs={6}
+                        xs={12}
+                        sm={6}
                         key={`players-${player.id}-${
                             i + this.state.playerIndexStart
                         }`}

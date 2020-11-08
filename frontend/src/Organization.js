@@ -1,10 +1,20 @@
 import React from "react";
 import Chart from "react-google-charts";
 import * as Constants from "./Constants";
-import { Typography } from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
-import { withTheme } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@material-ui/core/styles";
 import VerticalTabs from "./TabPanel";
+
+const styles = {
+    subheading: {
+        marginTop: 12,
+        marginBottom: 24,
+    },
+    heading: {
+        marginTop: 12,
+    },
+};
 
 class Organization extends React.Component {
     constructor(props) {
@@ -118,14 +128,35 @@ class Organization extends React.Component {
         let primaryColor = this.props.theme.palette.text.primary;
         let backgroundColor = this.props.theme.palette.background;
 
+        const { classes } = this.props;
+
         return (
             <div>
-                <h1>{this.props.match.params.name}</h1>
-                <img 
-                    src={`${Constants.BACKEND_URL}${Constants.LOGOS_ENDPOINT}${this.props.match.params.name}`} 
-                    alt={`${this.props.match.params.name} Logo`}
-                />
-                
+                <Grid className={classes.heading} container>
+                    <Grid xs={12} sm={10} item>
+                        <Typography variant="h1" align="left">
+                            {this.props.match.params.name}
+                        </Typography>
+                    </Grid>
+                    <Grid xs={12} sm={2} item>
+                        <img
+                            src={`${Constants.BACKEND_URL}${Constants.LOGOS_ENDPOINT}${this.props.match.params.name}`}
+                            alt={`${this.props.match.params.name} Logo`}
+                            width={90}
+                            height={110}
+                        />
+                    </Grid>
+                </Grid>
+
+                <hr></hr>
+
+                <Typography
+                    variant="h4"
+                    align="center"
+                    className={classes.subheading}
+                >
+                    Organization Timeline
+                </Typography>
                 <Chart
                     width={"500px"}
                     height={"300px"}
@@ -169,10 +200,18 @@ class Organization extends React.Component {
                         },
                     ]}
                 />
+
+                <Typography
+                    variant="h4"
+                    align="center"
+                    className={classes.subheading}
+                >
+                    Current Roster
+                </Typography>
                 <VerticalTabs gameRosters={this.state.gameRosters} />
             </div>
         );
     };
 }
 
-export default withRouter(withTheme(Organization));
+export default withStyles(styles)(withRouter(withTheme(Organization)));
