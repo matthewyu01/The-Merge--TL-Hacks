@@ -18,5 +18,9 @@ def get_image(org):
 
     return send_file(f'logos/{org}.jpg')
 
+@app.route('/json/<file_name>', methods=['GET'])
+def get_json(file_name):
+    return send_file(f'json/{file_name}')
+
 if __name__ == "__main__":
     app.run()
