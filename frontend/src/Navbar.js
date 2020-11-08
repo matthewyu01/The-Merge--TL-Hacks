@@ -1,14 +1,25 @@
-import { AppBar, Button, Typography, Toolbar } from "@material-ui/core";
+import {
+    AppBar,
+    Button,
+    Typography,
+    Toolbar,
+    useTheme,
+} from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Switch from "@material-ui/core/Switch";
-import IconButton from '@material-ui/core/IconButton';
-import NightsStayIcon from '@material-ui/icons/NightsStay';
-import Brightness4Icon from '@material-ui/icons/Brightness4';
-import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from "@material-ui/core/IconButton";
+import NightsStayIcon from "@material-ui/icons/NightsStay";
+import Brightness4Icon from "@material-ui/icons/Brightness4";
+import Tooltip from "@material-ui/core/Tooltip";
 
 function Navbar(props) {
+    const theme = useTheme();
+
     return (
-        <AppBar position="static">
+        <AppBar
+            position="position"
+            color={theme.palette.type === "dark" ? "inherit" : "primary"}
+        >
             <Toolbar>
                 <Typography variant="h6">
                     <Button color="inherit" component={Link} to="/">
@@ -31,10 +42,17 @@ function Navbar(props) {
                 </Typography>
                 <Tooltip title="Night Mode Toggle">
                     <IconButton onClick={props.handleThemeChange}>
-                        {props.darkMode ? <NightsStayIcon /> : <Brightness4Icon />}
+                        {props.darkMode ? (
+                            <NightsStayIcon />
+                        ) : (
+                            <Brightness4Icon />
+                        )}
                     </IconButton>
-                </Tooltip> 
-                <Switch checked={props.darkMode} onChange={props.handleThemeChange} />     
+                </Tooltip>
+                <Switch
+                    checked={props.darkMode}
+                    onChange={props.handleThemeChange}
+                />
             </Toolbar>
         </AppBar>
     );
