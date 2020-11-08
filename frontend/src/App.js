@@ -17,6 +17,9 @@ export default function App() {
     const theme = createMuiTheme({
         palette: {
             type: paletteType,
+            primary: {
+                main: darkMode ? "#002984" : "#3f51b5",
+            },
         },
     });
 

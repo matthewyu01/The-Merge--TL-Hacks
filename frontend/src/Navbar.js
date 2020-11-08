@@ -16,10 +16,7 @@ function Navbar(props) {
     const theme = useTheme();
 
     return (
-        <AppBar
-            position="static"
-            color={theme.palette.type === "dark" ? "inherit" : "primary"}
-        >
+        <AppBar position="static" color={"primary"}>
             <Toolbar>
                 <Typography variant="h6">
                     <Button color="inherit" component={Link} to="/">

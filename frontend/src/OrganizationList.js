@@ -19,6 +19,18 @@ const styles = (theme) => ({
     root: {
         marginTop: 12,
     },
+    left: {
+        marginLeft: 0,
+        marginRight: "auto",
+    },
+    center: {
+        marginLeft: "auto",
+        marginRight: "auto",
+    },
+    right: {
+        marginLeft: "auto",
+        marginRight: 0,
+    },
 });
 
 class OrganizationList extends React.Component {
@@ -218,62 +230,76 @@ class OrganizationList extends React.Component {
 
         const { classes } = this.props;
         return (
-            <div>
-                <Button
-                    aria-controls="simple-menu"
-                    aria-haspopup="true"
-                    onClick={this.handleClick}
-                >
-                    Filter by Game
-                </Button>
-                <Menu
-                    anchorEl={this.state.menuOpen}
-                    keepMounted
-                    open={Boolean(this.state.menuOpen)}
-                    onClose={this.handleClose}
-                >
-                    <MenuItem
-                        key={0}
-                        onClick={(event) => this.handleMenuItemClick(event, 0)}
-                        selected={this.state.selectedIndex === 0}
+            <React.Fragment>
+                <Grid container className={classes.root}>
+                    <Button
+                        aria-controls="simple-menu"
+                        aria-haspopup="true"
+                        onClick={this.handleClick}
+                        className={classes.left}
                     >
-                        All Games
-                    </MenuItem>
+                        Filter by Game
+                    </Button>
+                    <Menu
+                        anchorEl={this.state.menuOpen}
+                        keepMounted
+                        open={Boolean(this.state.menuOpen)}
+                        onClose={this.handleClose}
+                    >
+                        <MenuItem
+                            key={0}
+                            onClick={(event) =>
+                                this.handleMenuItemClick(event, 0)
+                            }
+                            selected={this.state.selectedIndex === 0}
+                        >
+                            All Games
+                        </MenuItem>
 
-                    {Constants.GAMES.map((game, i) => {
-                        return (
-                            <MenuItem
-                                key={i + 1}
-                                onClick={(event) =>
-                                    this.handleMenuItemClick(event, i + 1)
-                                }
-                                selected={this.state.selectedIndex === i + 1}
-                            >
-                                {Constants.GAMES_PRETTY[game]}
-                            </MenuItem>
-                        );
-                    })}
-                </Menu>
-                <TextField
-                    id="standard-basic"
-                    placeholder="Search Organizations"
-                    onChange={(event) => this.handleSearch(event)}
-                />
+                        {Constants.GAMES.map((game, i) => {
+                            return (
+                                <MenuItem
+                                    key={i + 1}
+                                    onClick={(event) =>
+                                        this.handleMenuItemClick(event, i + 1)
+                                    }
+                                    selected={
+                                        this.state.selectedIndex === i + 1
+                                    }
+                                >
+                                    {Constants.GAMES_PRETTY[game]}
+                                </MenuItem>
+                            );
+                        })}
+                    </Menu>
 
-                <Pagination
-                    count={Math.ceil(
-                        Object.keys(this.state.filtered).length /
-                            Constants.ORGS_PER_PAGE
-                    )}
-                    page={
-                        this.state.orgIndexStart / Constants.ORGS_PER_PAGE + 1
-                    }
-                    onChange={this.handlePaginationUpdate}
-                ></Pagination>
+                    <TextField
+                        id="standard-basic"
+                        placeholder="Search Organizations"
+                        className={classes.right}
+                        onChange={(event) => this.handleSearch(event)}
+                    />
+                </Grid>
+
                 <Grid container spacing={2} className={classes.root}>
                     {this.renderOrgs()}
                 </Grid>
-            </div>
+
+                <Grid container className={classes.root}>
+                    <Pagination
+                        count={Math.ceil(
+                            Object.keys(this.state.filtered).length /
+                                Constants.ORGS_PER_PAGE
+                        )}
+                        page={
+                            this.state.orgIndexStart / Constants.ORGS_PER_PAGE +
+                            1
+                        }
+                        onChange={this.handlePaginationUpdate}
+                        className={classes.center}
+                    ></Pagination>
+                </Grid>
+            </React.Fragment>
         );
     };
 }
