@@ -180,6 +180,28 @@ class Organization extends React.Component {
                     </Typography>
                 </Grid>
 
+                {Object.keys(this.state.matches).length > 0 ? (
+                    <React.Fragment>
+                        <Typography
+                            variant="h4"
+                            align="center"
+                            className={classes.subheading}
+                        >
+                            Recent Matches
+                        </Typography>
+                        <MatchList matches={this.state.matches}></MatchList>
+                    </React.Fragment>
+                ) : null}
+
+                <Typography
+                    variant="h4"
+                    align="center"
+                    className={classes.subheading}
+                >
+                    Current Roster
+                </Typography>
+                <VerticalTabs gameRosters={this.state.gameRosters} />
+
                 <Typography
                     variant="h4"
                     align="center"
@@ -231,24 +253,6 @@ class Organization extends React.Component {
                         },
                     ]}
                 />
-
-                <Typography
-                    variant="h4"
-                    align="center"
-                    className={classes.subheading}
-                >
-                    Recent Matches
-                </Typography>
-                <MatchList matches={this.state.matches}></MatchList>
-
-                <Typography
-                    variant="h4"
-                    align="center"
-                    className={classes.subheading}
-                >
-                    Current Roster
-                </Typography>
-                <VerticalTabs gameRosters={this.state.gameRosters} />
             </React.Fragment>
         );
     };

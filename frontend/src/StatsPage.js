@@ -205,24 +205,6 @@ function Row(props) {
     );
 }
 
-Row.propTypes = {
-    row: PropTypes.shape({
-        player_count: PropTypes.number.isRequired,
-        totalPrizeEarnings: PropTypes.string.isRequired,
-        dateCreated: PropTypes.string.isRequired,
-        rankings: PropTypes.arrayOf(
-            PropTypes.shape({
-                points: PropTypes.number.isRequired,
-                teamName: PropTypes.string.isRequired,
-                teamRanking: PropTypes.number.isRequired,
-            }),
-        ).isRequired,
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        tournamentWins: PropTypes.number.isRequired,
-    }).isRequired,
-};
-
 class CollapsibleTable extends React.Component {
 
     constructor(props) {
