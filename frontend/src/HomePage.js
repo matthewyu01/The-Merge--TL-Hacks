@@ -77,10 +77,10 @@ class PlayerCountGraph extends React.Component {
                     calc: 'stringify',
                 },
                 ],
-                [this.state.games["counterstrike"]?.name, this.state.games["counterstrike"]?.playerCount, '#f8a14d', null],
-                [this.state.games["dota2"]?.name, this.state.games["dota2"]?.playerCount, 'darkred', null],
-                [this.state.games["rocketleague"]?.name, this.state.games["rocketleague"]?.playerCount, '#3dd94ca', null],
-                [this.state.games["pubg"]?.name, this.state.games["pubg"]?.playerCount, 'gold', null],
+                [this.state.games["counterstrike"]?.name, this.state.games["counterstrike"]?.playerCount, '#FFB030', null],
+                [this.state.games["dota2"]?.name, this.state.games["dota2"]?.playerCount, '#E3407E', null],
+                [this.state.games["rocketleague"]?.name, this.state.games["rocketleague"]?.playerCount, '#525BFA', null],
+                [this.state.games["pubg"]?.name, this.state.games["pubg"]?.playerCount, '#FAF651', null],
             ]}
             options={{
                 title: 'Live Player Count for Steam Games',
@@ -91,7 +91,7 @@ class PlayerCountGraph extends React.Component {
                 },
                 width: 600,
                 height: 250,
-                bar: { groupWidth: '95%' },
+                bar: { groupWidth: '55%' },
                 legend: { position: 'none' },
                 hAxis: {
                     title: 'Active Players',
