@@ -93,18 +93,29 @@ function MatchList(props) {
                                         >
                                             <Typography
                                                 key={`match-date-${game}-${match.opponent1}-${match.opponent2}-${game}-${i}-${j}`}
-                                                style={{ marginRight: "auto", fontWeight: 400 }}
+                                                style={{
+                                                    marginRight: "auto",
+                                                    fontWeight: 400,
+                                                }}
                                             >
-                                                {`${new Date(
-                                                    match.date
-                                                ).getUTCMonth()}/${new Date(
+                                                {`${
+                                                    new Date(
+                                                        match.date
+                                                    ).getUTCMonth() + 1
+                                                }/${new Date(
                                                     match.date
                                                 ).getDate()}/${new Date(
                                                     match.date
                                                 ).getFullYear()} 
-                                                ${match.tournament.length >= 40 ? 
-                                                    match.tournament.substring(0, 40)+"..." : 
-                                                    match.tournament}`}
+                                                ${
+                                                    match.tournament.length >=
+                                                    40
+                                                        ? match.tournament.substring(
+                                                              0,
+                                                              40
+                                                          ) + "..."
+                                                        : match.tournament
+                                                }`}
                                             </Typography>
                                             <Typography
                                                 style={{ margin: "auto" }}

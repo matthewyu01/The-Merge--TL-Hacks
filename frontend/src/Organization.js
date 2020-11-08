@@ -39,6 +39,7 @@ class Organization extends React.Component {
                 "conditions",
                 `[[opponent1::${this.props.match.params.name}]] OR [[opponent2::${this.props.match.params.name}]]`
             );
+            params.set("order", "date DESC");
             fetch(
                 `${Constants.LIQUID_API_URL}${Constants.MATCH_LIST_ENDPOINT}`,
                 {
@@ -61,6 +62,7 @@ class Organization extends React.Component {
                 .catch((err) => console.log(err));
 
             params.set("limit", Constants.MAXIMUM_QUERY_LIMIT);
+            params.delete("order");
             params.set(
                 "conditions",
                 `[[name::${this.props.match.params.name}]]`
