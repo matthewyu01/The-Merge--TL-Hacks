@@ -16,7 +16,7 @@ function Navbar(props) {
     const theme = useTheme();
 
     return (
-        <AppBar position="static" color={"primary"}>
+        <AppBar position="static" color={"inherit"}>
             <Toolbar>
                 <Typography variant="h6">
                     <Button color="inherit" component={Link} to="/players">
