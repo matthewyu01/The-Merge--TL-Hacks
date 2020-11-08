@@ -65,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
     tabs: {
         borderRight: `1px solid ${theme.palette.divider}`,
     },
+    table: {
+        backgroundColor: theme.palette.background.default,
+    },
 }));
 
 export default function VerticalTabs({ gameRosters }) {
@@ -92,7 +95,10 @@ export default function VerticalTabs({ gameRosters }) {
             {Object.keys(gameRosters).map((game, i) => {
                 return (
                     <TabPanel value={value} index={i}>
-                        <TableContainer component={Paper}>
+                        <TableContainer
+                            className={classes.table}
+                            component={Paper}
+                        >
                             <Table key={`table-${game}-${i}`}>
                                 <TableHead key={`table-header-${game}-${i}`}>
                                     <StyledTableCell
