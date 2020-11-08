@@ -8,6 +8,7 @@ import {
     TextField,
     Typography,
     CardActionArea,
+    CardMedia,
 } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import { withStyles } from "@material-ui/core/styles";
@@ -31,6 +32,18 @@ const styles = (theme) => ({
         marginLeft: "auto",
         marginRight: 0,
     },
+    card: {
+        display: "flex", 
+        marginLeft: "auto", 
+        marginRight: "auto",
+    },
+    logo: {
+        height: 75,
+        width: 75,
+        marginTop: "auto",
+        marginBottom: "auto",
+        marginLeft: "10px",
+    }
 });
 
 class OrganizationList extends React.Component {
@@ -183,6 +196,8 @@ class OrganizationList extends React.Component {
     };
 
     renderOrgs = () => {
+        const { classes } = this.props;
+
         const orgs = Object.keys(this.state.filtered).map(
             (key) => this.state.filtered[key]
         );
@@ -205,19 +220,25 @@ class OrganizationList extends React.Component {
                                 to={`/organizations/${org.name}`}
                                 component={Link}
                             >
-                                <CardContent>
-                                    <Typography variant="h6">
-                                        {org.name}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        {org.games
-                                            .map(
-                                                (name) =>
-                                                    Constants.GAMES_PRETTY[name]
-                                            )
-                                            .join(", ")}
-                                    </Typography>
-                                </CardContent>
+                                <div className={classes.card}>
+                                    <CardMedia 
+                                        image={`${Constants.BACKEND_URL}${Constants.LOGOS_ENDPOINT}${org.name}`}
+                                        className={classes.logo}
+                                    />
+                                    <CardContent>
+                                        <Typography variant="h6">
+                                            {org.name}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                            {org.games
+                                                .map(
+                                                    (name) =>
+                                                        Constants.GAMES_PRETTY[name]
+                                                )
+                                                .join(", ")}
+                                        </Typography>
+                                    </CardContent>
+                                </div>
                             </CardActionArea>
                         </Card>
                     </Grid>
