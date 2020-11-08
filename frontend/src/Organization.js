@@ -9,8 +9,8 @@ import MatchList from "./MatchList";
 
 const styles = {
     subheading: {
-        marginTop: 12,
-        marginBottom: 24,
+        marginTop: 24,
+        marginBottom: 12,
     },
     heading: {
         marginTop: 24,
