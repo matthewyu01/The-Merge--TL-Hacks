@@ -1,0 +1,8 @@
+# dependencies
+/venv
+
+# resources
+/logos
+
+# misc
+.DS_Store
