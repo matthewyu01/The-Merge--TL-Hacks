@@ -13,6 +13,7 @@ import {
     TableContainer,
     TableRow,
     TableHead,
+    Grid,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -94,12 +95,12 @@ export default function VerticalTabs({ gameRosters }) {
             </Tabs>
             {Object.keys(gameRosters).map((game, i) => {
                 return (
-                    <TabPanel value={value} index={i}>
-                        <TableContainer
-                            className={classes.table}
-                            component={Paper}
-                        >
-                            <Table key={`table-${game}-${i}`}>
+                    <TabPanel value={value} index={i} style={{ width: "100%" }}>
+                        <TableContainer component={Paper}>
+                            <Table
+                                key={`table-${game}-${i}`}
+                                style={{ width: "100%" }}
+                            >
                                 <TableHead key={`table-header-${game}-${i}`}>
                                     <StyledTableCell
                                         key={`table-header-player-${game}-${i}`}
@@ -143,7 +144,9 @@ export default function VerticalTabs({ gameRosters }) {
                                                 <Link
                                                     color="inherit"
                                                     to={`/players/${player.id}`}
-                                                    style={{ fontSize: 14 }}
+                                                    style={{
+                                                        fontSize: 14,
+                                                    }}
                                                     component={RouterLink}
                                                 >
                                                     {player.id}
