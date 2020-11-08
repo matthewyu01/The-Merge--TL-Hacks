@@ -97,21 +97,6 @@ class Player extends React.Component {
 
         const props = this.props;
 
-        const chartEvents = [
-            {
-                eventName: "select",
-                callback({ chartWrapper }) {
-                    const name =
-                        playerInfo[
-                            chartWrapper.getChart().getSelection()[0].row
-                        ].toteam;
-                    if (name) {
-                        props.history.push(`/organizations/${name}`);
-                    }
-                },
-            },
-        ];
-
         let primaryColor = this.props.theme.palette.text.primary;
         let backgroundColor = this.props.theme.palette.background;
 
@@ -122,7 +107,6 @@ class Player extends React.Component {
                     width={"500px"}
                     height={"300px"}
                     chartType="Timeline"
-                    chartEvents={chartEvents}
                     loader={<div>Loading Chart</div>}
                     data={timelineData}
                     options={{
@@ -136,23 +120,46 @@ class Player extends React.Component {
                             },
                             showBarLabels: false,
                         },
-                        backgroundColor: backgroundColor
-                            .paper,
+                        backgroundColor: backgroundColor.paper,
                     }}
                     chartEvents={[
                         {
                             eventName: "ready",
                             callback: () => {
-
-                                var labels = document.getElementsByTagName('text');
-                                Array.prototype.forEach.call(labels, function(label) {
-                                    if (label.getAttribute('text-anchor') === 'middle') {
-                                        label.setAttribute('fill', primaryColor);
+                                var labels = document.getElementsByTagName(
+                                    "text"
+                                );
+                                Array.prototype.forEach.call(labels, function (
+                                    label
+                                ) {
+                                    if (
+                                        label.getAttribute("text-anchor") ===
+                                        "middle"
+                                    ) {
+                                        label.setAttribute(
+                                            "fill",
+                                            primaryColor
+                                        );
                                     }
                                 });
-
-                            }
-                        }
+                            },
+                        },
+                        {
+                            eventName: "select",
+                            callback({ chartWrapper }) {
+                                const name =
+                                    playerInfo[
+                                        chartWrapper
+                                            .getChart()
+                                            .getSelection()[0].row
+                                    ].toteam;
+                                if (name) {
+                                    props.history.push(
+                                        `/organizations/${name}`
+                                    );
+                                }
+                            },
+                        },
                     ]}
                 />
             </div>
