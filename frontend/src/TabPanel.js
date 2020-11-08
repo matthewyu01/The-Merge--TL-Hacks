@@ -42,11 +42,7 @@ function TabPanel(props) {
             aria-labelledby={`vertical-tab-${index}`}
             {...other}
         >
-            {value === index && (
-                <Box p={3}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
+            {value === index && <Box p={3}>{children}</Box>}
         </div>
     );
 }
@@ -65,14 +61,8 @@ function a11yProps(index) {
 }
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
-        display: "flex",
-    },
-    tabs: {
-        borderRight: `1px solid ${theme.palette.divider}`,
-    },
+    root: {},
+    tabs: {},
 }));
 
 export default function VerticalTabs({ gameRosters }) {
@@ -86,12 +76,11 @@ export default function VerticalTabs({ gameRosters }) {
     return (
         <Paper className={classes.root}>
             <Tabs
-                orientation="vertical"
-                variant="scrollable"
                 value={value}
                 onChange={handleChange}
-                aria-label="Vertical tabs example"
+                aria-label="Games"
                 className={classes.tabs}
+                centered
             >
                 {Object.keys(gameRosters).map((game, i) => {
                     return <Tab label={game} {...a11yProps(i)} />;

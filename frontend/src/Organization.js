@@ -5,6 +5,7 @@ import { Typography, Grid } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 import VerticalTabs from "./TabPanel";
+import MatchList from "./MatchList";
 
 const styles = {
     subheading: {
@@ -23,20 +24,48 @@ class Organization extends React.Component {
         this.state = {
             info: [],
             gameRosters: {},
+            matches: {},
         };
     }
 
     componentDidMount() {
         Constants.GAMES.forEach((game) => {
             let params = new FormData();
-            params.append("wiki", game);
-            params.append("apikey", Constants.LIQUID_API_KEY);
-            params.append("limit", Constants.MAXIMUM_QUERY_LIMIT);
-            params.append(
+            params.set("wiki", game);
+            params.set("apikey", Constants.LIQUID_API_KEY);
+
+            params.set("limit", "5");
+            params.set(
+                "conditions",
+                `[[opponent1::${this.props.match.params.name}]] OR [[opponent2::${this.props.match.params.name}]]`
+            );
+            fetch(
+                `${Constants.LIQUID_API_URL}${Constants.MATCH_LIST_ENDPOINT}`,
+                {
+                    method: "POST",
+                    mode: "cors",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: new URLSearchParams(params),
+                }
+            )
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    if (data.result.length > 0) {
+                        this.setState((oldState) => {
+                            oldState.matches[game] = data.result;
+                        });
+                    }
+                })
+                .catch((err) => console.log(err));
+
+            params.set("limit", Constants.MAXIMUM_QUERY_LIMIT);
+            params.set(
                 "conditions",
                 `[[name::${this.props.match.params.name}]]`
             );
-
             fetch(
                 `${Constants.LIQUID_API_URL}${Constants.TEAM_LIST_ENDPOINT}`,
                 {
@@ -134,7 +163,7 @@ class Organization extends React.Component {
         const { classes } = this.props;
 
         return (
-            <div>
+            <React.Fragment>
                 <Grid
                     className={classes.heading}
                     style={{ justifyContent: "center" }}
@@ -209,10 +238,19 @@ class Organization extends React.Component {
                     align="center"
                     className={classes.subheading}
                 >
+                    Recent Matches
+                </Typography>
+                <MatchList matches={this.state.matches}></MatchList>
+
+                <Typography
+                    variant="h4"
+                    align="center"
+                    className={classes.subheading}
+                >
                     Current Roster
                 </Typography>
                 <VerticalTabs gameRosters={this.state.gameRosters} />
-            </div>
+            </React.Fragment>
         );
     };
 }
