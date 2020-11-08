@@ -45,14 +45,18 @@ export default function App() {
                             <Route exact path="/players">
                                 <PlayerList />
                             </Route>
-                            <Route
-                                exact
-                                path="/players/:player"
-                                render={(props) => <Player {...props} />}
-                            />
-                            <Route
-                                path="/"
-                                render={(props) => <HomePage {...props} />}
+                            <Route 
+                                exact 
+                                path="/players/:player" 
+                                render={(props) => (
+                                    <Player
+                                        key={props.match.params.player}
+                                        {...props}
+                                    />
+                             )} />
+                            <Route 
+                                path="/" 
+                                render={props => <HomePage {...props} />} 
                             />
                         </Switch>
                     </Container>
