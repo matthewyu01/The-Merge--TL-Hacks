@@ -22,6 +22,16 @@ const StyledTableCell = withStyles((theme) => ({
     },
 }))(TableCell);
 
+const styles = {
+    subheading: {
+        marginTop: 12,
+        marginBottom: 24,
+    },
+    heading: {
+        marginTop: 12,
+    },
+};
+
 class Player extends React.Component {
     constructor(props) {
         super(props);
@@ -29,7 +39,7 @@ class Player extends React.Component {
         this.state = {
             info: [],
             currTeam: null,
-            teammates: []
+            teammates: [],
         };
     }
 
@@ -65,7 +75,10 @@ class Player extends React.Component {
                 })
                 .catch((err) => console.log(err));
 
-            params.set("conditions", `[[id::${this.props.match.params.player}]]`);
+            params.set(
+                "conditions",
+                `[[id::${this.props.match.params.player}]]`
+            );
             fetch(
                 `${Constants.LIQUID_API_URL}${Constants.PLAYER_LIST_ENDPOINT}`,
                 {
@@ -79,28 +92,32 @@ class Player extends React.Component {
             )
                 .then((response) => response.json())
                 .then((data) => {
-                    if(data.result.length > 0) {
+                    if (data.result.length > 0) {
                         this.setState({
-                            currTeam: data.result[0]['team']
+                            currTeam: data.result[0]["team"],
                         });
 
-                        params.set("conditions", `[[team::${data.result[0]['team']}]] AND [[id::!${this.props.match.params.player}]]`);
+                        params.set(
+                            "conditions",
+                            `[[team::${data.result[0]["team"]}]] AND [[id::!${this.props.match.params.player}]]`
+                        );
                         fetch(
                             `${Constants.LIQUID_API_URL}${Constants.PLAYER_LIST_ENDPOINT}`,
                             {
                                 method: "POST",
                                 mode: "cors",
                                 headers: {
-                                    "Content-Type": "application/x-www-form-urlencoded",
+                                    "Content-Type":
+                                        "application/x-www-form-urlencoded",
                                 },
                                 body: new URLSearchParams(params),
                             }
                         )
-                            .then(response => response.json())
-                            .then(data => {
+                            .then((response) => response.json())
+                            .then((data) => {
                                 this.setState({
-                                    teammates: data.result
-                                })
+                                    teammates: data.result,
+                                });
                             })
                             .catch((err) => console.log(err));
                     }
@@ -160,11 +177,22 @@ class Player extends React.Component {
         let primaryColor = this.props.theme.palette.text.primary;
         let backgroundColor = this.props.theme.palette.background;
 
-        return (
-            <div>
-                <h1>{this.props.match.params.player}</h1>
+        const { classes } = props;
 
-                <h3>Transfer Activity</h3>
+        return (
+            <React.Fragment>
+                <Typography variant="h1">
+                    {this.props.match.params.player}
+                </Typography>
+                <hr />
+
+                <Typography
+                    variant="h5"
+                    align="center"
+                    className={classes.subheading}
+                >
+                    Transfer Activity
+                </Typography>
                 <Chart
                     width={"500px"}
                     height={"300px"}
@@ -225,43 +253,36 @@ class Player extends React.Component {
                     ]}
                 />
 
+                <Typography
+                    variant="h5"
+                    align="center"
+                    className={classes.subheading}
+                >
+                    Current Teammates
+                </Typography>
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
-                            <StyledTableCell
-                                key={`table-header-player`}
-                            >
+                            <StyledTableCell key={`table-header-player`}>
                                 Player
                             </StyledTableCell>
-                            <StyledTableCell
-                                key={`table-header-role`}
-                            >
+                            <StyledTableCell key={`table-header-role`}>
                                 Role
                             </StyledTableCell>
-                            <StyledTableCell
-                                key={`table-header-nationality`}
-                            >
+                            <StyledTableCell key={`table-header-nationality`}>
                                 Nationality
                             </StyledTableCell>
-                            <StyledTableCell
-                                key={`table-header-name`}
-                            >
+                            <StyledTableCell key={`table-header-name`}>
                                 Name
                             </StyledTableCell>
-                            <StyledTableCell
-                                key={`table-header-age`}
-                            >
+                            <StyledTableCell key={`table-header-age`}>
                                 Age
                             </StyledTableCell>
                         </TableHead>
                         {teammates.map((player, i) => (
-                            <TableRow
-                                key={`row-${player.id}-${i}`}
-                            >
-                                <TableCell
-                                    key={`cell-id-${player.id}-${i}`}
-                                >
-                                    <Typography>
+                            <TableRow key={`row-${player.id}-${i}`}>
+                                <TableCell key={`cell-id-${player.id}-${i}`}>
+                                    <Typography style={{ fontSize: 14 }}>
                                         <Link
                                             color="inherit"
                                             to={`/players/${player.id}`}
@@ -271,27 +292,20 @@ class Player extends React.Component {
                                         </Link>
                                     </Typography>
                                 </TableCell>
-                                <TableCell
-                                    key={`cell-role-${player.id}`}
-                                >
-                                    {player.extradata?.role ||
-                                        "Unknown"}
+                                <TableCell key={`cell-role-${player.id}`}>
+                                    {player.extradata?.role || "Unknown"}
                                 </TableCell>
                                 <TableCell
                                     key={`cell-nationality-${player.id}`}
                                 >
                                     {player.nationality || "Unknown"}
                                 </TableCell>
-                                <TableCell
-                                    key={`cell-name-${player.id}`}
-                                >
+                                <TableCell key={`cell-name-${player.id}`}>
                                     {player.romanizedname ||
                                         player.name ||
                                         "Unknown"}
                                 </TableCell>
-                                <TableCell
-                                    key={`cell-age-${player.id}`}
-                                >
+                                <TableCell key={`cell-age-${player.id}`}>
                                     {new Date(
                                         +new Date() -
                                             +new Date(player.birthdate)
@@ -301,9 +315,9 @@ class Player extends React.Component {
                         ))}
                     </Table>
                 </TableContainer>
-            </div>
+            </React.Fragment>
         );
     };
 }
 
-export default withRouter(withTheme(Player));
+export default withStyles(styles)(withRouter(withTheme(Player)));
