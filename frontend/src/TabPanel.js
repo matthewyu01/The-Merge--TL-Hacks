@@ -18,8 +18,8 @@ import { Link as RouterLink } from "react-router-dom";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
-        backgroundColor: theme.palette.primary.dark,
-        color: theme.palette.primary.contrastText,
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
     },
 }))(TableCell);
 
