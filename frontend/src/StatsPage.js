@@ -352,14 +352,95 @@ function StatsPage(props) {
     return (
         <div>
             <Typography variant="h1" align="center">Statistics</Typography>
-            <PlayerCountGraph {...props} />
-            <CollapsibleTable />
+            <PlayerCountGraph {...props}/>
+            <CollapsibleTable/>
             <i><h5>Click dropdowns for team rankings. Note: Valorant rankings are for NA</h5></i>
-            {/* <Tooltip title="CSGO Reddit">
-                <IconButton href="https://www.reddit.com/r/GlobalOffensive/">
-                    <RedditIcon/>
-                </IconButton>
-            </Tooltip> */}
+            <div style={{fontSize:"16px", fontWeight:"bold",}} align="center">
+                CS:GO
+                <Tooltip title="Download CS:GO">
+                    <IconButton href="https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/">
+                        <GetAppIcon/>
+                    </IconButton>
+                </Tooltip> 
+                <Tooltip title="HLTV">
+                    <IconButton href="https://www.hltv.org/">
+                        <EqualizerIcon/>
+                    </IconButton>
+                </Tooltip> 
+                <Tooltip title="CS:GO Reddit">
+                    <IconButton href="https://www.reddit.com/r/GlobalOffensive/" style={{color:"#FF4500"}}>
+                        <RedditIcon/>
+                    </IconButton>
+                </Tooltip> 
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Valorant
+                <Tooltip title="Download Valorant">
+                    <IconButton href="https://playvalorant.com/en-us/">
+                        <GetAppIcon/>
+                    </IconButton>
+                </Tooltip> 
+                <Tooltip title="theSpike.gg">
+                    <IconButton href="https://www.thespike.gg/">
+                        <EqualizerIcon/>
+                    </IconButton>
+                </Tooltip> 
+                <Tooltip title="Valorant Reddit">
+                    <IconButton href="https://www.reddit.com/r/Valorant/"  style={{color:"#FF4500"}}>
+                        <RedditIcon/>
+                    </IconButton>
+                </Tooltip> 
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                League
+                    <Tooltip title="Download LoL">
+                        <IconButton href="https://leagueoflegends.com/">
+                            <GetAppIcon/>
+                        </IconButton>
+                    </Tooltip> 
+                    <Tooltip title="GoL Esports">
+                        <IconButton href="https://gol.gg/tournament/tournament-stats/LPL%20Regional%20Finals%202020/">
+                            <EqualizerIcon/>
+                        </IconButton>
+                    </Tooltip> 
+                    <Tooltip title="LoL Reddit">
+                        <IconButton href="https://www.reddit.com/r/leagueoflegends/"  style={{color:"#FF4500"}}>
+                            <RedditIcon/>
+                        </IconButton>
+                    </Tooltip> 
+                <br></br>
+                Dota 2
+                    <Tooltip title="Download Dota 2">
+                        <IconButton href="https://store.steampowered.com/app/570/Dota_2/">
+                            <GetAppIcon/>
+                        </IconButton>
+                    </Tooltip> 
+                    <Tooltip title="DOTABUFF">
+                        <IconButton href="https://www.dotabuff.com/">
+                            <EqualizerIcon/>
+                        </IconButton>
+                    </Tooltip> 
+                    <Tooltip title="Dota 2 Reddit">
+                        <IconButton href="https://www.reddit.com/r/DotA2/"  style={{color:"#FF4500"}}>
+                            <RedditIcon/>
+                        </IconButton>
+                    </Tooltip> 
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Overwatch
+                    <Tooltip title="Download Overwatch">
+                        <IconButton href="https://playoverwatch.com/">
+                            <GetAppIcon/>
+                        </IconButton>
+                    </Tooltip> 
+                    <Tooltip title="OWL Stats">
+                        <IconButton href="https://overwatchleague.com/stats">
+                            <EqualizerIcon/>
+                        </IconButton>
+                    </Tooltip> 
+                    <Tooltip title="Overwatch Reddit">
+                        <IconButton href="https://www.reddit.com/r/Overwatch/"  style={{color:"#FF4500"}}>
+                            <RedditIcon/>
+                        </IconButton>
+                    </Tooltip> 
+            </div>
         </div>
     );
 }
