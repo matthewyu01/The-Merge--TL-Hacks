@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS, cross_origin
 
@@ -18,9 +19,10 @@ def get_image(org):
 
     return send_file(f'logos/{org}.jpg')
 
-@app.route('/json/<file_name>', methods=['GET'])
+@app.route('/rankings/<file_name>', methods=['GET'])
 def get_json(file_name):
-    return jsonify(f'json/{file_name}.json')
+    with open(f'rankings/{file_name}.json', 'r') as f:
+        return jsonify(json.load(f))
 
 if __name__ == "__main__":
     app.run()
