@@ -124,6 +124,8 @@ class Organization extends React.Component {
         return (
             <div>
                 <h1>{this.props.match.params.name}</h1>
+                    <img src={`http://127.0.0.1:5000/logos/${this.props.match.params.name}`} />
+                
                 <Chart
                     width={"500px"}
                     height={"300px"}

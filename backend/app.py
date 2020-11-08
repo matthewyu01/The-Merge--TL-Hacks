@@ -11,11 +11,10 @@ CORS(app)
 def hello():
     return "Hello World!"
 
-@app.route('/logos/<org>', methods=['POST'])
+@app.route('/logos/<org>', methods=['GET'])
 def get_image(org):
     if not os.path.exists(f'logos/{org}.jpg'):
         return send_file(DEFAULT_LOGO)
-        pass
 
     return send_file(f'logos/{org}.jpg')
 
