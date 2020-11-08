@@ -28,11 +28,11 @@ class Organization extends React.Component {
 
     componentDidMount() {
         Constants.GAMES.forEach((game) => {
-            let data = new FormData();
-            data.append("wiki", game);
-            data.append("apikey", Constants.LIQUID_API_KEY);
-            data.append("limit", Constants.MAXIMUM_QUERY_LIMIT);
-            data.append(
+            let params = new FormData();
+            params.append("wiki", game);
+            params.append("apikey", Constants.LIQUID_API_KEY);
+            params.append("limit", Constants.MAXIMUM_QUERY_LIMIT);
+            params.append(
                 "conditions",
                 `[[name::${this.props.match.params.name}]]`
             );
@@ -45,7 +45,7 @@ class Organization extends React.Component {
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
                     },
-                    body: new URLSearchParams(data),
+                    body: new URLSearchParams(params),
                 }
             )
                 .then((response) => response.json())
@@ -57,7 +57,10 @@ class Organization extends React.Component {
                 })
                 .catch((err) => console.log(err));
 
-            data.set("conditions", `[[team::${this.props.match.params.name}]]`);
+            params.set(
+                "conditions",
+                `[[team::${this.props.match.params.name}]]`
+            );
             fetch(
                 `${Constants.LIQUID_API_URL}${Constants.PLAYER_LIST_ENDPOINT}`,
                 {
@@ -66,7 +69,7 @@ class Organization extends React.Component {
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
                     },
-                    body: new URLSearchParams(data),
+                    body: new URLSearchParams(params),
                 }
             )
                 .then((response) => response.json())
@@ -160,6 +163,7 @@ class Organization extends React.Component {
                 <Chart
                     width={"500px"}
                     height={"300px"}
+                    style={{ marginLeft: "auto", marginRight: "auto" }}
                     chartType="Timeline"
                     loader={<div>Loading Chart</div>}
                     data={timelineData}
