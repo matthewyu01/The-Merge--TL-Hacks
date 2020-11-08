@@ -52,7 +52,6 @@ class Organization extends React.Component {
             )
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data);
                     if (data.result.length > 0) {
                         this.setState((oldState) => {
                             oldState.matches[game] = data.result;

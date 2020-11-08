@@ -13,7 +13,7 @@ import {
     TableContainer,
     TableRow,
     TableHead,
-    Grid,
+    TableBody,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -38,8 +38,8 @@ function TabPanel(props) {
         <div
             role="tabpanel"
             hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
+            id={`tab-roster-${index}`}
+            aria-labelledby={`tab-roster-${index}`}
             {...other}
         >
             {value === index && <Box p={3}>{children}</Box>}
@@ -78,107 +78,128 @@ export default function VerticalTabs({ gameRosters }) {
             <Tabs
                 value={value}
                 onChange={handleChange}
-                aria-label="Games"
+                aria-label="Rosters"
                 className={classes.tabs}
                 centered
             >
                 {Object.keys(gameRosters).map((game, i) => {
-                    return <Tab label={game} {...a11yProps(i)} />;
+                    return (
+                        <Tab
+                            key={`tab-roster-${game}`}
+                            label={game}
+                            {...a11yProps(i)}
+                        />
+                    );
                 })}
             </Tabs>
             {Object.keys(gameRosters).map((game, i) => {
                 return (
-                    <TabPanel value={value} index={i} style={{ width: "100%" }}>
-                        <TableContainer component={Paper}>
+                    <TabPanel
+                        key={`tab-panel-${game}-${i}`}
+                        value={value}
+                        index={i}
+                        style={{ width: "100%" }}
+                    >
+                        <TableContainer
+                            key={`table-container-${game}-${i}`}
+                            component={Paper}
+                        >
                             <Table
                                 key={`table-${game}-${i}`}
                                 style={{ width: "100%" }}
                             >
                                 <TableHead key={`table-header-${game}-${i}`}>
-                                    <StyledTableCell
-                                        key={`table-header-player-${game}-${i}`}
-                                    >
-                                        Player
-                                    </StyledTableCell>
-                                    <StyledTableCell
-                                        key={`table-header-role-${game}-${i}`}
-                                    >
-                                        Role
-                                    </StyledTableCell>
-                                    <StyledTableCell
-                                        key={`table-header-status-${game}-${i}`}
-                                    >
-                                        Status
-                                    </StyledTableCell>
-                                    <StyledTableCell
-                                        key={`table-header-nationality-${game}-${i}`}
-                                    >
-                                        Nationality
-                                    </StyledTableCell>
-                                    <StyledTableCell
-                                        key={`table-header-name-${game}-${i}`}
-                                    >
-                                        Name
-                                    </StyledTableCell>
-                                    <StyledTableCell
-                                        key={`table-header-age-${game}-${i}`}
-                                    >
-                                        Age
-                                    </StyledTableCell>
-                                </TableHead>
-                                {gameRosters[game].map((player, j) => (
-                                    <TableRow
-                                        key={`row-${player.id}-${game}-${i}-${j}`}
-                                    >
-                                        <OtherStyledTableCell
-                                            key={`cell-id-${player.id}-${game}-${i}-${j}`}
+                                    <TableRow>
+                                        <StyledTableCell
+                                            key={`table-header-player-${game}-${i}`}
                                         >
-                                            <Typography>
-                                                <Link
-                                                    color="inherit"
-                                                    to={`/players/${player.id}`}
-                                                    style={{
-                                                        fontSize: 14,
-                                                    }}
-                                                    component={RouterLink}
-                                                >
-                                                    {player.id}
-                                                </Link>
-                                            </Typography>
-                                        </OtherStyledTableCell>
-                                        <OtherStyledTableCell
-                                            key={`cell-role-${player.id}-${game}-${i}-${j}`}
+                                            Player
+                                        </StyledTableCell>
+                                        <StyledTableCell
+                                            key={`table-header-role-${game}-${i}`}
                                         >
-                                            {player.extradata?.role ||
-                                                "Unknown"}
-                                        </OtherStyledTableCell>
-                                        <OtherStyledTableCell
-                                            key={`cell-status-${player.id}-${game}-${i}-${j}`}
+                                            Role
+                                        </StyledTableCell>
+                                        <StyledTableCell
+                                            key={`table-header-status-${game}-${i}`}
                                         >
-                                            {player.status || "Unknown"}
-                                        </OtherStyledTableCell>
-                                        <OtherStyledTableCell
-                                            key={`cell-nationality-${player.id}-${game}-${i}-${j}`}
+                                            Status
+                                        </StyledTableCell>
+                                        <StyledTableCell
+                                            key={`table-header-nationality-${game}-${i}`}
                                         >
-                                            {player.nationality || "Unknown"}
-                                        </OtherStyledTableCell>
-                                        <OtherStyledTableCell
-                                            key={`cell-name-${player.id}-${game}-${i}-${j}`}
+                                            Nationality
+                                        </StyledTableCell>
+                                        <StyledTableCell
+                                            key={`table-header-name-${game}-${i}`}
                                         >
-                                            {player.romanizedname ||
-                                                player.name ||
-                                                "Unknown"}
-                                        </OtherStyledTableCell>
-                                        <OtherStyledTableCell
-                                            key={`cell-age-${player.id}-${game}-${i}-${j}`}
+                                            Name
+                                        </StyledTableCell>
+                                        <StyledTableCell
+                                            key={`table-header-age-${game}-${i}`}
                                         >
-                                            {new Date(
-                                                +new Date() -
-                                                    +new Date(player.birthdate)
-                                            ).getFullYear() - 1970}
-                                        </OtherStyledTableCell>
+                                            Age
+                                        </StyledTableCell>
                                     </TableRow>
-                                ))}
+                                </TableHead>
+                                <TableBody>
+                                    {gameRosters[game].map((player, j) => (
+                                        <TableRow
+                                            key={`row-${player.id}-${game}-${i}-${j}`}
+                                        >
+                                            <OtherStyledTableCell
+                                                key={`cell-id-${player.id}-${game}-${i}-${j}`}
+                                            >
+                                                <Typography>
+                                                    <Link
+                                                        color="inherit"
+                                                        to={`/players/${player.id}`}
+                                                        style={{
+                                                            fontSize: 14,
+                                                        }}
+                                                        component={RouterLink}
+                                                    >
+                                                        {player.id}
+                                                    </Link>
+                                                </Typography>
+                                            </OtherStyledTableCell>
+                                            <OtherStyledTableCell
+                                                key={`cell-role-${player.id}-${game}-${i}-${j}`}
+                                            >
+                                                {player.extradata?.role ||
+                                                    "Unknown"}
+                                            </OtherStyledTableCell>
+                                            <OtherStyledTableCell
+                                                key={`cell-status-${player.id}-${game}-${i}-${j}`}
+                                            >
+                                                {player.status || "Unknown"}
+                                            </OtherStyledTableCell>
+                                            <OtherStyledTableCell
+                                                key={`cell-nationality-${player.id}-${game}-${i}-${j}`}
+                                            >
+                                                {player.nationality ||
+                                                    "Unknown"}
+                                            </OtherStyledTableCell>
+                                            <OtherStyledTableCell
+                                                key={`cell-name-${player.id}-${game}-${i}-${j}`}
+                                            >
+                                                {player.romanizedname ||
+                                                    player.name ||
+                                                    "Unknown"}
+                                            </OtherStyledTableCell>
+                                            <OtherStyledTableCell
+                                                key={`cell-age-${player.id}-${game}-${i}-${j}`}
+                                            >
+                                                {new Date(
+                                                    +new Date() -
+                                                        +new Date(
+                                                            player.birthdate
+                                                        )
+                                                ).getFullYear() - 1970}
+                                            </OtherStyledTableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
                             </Table>
                         </TableContainer>
                     </TabPanel>
