@@ -135,23 +135,22 @@ class Organization extends React.Component {
 
         return (
             <div>
-                <Grid className={classes.heading} container>
-                    <Grid xs={12} sm={10} item>
-                        <Typography variant="h1" align="left">
-                            {this.props.match.params.name}
-                        </Typography>
-                    </Grid>
-                    <Grid xs={12} sm={2} item>
-                        <img
-                            src={`${Constants.BACKEND_URL}${Constants.LOGOS_ENDPOINT}${this.props.match.params.name}`}
-                            alt={`${this.props.match.params.name} Logo`}
-                            width={90}
-                            height={110}
-                        />
-                    </Grid>
+                <Grid
+                    className={classes.heading}
+                    style={{ justifyContent: "center" }}
+                    container
+                >
+                    <img
+                        src={`${Constants.BACKEND_URL}${Constants.LOGOS_ENDPOINT}${this.props.match.params.name}`}
+                        alt={`${this.props.match.params.name} Logo`}
+                        style={{ marginRight: 20 }}
+                        width={90}
+                        height={110}
+                    />
+                    <Typography variant="h1" align="left">
+                        {this.props.match.params.name}
+                    </Typography>
                 </Grid>
-
-                <hr></hr>
 
                 <Typography
                     variant="h4"

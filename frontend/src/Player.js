@@ -184,29 +184,28 @@ class Player extends React.Component {
 
         return (
             <React.Fragment>
-                <Grid className={classes.heading} container>
-                    <Grid xs={12} sm={10} item>
-                        <Typography variant="h1" align="left">
-                            {this.props.match.params.player}
-                        </Typography>
-                    </Grid>
+                <Grid
+                    className={classes.heading}
+                    style={{ justifyContent: "center" }}
+                    container
+                >
                     {this.state.currTeam ? (
-                        <Grid xs={12} sm={2} item>
-                            <RouterLink
-                                to={`/organizations/${this.state.currTeam}`}
-                            >
-                                <img
-                                    src={`${Constants.BACKEND_URL}${Constants.LOGOS_ENDPOINT}${this.state.currTeam}`}
-                                    alt={`${this.state.currTeam} Logo`}
-                                    width={90}
-                                    height={110}
-                                />
-                            </RouterLink>
-                        </Grid>
+                        <RouterLink
+                            to={`/organizations/${this.state.currTeam}`}
+                        >
+                            <img
+                                src={`${Constants.BACKEND_URL}${Constants.LOGOS_ENDPOINT}${this.state.currTeam}`}
+                                alt={`${this.state.currTeam} Logo`}
+                                width={90}
+                                height={110}
+                                style={{ marginRight: 20 }}
+                            />
+                        </RouterLink>
                     ) : null}
+                    <Typography variant="h1" align="left">
+                        {this.props.match.params.player}
+                    </Typography>
                 </Grid>
-
-                <hr />
 
                 <Typography
                     variant="h5"
@@ -229,7 +228,7 @@ class Player extends React.Component {
                         data={timelineData}
                         options={{
                             timeline: {
-                                groupByRowLabel: false,
+                                groupByRowLabel: true,
                                 rowLabelStyle: {
                                     color: primaryColor,
                                 },
