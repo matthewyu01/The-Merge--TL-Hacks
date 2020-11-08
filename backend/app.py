@@ -1,6 +1,8 @@
-from flask import Flask, jsonify, request, send_from_directory
+import os
+from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS, cross_origin
 
+DEFAULT_LOGO = 'logos/default.jpg'
 
 app = Flask(__name__)
 CORS(app)
@@ -9,10 +11,13 @@ CORS(app)
 def hello():
     return "Hello World!"
 
-@app.route('/images/<path:path>')
-def get_image(path):
-    return send_from_directory('images', path)
+@app.route('/logos/<org>', methods=['POST'])
+def get_image(org):
+    if not os.path.exists(f'logos/{org}.jpg'):
+        return send_file(DEFAULT_LOGO)
+        pass
 
+    return send_file(f'logos/{org}.jpg')
 
 if __name__ == "__main__":
     app.run()
