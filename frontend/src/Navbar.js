@@ -17,7 +17,7 @@ function Navbar(props) {
 
     return (
         <AppBar
-            position="position"
+            position="static"
             color={theme.palette.type === "dark" ? "inherit" : "primary"}
         >
             <Toolbar>

@@ -121,7 +121,7 @@ const useRowStyles = makeStyles({
   });
   
   function createData(name, player_count, twitchViewership, totalPrizeEarnings, tournamentWins, price, rankings = [
-    { team_ranking: '0', teamName: 'No info available', amount: 0 },
+    { team_ranking: 0, teamName: 'No info available', amount: 0 },
   ]) 
   {
 
