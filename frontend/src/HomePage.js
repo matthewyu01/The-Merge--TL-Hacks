@@ -231,7 +231,9 @@ class CollapsibleTable extends React.Component {
             "leagueoflegends": false,
             "dota2": false,
             "overwatch": false,
-        }
+        },
+        games: {},
+        playerCountRetrieved: false,
     };
   } 
 
@@ -258,12 +260,36 @@ class CollapsibleTable extends React.Component {
                 });
             });
     });
+    Constants.STEAM_GAMES.forEach((game) => {
+    var game_steam_id = Constants.STEAM_GAME_IDS[game];
+
+      fetch(
+          'https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?format=json&appid=' + game_steam_id,
+          {
+              method: "GET",
+              mode: "cors",
+          }
+      )
+          .then(response => response.json())
+          .then((data) => {
+              this.setState((oldState) => {
+                  oldState.games[game] = {
+                      name: Constants.GAMES_PRETTY[game],
+                      playerCount: data.response.player_count,
+                  }
+                  oldState.playerCountRetrieved = true;
+                  return oldState;
+              });
+          });
+          
+  });
 }   
 
 
     render = () => {
         if (!this.state.rankingsRetrieved["counterstrike"]) return null;
         else if (!this.state.rankingsRetrieved["valorant"]) return null;
+        if (!this.state.playerCountRetrieved) return null;
 
         var cs_rankings = this.state.gamesArray["counterstrike"].rankingsArray;
         //var val_rankings = this.state.gamesArray["valorant"].rankingsArray;
@@ -282,10 +308,10 @@ class CollapsibleTable extends React.Component {
         var val_array = [{ teamRanking: 0, teamName: 'No info available', points: 0 }];
 
         var rows = [
-        createData('Counter-Strike: Global Offensive', 1004, 0, "$103,148,629.27", 6288, 3.99, cs_array),
+        createData('Counter-Strike: Global Offensive', this.state.games["counterstrike"]?.playerCount, 0, "$103,148,629.27", 6288, 3.99, cs_array),
         createData('Valorant', 0, 0, "$1,369,951.05", 265, 4.99),
         createData('League of Legends', 0, 0, "$81,343,448.94", 2478, 3.79),
-        createData('Dota 2', 1004, 0, "$227,914,706.51", 1444, 2.5),
+        createData('Dota 2', this.state.games["dota2"]?.playerCount, 0, "$227,914,706.51", 1444, 2.5),
         createData('Overwatch', 0, 0, "$26,049,333.28", 743, 1.5),
       ];
         return (
