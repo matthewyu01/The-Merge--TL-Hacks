@@ -285,7 +285,7 @@ function Row(props) {
                                                 {rankingsRow.points}
                                             </TableCell>
                                             <TableCell align="right">
-                                                {rankingsRow.earnings}
+                                                {"$" + rankingsRow.earnings.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}
                                             </TableCell>
                                             <TableCell align="right">
                                                 {rankingsRow.location}
