@@ -28,39 +28,44 @@ export default function App() {
         <ThemeProvider theme={theme}>
             <CssBaseline>
                 <Router>
-                    <Navbar
-                        darkMode={darkMode}
-                        handleThemeChange={handleThemeChange}
-                    />
-                    <Container>
-                        <Switch>
-                            <Route
-                                exact
-                                path="/organizations/:name"
-                                render={(props) => <Organization {...props} />}
-                            />
-                            <Route exact path="/organizations">
-                                <OrganizationList />
-                            </Route>
-                            <Route exact path="/players">
-                                <PlayerList />
-                            </Route>
-                            <Route 
-                                exact 
-                                path="/players/:player" 
-                                render={(props) => (
-                                    <Player
-                                        key={props.match.params.player}
-                                        {...props}
-                                    />
-                             )} />
-                            <Route 
-                                path="/" 
-                                render={props => <HomePage {...props} />} 
-                            />
-                        </Switch>
-                    </Container>
-                    <Footer />
+                    <div style={{ position: "relative", minHeight: "100vh" }}>
+                        <Navbar
+                            darkMode={darkMode}
+                            handleThemeChange={handleThemeChange}
+                        />
+                        <Container style={{ paddingBottom: 96 }}>
+                            <Switch>
+                                <Route
+                                    exact
+                                    path="/organizations/:name"
+                                    render={(props) => (
+                                        <Organization {...props} />
+                                    )}
+                                />
+                                <Route exact path="/organizations">
+                                    <OrganizationList />
+                                </Route>
+                                <Route exact path="/players">
+                                    <PlayerList />
+                                </Route>
+                                <Route
+                                    exact
+                                    path="/players/:player"
+                                    render={(props) => (
+                                        <Player
+                                            key={props.match.params.player}
+                                            {...props}
+                                        />
+                                    )}
+                                />
+                                <Route
+                                    path="/"
+                                    render={(props) => <HomePage {...props} />}
+                                />
+                            </Switch>
+                        </Container>
+                        <Footer />
+                    </div>
                 </Router>
             </CssBaseline>
         </ThemeProvider>

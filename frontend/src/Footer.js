@@ -9,6 +9,8 @@ import {
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: 48,
+        top: "auto",
+        bottom: 0,
     },
     text: {
         paddingTop: 24,
@@ -20,7 +22,7 @@ function Footer() {
     const classes = useStyles();
 
     return (
-        <AppBar position="static" color="inherit" className={classes.root}>
+        <AppBar position="absolute" color="inherit" className={classes.root}>
             <Typography
                 align="center"
                 variant="caption"
