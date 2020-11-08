@@ -135,10 +135,10 @@ const useRowStyles = makeStyles({
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
-          <TableCell component="th" scope="row">
+          <TableCell component="th" scope="row" style = {{fontWeight : "bold", fontSize : 20}}>
             {row.name}
           </TableCell>
-          <TableCell align="right" style = {{color : "red"}}>{row.player_count}</TableCell>
+          <TableCell align="right">{row.player_count}</TableCell>
           <TableCell align="right">{row.twitchViewership}</TableCell>
           <TableCell align="right">{row.totalPrizeEarnings}</TableCell>
           <TableCell align="right">{row.tournamentWins}</TableCell>
@@ -153,7 +153,7 @@ const useRowStyles = makeStyles({
                 <Table size="small" aria-label="purchases">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Ranking</TableCell>
+                      <TableCell style = {{color : "#7FFFD4"}}>Ranking</TableCell>
                       <TableCell>Team</TableCell>
                       <TableCell align="right">Points</TableCell>
                       <TableCell align="right"># of Trophies</TableCell>
