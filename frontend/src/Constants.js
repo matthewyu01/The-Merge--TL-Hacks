@@ -25,7 +25,7 @@ export const GAMES = [
 ];
 export const GAMES_PRETTY = {
     dota2: "Dota 2",
-    counterstrike: "CSGO",
+    counterstrike: "CS:GO",
     leagueoflegends: "League of Legends",
     valorant: "Valorant",
     overwatch: "Overwatch",
