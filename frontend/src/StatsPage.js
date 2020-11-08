@@ -62,10 +62,13 @@ class PlayerCountGraph extends React.Component {
     render = () => {
         if (!this.state.playerCountRetrieved) return null;
 
+        console.log(this.props);
+
         return (
             <Chart
                 width={"500px"}
                 height={"300px"}
+                style={{ margin: "0 auto" }}
                 chartType="BarChart"
                 loader={<div>Loading Chart</div>}
                 data={[
@@ -108,7 +111,8 @@ class PlayerCountGraph extends React.Component {
                 options={{
                     title: "Live Player Count for Steam Games",
                     titleTextStyle: {
-                        fontSize: 20,
+                        fontSize: 18,
+                        fontName: this.props.theme.typography.h5.fontFamily,
                         bold: true,
                         color: this.props.theme.palette.text.primary,
                     },
