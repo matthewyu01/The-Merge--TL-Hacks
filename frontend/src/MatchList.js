@@ -93,13 +93,19 @@ function MatchList(props) {
                                         >
                                             <Typography
                                                 key={`match-date-${game}-${match.opponent1}-${match.opponent2}-${game}-${i}-${j}`}
-                                                style={{ marginRight: "auto" }}
-                                                variant="h6"
-                                            >{`${new Date(
-                                                match.date
-                                            ).getUTCMonth()}/${new Date(
-                                                match.date
-                                            ).getDate()}`}</Typography>
+                                                style={{ marginRight: "auto", fontWeight: 400 }}
+                                            >
+                                                {`${new Date(
+                                                    match.date
+                                                ).getUTCMonth()}/${new Date(
+                                                    match.date
+                                                ).getDate()}/${new Date(
+                                                    match.date
+                                                ).getFullYear()} 
+                                                ${match.tournament.length >= 40 ? 
+                                                    match.tournament.substring(0, 40)+"..." : 
+                                                    match.tournament}`}
+                                            </Typography>
                                             <Typography
                                                 style={{ margin: "auto" }}
                                                 key={`match-teams-${game}-${match.opponent1}-${match.opponent2}-${game}-${i}-${j}`}
