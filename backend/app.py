@@ -14,10 +14,13 @@ def hello():
 
 @app.route('/logos/<org>', methods=['GET'])
 def get_image(org):
-    if not os.path.exists(f'logos/{org}.jpg'):
-        return send_file(DEFAULT_LOGO)
+    if os.path.exists(f'logos/{org}.png'):
+        return send_file(f'logos/{org}.png')
 
-    return send_file(f'logos/{org}.jpg')
+    if os.path.exists(f'logos/{org}.jpg'):
+        return send_file(f'logos/{org}.jpg')
+
+    return send_file(DEFAULT_LOGO)
 
 @app.route('/rankings/<file_name>', methods=['GET'])
 def get_json(file_name):
