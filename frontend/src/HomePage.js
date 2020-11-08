@@ -116,17 +116,21 @@ class PlayerCountGraph extends React.Component {
 
 const useRowStyles = makeStyles({
     root: {
-      '& > *': {
-        borderBottom: 'unset',
-      },
+        '& > *': {
+            borderBottom: 'unset',
+        },
     },
-  });
+    header: {
+        fontWeight: "bold",
+        fontSize: 16,
+    },
+    cell: {
+        padding: "12px",
+    }
+});
   
-  function createData(name, player_count, dateCreated, totalPrizeEarnings, tournamentWins, price, rankings = [
-    { teamRanking: 0, teamName: 'No info available', points: 0 },
-  ]) 
-  {
-
+function createData(name, player_count, twitchViewership, totalPrizeEarnings, tournamentWins, price, rankings = [
+{ teamRanking: 0, teamName: 'No info available', points: 0 },]) {
     return {
       name,
       player_count,
@@ -136,9 +140,9 @@ const useRowStyles = makeStyles({
       price,
       rankings,
     };
-  }
+}
   
-  function Row(props) {
+function Row(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
@@ -151,7 +155,7 @@ const useRowStyles = makeStyles({
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
-          <TableCell component="th" scope="row" style = {{fontWeight : "bold", fontSize : 20}}>
+          <TableCell component="th" scope="row" className={classes.header}>
             {row.name}
           </TableCell>
           <TableCell align="right">{row.player_count}</TableCell>
@@ -163,22 +167,22 @@ const useRowStyles = makeStyles({
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box margin={1}>
-                <Typography variant="h6" gutterBottom component="div" style = {{color : "#7FFFD4"}}>
+                <Typography align="center" variant="h6" gutterBottom component="div" style = {{color : "#7FFFD4"}}>
                   Rankings
                 </Typography>
-                <Table size="small" aria-label="purchases">
+                <Table size="small" aria-label="purchases" align="center" style={{ width: "50%" }}>
                   <TableHead>
                     <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell>Team</TableCell>
-                      <TableCell align="right">Points</TableCell>
-                      <TableCell align="right"># of Trophies</TableCell>
+                      <TableCell className={classes.header}>Overall</TableCell>
+                      <TableCell className={classes.header}>Team</TableCell>
+                      <TableCell className={classes.header} align="right">Points</TableCell>
+                      <TableCell className={classes.header} align="right"># of Trophies</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {row.rankings.map((rankingsRow) => (
-                      <TableRow key={rankingsRow.teamRanking}>
-                        <TableCell component="th" scope="row">
+                      <TableRow key={rankingsRow.teamRanking} >
+                        <TableCell className={classes.cell} component="th" scope="row">
                           {rankingsRow.teamRanking}
                         </TableCell>
                         <TableCell>{rankingsRow.teamName}</TableCell>
@@ -196,9 +200,9 @@ const useRowStyles = makeStyles({
         </TableRow>
       </React.Fragment>
     );
-  }
+}
   
-  Row.propTypes = {
+Row.propTypes = {
     row: PropTypes.shape({
       player_count: PropTypes.number.isRequired,
       totalPrizeEarnings: PropTypes.string.isRequired,
@@ -214,9 +218,7 @@ const useRowStyles = makeStyles({
       price: PropTypes.number.isRequired,
       tournamentWins: PropTypes.number.isRequired,
     }).isRequired,
-  };
-  
-
+};
   
 class CollapsibleTable extends React.Component {
 
@@ -235,8 +237,9 @@ class CollapsibleTable extends React.Component {
         games: {},
         playerCountRetrieved: false,
     };
-  } 
 
+    this.getDetailedTeamInfo = this.getDetailedTeamInfo.bind(this);
+  } 
 
   componentDidMount() {
     Constants.RANKINGS_GAMES.forEach((game) => {
@@ -258,8 +261,10 @@ class CollapsibleTable extends React.Component {
                     oldState.rankingsRetrieved[game] = true;
                     return oldState;
                 });
-            });
+            })
+            .catch((err) => console.log(err));
     });
+
     Constants.STEAM_GAMES.forEach((game) => {
     var game_steam_id = Constants.STEAM_GAME_IDS[game];
 
@@ -282,17 +287,59 @@ class CollapsibleTable extends React.Component {
               });
           });
           
-  });
-}   
+    });
+    }   
 
+    getDetailedTeamInfo() {
+
+        let { gamesArray } = this.state;
+        Object.keys(gamesArray, (game) => {
+            let rankings = gamesArray[game].rankingsArray;
+
+            for(let i=0; i<rankings.length; i++) {
+                let entry = rankings[i];
+                let params = FormData();
+                params.append("wiki", game);
+                params.append("apikey", Constants.LIQUID_API_KEY);
+                params.append("limit", Constants.MAXIMUM_QUERY_LIMIT);
+                params.append("conditions", `[[name::${entry.Team}]]`)
+
+                fetch(
+                    `${Constants.LIQUID_API_URL}${Constants.TEAM_LIST_ENDPOINT}`,
+                    {
+                        method: "POST",
+                        mode: "cors",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                        },
+                        body: new URLSearchParams(params),
+                    }
+                )
+                    .then(response => response.json())
+                    .then((data) => {
+                        rankings[i].Earnings = data.result.earnings
+                    });
+            }
+        });
+
+        this.setState({
+            detailedInfoRetrieved: true
+        })
+      
+  }
 
     render = () => {
-        if (!this.state.rankingsRetrieved["counterstrike"]) return null;
-        else if (!this.state.rankingsRetrieved["valorant"]) return null;
-        if (!this.state.playerCountRetrieved) return null;
+        if (!this.state.rankingsRetrieved["counterstrike"] || 
+            !this.state.rankingsRetrieved["valorant"]) 
+            return null;
+
+        console.log(this.props);
+        const { classes } = this.props;
 
         var cs_rankings = this.state.gamesArray["counterstrike"].rankingsArray;
         //var val_rankings = this.state.gamesArray["valorant"].rankingsArray;
+
+        console.log(cs_rankings);
 
         var cs_array = [];
 
@@ -303,38 +350,36 @@ class CollapsibleTable extends React.Component {
             // output is chars from str
 
         }
-
         
         var val_array = [{ teamRanking: 0, teamName: 'No info available', points: 0 }];
 
         var rows = [
-        createData('Counter-Strike: Global Offensive', this.state.games["counterstrike"]?.playerCount, "August 21, 2012", "$103,148,629.27", 6288, 3.99, cs_array),
-        createData('Valorant', 0, "June 2, 2020", "$1,369,951.05", 265, 4.99),
-        createData('League of Legends', 0, "October 27, 2009", "$81,343,448.94", 2478, 3.79),
-        createData('Dota 2', this.state.games["dota2"]?.playerCount, "July 9, 2013", "$227,914,706.51", 1444, 2.5),
-        createData('Overwatch', 0, "May 24, 2016", "$26,049,333.28", 743, 1.5),
-      ];
+            createData('Counter-Strike: Global Offensive', 1004, 0, "$103,148,629.27", 6288, 3.99, cs_array),
+            createData('Valorant', 0, 0, "$1,369,951.05", 265, 4.99),
+            createData('League of Legends', 0, 0, "$81,343,448.94", 2478, 3.79),
+            createData('Dota 2', 1004, 0, "$227,914,706.51", 1444, 2.5),
+            createData('Overwatch', 0, 0, "$26,049,333.28", 743, 1.5),
+        ];
         return (
-      <TableContainer component={Paper}>
-        <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>Game</TableCell>
-              <TableCell align="right">Player Count</TableCell>
-              <TableCell align="right">Date Released</TableCell>
-              <TableCell align="right">Total Prize Earnings</TableCell>
-              <TableCell align="right"># of Tournaments</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <Row key={row.name} row={row} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    );
+        <TableContainer component={Paper}>
+            <Table aria-label="collapsible table">
+            <TableHead>
+                <TableRow>
+                <TableCell style={{width: 1}}/>
+                <TableCell style = {{fontWeight : "bold", fontSize : 20}}>Game</TableCell>
+                <TableCell align="right" style = {{fontWeight : "bold", fontSize : 20}}>Player Count</TableCell>
+                <TableCell align="right" style = {{fontWeight : "bold", fontSize : 20}}>Twitch Viewership</TableCell>
+                <TableCell align="right" style = {{fontWeight : "bold", fontSize : 20}}>Total Prize Earnings</TableCell>
+                <TableCell align="right" style = {{fontWeight : "bold", fontSize : 20}}># of Tournaments</TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {rows.map((row) => (
+                <Row key={row.name} row={row} />
+                ))}
+            </TableBody>
+            </Table>
+        </TableContainer>);
   }
 }
 
