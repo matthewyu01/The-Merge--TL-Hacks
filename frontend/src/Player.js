@@ -40,7 +40,7 @@ class Player extends React.Component {
             info: [],
             currTeam: null,
             teammates: [],
-            queried: false
+            queried: false,
         };
     }
 
@@ -127,7 +127,7 @@ class Player extends React.Component {
         });
 
         this.setState({
-            queried: true
+            queried: true,
         });
     }
 
@@ -194,16 +194,15 @@ class Player extends React.Component {
                 >
                     Transfer Activity
                 </Typography>
-                {timelineData.length === 1 ? 
-                    <Typography 
-                        align="center"
-                        className={classes.subheading}
-                    >
+                {timelineData.length === 1 ? (
+                    <Typography align="center" className={classes.subheading}>
                         No Data Available
-                    </Typography> :
+                    </Typography>
+                ) : (
                     <Chart
                         width={"500px"}
                         height={"300px"}
+                        style={{ marginLeft: "auto", marginRight: "auto" }}
                         chartType="Timeline"
                         loader={<div>Loading Chart</div>}
                         data={timelineData}
@@ -227,19 +226,21 @@ class Player extends React.Component {
                                     var labels = document.getElementsByTagName(
                                         "text"
                                     );
-                                    Array.prototype.forEach.call(labels, function (
-                                        label
-                                    ) {
-                                        if (
-                                            label.getAttribute("text-anchor") ===
-                                            "middle"
-                                        ) {
-                                            label.setAttribute(
-                                                "fill",
-                                                primaryColor
-                                            );
+                                    Array.prototype.forEach.call(
+                                        labels,
+                                        function (label) {
+                                            if (
+                                                label.getAttribute(
+                                                    "text-anchor"
+                                                ) === "middle"
+                                            ) {
+                                                label.setAttribute(
+                                                    "fill",
+                                                    primaryColor
+                                                );
+                                            }
                                         }
-                                    });
+                                    );
                                 },
                             },
                             {
@@ -260,7 +261,7 @@ class Player extends React.Component {
                             },
                         ]}
                     />
-                }
+                )}
 
                 <Typography
                     variant="h5"

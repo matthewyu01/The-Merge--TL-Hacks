@@ -57,7 +57,10 @@ class Organization extends React.Component {
                 })
                 .catch((err) => console.log(err));
 
-            params.set("conditions", `[[team::${this.props.match.params.name}]]`);
+            params.set(
+                "conditions",
+                `[[team::${this.props.match.params.name}]]`
+            );
             fetch(
                 `${Constants.LIQUID_API_URL}${Constants.PLAYER_LIST_ENDPOINT}`,
                 {
@@ -160,6 +163,7 @@ class Organization extends React.Component {
                 <Chart
                     width={"500px"}
                     height={"300px"}
+                    style={{ marginLeft: "auto", marginRight: "auto" }}
                     chartType="Timeline"
                     loader={<div>Loading Chart</div>}
                     data={timelineData}
