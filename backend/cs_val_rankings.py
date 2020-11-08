@@ -1,6 +1,6 @@
 import pandas as pd
+import json
 import webscrape as WS
-
 
 def valorant_rankings():
     url = 'https://www.thespike.gg/rankings'
@@ -37,3 +37,10 @@ def csgo_rankings():
     for index, (team, team_points) in enumerate(zip(teams,points)):
         df.loc[index] = index+1, str(team.text), str(team_points.text[1:-8])
     return df
+
+
+def rankings_to_json():
+    csgo_rankings().to_json('cs_rankings.json', orient="records")
+    csgo_rankings().to_json('val_rankings.json', orient="records")
+
+rankings_to_json()
