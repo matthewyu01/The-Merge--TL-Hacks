@@ -1,10 +1,10 @@
 import React from "react";
-import Chart from 'react-google-charts'; 
+import Chart from "react-google-charts";
 import * as Constants from "./Constants";
-import { Typography } from '@material-ui/core';
+import { Typography } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import { withTheme } from "@material-ui/core/styles";
-import VerticalTabs from './TabPanel';
+import VerticalTabs from "./TabPanel";
 
 class Organization extends React.Component {
     constructor(props) {
@@ -12,18 +12,20 @@ class Organization extends React.Component {
 
         this.state = {
             info: [],
-            gameRosters: {}
+            gameRosters: {},
         };
     }
 
     componentDidMount() {
         Constants.GAMES.forEach((game) => {
-
             let data = new FormData();
             data.append("wiki", game);
             data.append("apikey", Constants.LIQUID_API_KEY);
             data.append("limit", Constants.MAXIMUM_QUERY_LIMIT);
-            data.append("conditions", `[[name::${this.props.match.params.name}]]`);
+            data.append(
+                "conditions",
+                `[[name::${this.props.match.params.name}]]`
+            );
 
             fetch(
                 `${Constants.LIQUID_API_URL}${Constants.TEAM_LIST_ENDPOINT}`,
@@ -40,7 +42,7 @@ class Organization extends React.Component {
                 .then((data) => {
                     let currInfo = this.state.info;
                     this.setState({
-                        info: [...currInfo, ...data.result]
+                        info: [...currInfo, ...data.result],
                     });
                 })
                 .catch((err) => console.log(err));
@@ -59,22 +61,20 @@ class Organization extends React.Component {
             )
                 .then((response) => response.json())
                 .then((data) => {
-
                     let players = [];
                     data.result.map((player) => {
                         players.push(player);
-                    })
+                    });
 
-                    if(players.length > 0) {
+                    if (players.length > 0) {
                         let currRoster = this.state.gameRosters;
                         currRoster[Constants.GAMES_PRETTY[game]] = players;
                         this.setState({
-                            gameRosters: currRoster
+                            gameRosters: currRoster,
                         });
                     }
                 })
                 .catch((err) => console.log(err));
-
         });
     }
 
@@ -87,8 +87,6 @@ class Organization extends React.Component {
             return Date.parse(b.date) - Date.parse(a.date);
         });
 
-        console.log(this.state.gameRosters)
-
         let timelineData = [];
         timelineData.push([
             { type: "string", id: "Index" },
@@ -100,18 +98,17 @@ class Organization extends React.Component {
         let i = orgInfo.length;
         for (var entry of orgInfo) {
             let startDate = Date.parse(entry.createdate);
-            if(startDate < new Date(2000, 1, 1))
+            if (startDate < new Date(2000, 1, 1))
                 startDate = new Date(2000, 1, 1);
 
             let endDate = Date.parse(entry.disbanddate);
-            if(endDate === 0)
-                endDate = Date.now()
+            if (endDate === 0) endDate = Date.now();
 
             timelineData.push([
-                `${i}`,
+                Constants.GAMES_PRETTY[entry.wiki],
                 Constants.GAMES_PRETTY[entry.wiki],
                 startDate,
-                endDate
+                endDate,
             ]);
 
             i--;
@@ -144,23 +141,30 @@ class Organization extends React.Component {
                             },
                             showBarLabels: false,
                         },
-                        backgroundColor: backgroundColor
-                            .paper,
+                        backgroundColor: backgroundColor.paper,
                     }}
                     chartEvents={[
                         {
                             eventName: "ready",
                             callback: () => {
-
-                                var labels = document.getElementsByTagName('text');
-                                Array.prototype.forEach.call(labels, function(label) {
-                                    if (label.getAttribute('text-anchor') === 'middle') {
-                                        label.setAttribute('fill', primaryColor);
+                                var labels = document.getElementsByTagName(
+                                    "text"
+                                );
+                                Array.prototype.forEach.call(labels, function (
+                                    label
+                                ) {
+                                    if (
+                                        label.getAttribute("text-anchor") ===
+                                        "middle"
+                                    ) {
+                                        label.setAttribute(
+                                            "fill",
+                                            primaryColor
+                                        );
                                     }
                                 });
-
-                            }
-                        }
+                            },
+                        },
                     ]}
                 />
                 <VerticalTabs gameRosters={this.state.gameRosters} />

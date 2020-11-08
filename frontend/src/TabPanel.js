@@ -7,13 +7,14 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import {
     Paper,
+    Link,
     Table,
     TableCell,
     TableContainer,
     TableRow,
     Button,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -67,8 +68,6 @@ export default function VerticalTabs({ gameRosters }) {
         setValue(newValue);
     };
 
-    console.log(gameRosters);
-
     return (
         <div className={classes.root}>
             <Tabs
@@ -99,6 +98,26 @@ export default function VerticalTabs({ gameRosters }) {
                                     >
                                         Role
                                     </TableCell>
+                                    <TableCell
+                                        key={`table-header-status-${game}-${i}`}
+                                    >
+                                        Status
+                                    </TableCell>
+                                    <TableCell
+                                        key={`table-header-nationality-${game}-${i}`}
+                                    >
+                                        Nationality
+                                    </TableCell>
+                                    <TableCell
+                                        key={`table-header-name-${game}-${i}`}
+                                    >
+                                        Name
+                                    </TableCell>
+                                    <TableCell
+                                        key={`table-header-age-${game}-${i}`}
+                                    >
+                                        Age
+                                    </TableCell>
                                 </TableRow>
                                 {gameRosters[game].map((player, j) => (
                                     <TableRow
@@ -111,6 +130,7 @@ export default function VerticalTabs({ gameRosters }) {
                                                 <Link
                                                     color="inherit"
                                                     to={`/players/${player.id}`}
+                                                    component={RouterLink}
                                                 >
                                                     {player.id}
                                                 </Link>
@@ -121,6 +141,31 @@ export default function VerticalTabs({ gameRosters }) {
                                         >
                                             {player.extradata?.role ||
                                                 "Unknown"}
+                                        </TableCell>
+                                        <TableCell
+                                            key={`cell-status-${player.id}-${game}-${i}-${j}`}
+                                        >
+                                            {player.status || "Unknown"}
+                                        </TableCell>
+                                        <TableCell
+                                            key={`cell-nationality-${player.id}-${game}-${i}-${j}`}
+                                        >
+                                            {player.nationality || "Unknown"}
+                                        </TableCell>
+                                        <TableCell
+                                            key={`cell-name-${player.id}-${game}-${i}-${j}`}
+                                        >
+                                            {player.romanizedname ||
+                                                player.name ||
+                                                "Unknown"}
+                                        </TableCell>
+                                        <TableCell
+                                            key={`cell-age-${player.id}-${game}-${i}-${j}`}
+                                        >
+                                            {new Date(
+                                                +new Date() -
+                                                    +new Date(player.birthdate)
+                                            ).getFullYear() - 1970}
                                         </TableCell>
                                     </TableRow>
                                 ))}
